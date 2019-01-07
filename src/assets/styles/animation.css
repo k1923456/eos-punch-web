@@ -1,0 +1,13 @@
+.active-button {
+  animation: active-button 0.1s;
+}
+
+@keyframes active-button {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0.7);
+  }
+}
