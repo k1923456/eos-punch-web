@@ -1,0 +1,24 @@
+.container {
+  display: inline-block;
+  width: 48px;
+  min-height: 48px;
+  max-width: 70px;
+  max-height: 70px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: hesitation 1s linear infinite;
+}
+
+@keyframes hesitation {
+  0% {
+    background-image: url('../../../../assets/images/icon-scissor-line.svg');
+  }
+
+  50% {
+    background-image: url('../../../../assets/images/icon-stone-line.svg');
+  }
+
+  100% {
+    background-image: url('../../../../assets/images/icon-paper-line.svg');
+  }
+}
