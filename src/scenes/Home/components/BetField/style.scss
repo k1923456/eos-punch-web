@@ -1,0 +1,152 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  min-width: 70px;
+  font-size: 26px;
+  color: white;
+  text-align: center;
+}
+
+.field {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+  min-height: 70px;
+  background-color: rgba(#333, 0.3);
+  border-radius: 20px;
+
+  .user {
+    font-size: 32px;
+    color: white;
+  }
+
+  .gap {
+    &::after {
+      content: '';
+      display: inline-block;
+      height: 40px;
+      border-right: 2px solid rgba(#fff, 0.5);
+    }
+  }
+
+  &.reveal {
+    .gap {
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .user,
+  .gap,
+  .computer {
+    display: inline-flex;
+    justify-content: center;
+    flex: 1 1;
+    opacity: 0.5;
+  }
+
+  &.focus {
+    border: 2px solid #02daff;
+    box-shadow: 0 0 4px #02daff, 0 0 4px #02daff inset;
+
+    .user,
+    .gap,
+    .computer {
+      opacity: 1;
+    }
+  }
+
+  &.selected {
+    .user,
+    .gap,
+    .computer {
+      opacity: 1;
+    }
+  }
+
+  &.reveal.win {
+    border: 2px solid #02daff;
+    box-shadow: 0 0 4px #02daff, 0 0 4px #02daff inset;
+    background-color: rgba(#02daff, 0.3);
+  }
+}
+
+.mark {
+  width: 35px;
+  height: 35px;
+  background-image: url('../../../../assets/images/icon-q-mark.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &.scissor {
+    background-image: url('../../../../assets/images/icon-scissor.svg');
+  }
+
+  &.stone {
+    background-image: url('../../../../assets/images/icon-stone.svg');
+  }
+
+  &.paper {
+    background-image: url('../../../../assets/images/icon-paper.svg');
+  }
+
+  &.win {
+    &.scissor {
+      background-image: url('../../../../assets/images/icon-scissor-win.svg');
+    }
+
+    &.stone {
+      background-image: url('../../../../assets/images/icon-stone-win.svg');
+    }
+
+    &.paper {
+      background-image: url('../../../../assets/images/icon-paper-win.svg');
+    }
+  }
+
+  &.lose {
+    &.scissor {
+      background-image: url('../../../../assets/images/icon-scissor-lose.svg');
+    }
+
+    &.stone {
+      background-image: url('../../../../assets/images/icon-stone-lose.svg');
+    }
+
+    &.paper {
+      background-image: url('../../../../assets/images/icon-paper-lose.svg');
+    }
+  }
+
+  &.scissor,
+  &.stone,
+  &.paper, {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.point {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 32px;
+  font-size: 26px;
+  border-radius: 20px;
+  background-color: white;
+
+  &.win {
+    color: #d70016;
+  }
+
+  &.lose {
+    color: #29aa00;
+  }
+}
