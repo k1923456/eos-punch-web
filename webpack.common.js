@@ -42,6 +42,7 @@ const config = {
             options: {
               modules: true,
               localIdentName: '[hash:8]_[local]',
+              url: true,
             },
           },
           'postcss-loader',
@@ -68,6 +69,15 @@ const config = {
         test: /\.(js)$/,
         use: 'babel-loader',
         include: path.resolve('src')
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {},
+          },
+        ],
       },
     ],
   },
