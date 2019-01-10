@@ -1,5 +1,9 @@
+$FONT_SIZE: 26px;
+$FONT_SIZE_MOBILE: 13px;
+
 .container {
   justify-content: space-between;
+  margin-bottom: 10px;
   border: 3px solid #02daff;
   border-radius: 20px;
   background-color: rgba(#333, 0.3);
@@ -16,9 +20,18 @@
   align-items: center;
   flex: 1 1;
 
+  &.win,
+  &.lost {
+    flex-basis: 35%;
+  }
+
+  &.draw {
+    flex-basis: 30%;
+  }
+
   .title {
     padding-bottom: 10px;
-    font-size: 26px;
+    font-size: $FONT_SIZE;
     color: white;
   }
 
@@ -26,15 +39,16 @@
     font-size: 36px;
     color: white;
   }
-}
 
-.win,
-.lost {
-  flex-basis: 35%;
-}
+  @media screen and (max-width: 639px){
+    .title {
+      font-size: $FONT_SIZE_MOBILE;
+    }
 
-.draw {
-  flex-basis: 30%;
+    .count {
+      font-size: 20px;
+    }
+  }
 }
 
 .prise-wrapper {
@@ -45,22 +59,22 @@
 
   .title {
     display: inline-flex;
+    flex: 1 1 35%;
     align-items: center;
     padding-left: 50px;
     min-width: 50px;
-    flex: 1 1 35%;
     height: 50px;
     background-image: url('../../../../assets/images/icon-eos.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    font-size: 26px;
+    font-size: $FONT_SIZE;
     color: white;
   }
 
   .jackpot-number {
     justify-content: center;
     flex: 1 1 30%;
-    padding-left: 26px;
+    padding-left: $FONT_SIZE;
     font-size: 36px;
     color: #ff4;
   }
@@ -68,7 +82,7 @@
   .unit-text {
     justify-content: flex-end;
     flex: 1 1 35%;
-    font-size: 26px;
+    font-size: $FONT_SIZE;
     color: #759bb5;
   }
 
@@ -76,5 +90,23 @@
   .unit-text {
     display: inline-flex;
     align-items: center;
+  }
+
+  @media screen and (max-width: 639px){
+    .title {
+      padding-left: 35px;
+      min-width: 35px;
+      height: 35px;
+      font-size: $FONT_SIZE_MOBILE;
+    }
+
+    .unit-text {
+      font-size: $FONT_SIZE_MOBILE;
+      color: white;
+    }
+
+    .jackpot-number {
+      font-size: 20px;
+    }
   }
 }

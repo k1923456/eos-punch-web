@@ -1,6 +1,10 @@
+$FONT_SIZE: 26px;
+$FONT_SIZE_MOBILE: 13px;
+
 .container {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
   padding: 10px 30px 10px 10px;
   border: 3px solid #ff4;
   border-radius: 20px;
@@ -17,20 +21,36 @@
   background-image: url('../../../../assets/images/icon-eos.svg');
   background-size: contain;
   background-repeat: no-repeat;
-  font-size: 26px;
+  font-size: $FONT_SIZE;
   color: white;
+
+  @media screen and (max-width: 639px){
+    padding-left: 35px;
+    min-width: 35px;
+    height: 35px;
+    font-size: $FONT_SIZE_MOBILE;
+  }
 }
 
 .jackpot-number {
   justify-content: center;
   font-size: 36px;
   color: #ff4;
+
+  @media screen and (max-width: 639px){
+    font-size: 20px;
+  }
 }
 
 .unit-text {
   justify-content: flex-end;
-  font-size: 26px;
+  font-size: $FONT_SIZE;
   color: #759bb5;
+
+  @media screen and (max-width: 639px){
+    font-size: $FONT_SIZE_MOBILE;
+    color: white;
+  }
 }
 
 .jackpot-number,

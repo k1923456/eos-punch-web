@@ -8,37 +8,51 @@ export default class Footer extends React.Component {
   static propTypes = {
     onAutoBiddingClick: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
-    onBiddingValueChange: PropTypes.func.isRequired,
-    biddingValue: PropTypes.number.isRequired,
+    onPickerClick: PropTypes.func.isRequired,
+    betValue: PropTypes.string.isRequired,
     isAutoBiddingChecked: PropTypes.bool.isRequired,
+    isCheckable: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
-    biddingValue: 0.1,
+    betValue: 0.1,
+    isCheckable: false,
+  }
+
+  handleConfirm = e => {
+    const {
+      isCheckable,
+      onConfirm,
+    } = this.props;
+
+    isCheckable && onConfirm && onConfirm(e);
   }
 
   render() {
     const { 
-      biddingValue, 
+      betValue, 
       isAutoBiddingChecked,
-      onConfirm, 
+      isCheckable,
+      onAutoBiddingClick,
+      onPickerClick,
     } = this.props;
 
     return (
       <div className={cx('container')}>
-        <div className={cx('menu')}>
+        <div className={cx('menu-wrapper')}>
           <a 
-            className={cx('btn-auto-bidding', { 'checked': isAutoBiddingChecked })}
+            className={cx('auto-bidding', { 'checked': isAutoBiddingChecked })}
+            onClick={onAutoBiddingClick}
             onTouchStart={()=>{}}
           >
-            <span>自動下注</span>
+            自動下注
           </a>
 
-          <div className={cx('bidding-value-field')}>
+          <div className={cx('bidding-value-field')} onClick={onPickerClick}>
             <span className={cx('title')}>單注金額：</span>
             <span className={cx('field-block')}>
               <span className={cx('bidding-value')}>
-                { biddingValue }
+                { betValue }
               </span>
               <span className={cx('unit-text')}>
                 EOS
@@ -49,8 +63,8 @@ export default class Footer extends React.Component {
         </div>
 
         <a 
-          className={cx('confirm', { 'checkable': true })}
-          onClick={onConfirm}
+          className={cx('confirm', { 'checkable': isCheckable })}
+          onClick={this.handleConfirm}
         >
           <span className={cx('title')}>
             出拳

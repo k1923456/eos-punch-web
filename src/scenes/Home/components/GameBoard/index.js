@@ -3,46 +3,29 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
 import BetField from '../BetField';
+import Punch from '../Punch';
+import GameBoardBottom from '../GameBoardBottom';
 const cx = classnames.bind(style);
 
 export default class GameBoard extends React.Component {
-  static propTypes = {
-    onCleanClick: PropTypes.func.isRequired,
-    onRandomClick: PropTypes.func.isRequired,
-  }
-
   render() {
-    const {
-      onCleanClick,
-      onRandomClick,
-    } = this.props;
-
     return (
       <div className={cx('container')}>
-        <div className={cx('bet-wrapper')}>
+        <div className={cx('wrapper')}>
           <BetField />
           <BetField />
           <BetField />
           <BetField />
           <BetField />
-          <a className={cx('scissor')}></a>
-          <a className={cx('stone')}></a>
-          <a className={cx('paper')}></a>
+
+          <Punch punchType="scissor" />
+          <Punch punchType="stone" />
+          <Punch punchType="paper" />
+
+          <span className={cx('player')}></span>
+          <span className={cx('banker')}></span>
         </div>
-        <div className={cx('functions-wrapper')}>
-          <a
-            className={cx('clean', { 'disable': true })}
-            onClick={onCleanClick}
-          >
-            清空
-          </a>
-          <a
-            className={cx('random', { 'disable': true })}
-            onClick={onRandomClick}
-          >
-            隨機
-          </a>
-        </div>
+        <GameBoardBottom />
       </div>
     )
   }

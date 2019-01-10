@@ -6,28 +6,22 @@ const cx = classnames.bind(style);
 
 export default class Header extends React.Component {
   static propTypes = {
-    onLeaveClick: PropTypes.func.isRequired,
     onInfoClick: PropTypes.func.isRequired,
   }
 
   leaveButton = React.createRef();
   infoButton = React.createRef();
 
-  handleLeave = () => {
-    const { onLeaveClick, } = this.props;
-
-    this.leaveButton.classList.add('active-button');
-    setTimeout(()=> {
-      this.leaveButton.classList.remove('active-button');
-    }, 200);
-
-    onLeaveClick && onLeaveClick();
+  handleLeave = e => {
+    e.preventDefault();
+    const leaveEvent = new Event('leaveEOSPunch', {});
+    document.dispatchEvent(leaveEvent);
   }
 
   handleInfo = () => {
     const { onInfoClick, } = this.props;
     this.infoButton.classList.add('active-button');
-    setTimeout(()=> {
+    setTimeout(() => {
       this.infoButton.classList.remove('active-button');
     }, 200);
 
@@ -37,24 +31,23 @@ export default class Header extends React.Component {
   render() {
     return (
       <div className={cx('container')}>
-        <div className={cx('items')}>
-          <a className={cx('leave-button')}
+        <div className={cx('wrapper')}>
+          <a className={cx('button', 'leave')}
             ref={el => this.leaveButton = el}
-            onClick={this.handleLeave} >
-          </a>
-          <span className={cx('leave-text')}
-            onClick={this.handleLeave}>
+            onClick={this.handleLeave}
+            onTouchStart={()=>{}}
+          >
             離開
-          </span>
-        </div>
-        <div className={cx('items', 'center')}>
-          <img className={cx('logo')} src="../../assets/images/header-logo.svg" />
-        </div>
-        <div className={cx('items', 'right')}>
-          <a className={cx('info')}
-            ref={el => this.infoButton = el}
-            onClick={this.handleInfo} >
           </a>
+
+          <a className={cx('button', 'info')}
+            ref={ el => this.infoButton = el }
+            onClick={this.handleInfo}
+            onTouchStart={()=>{}}
+          >
+          </a>
+
+          <a className={cx('logo')}></a>
         </div>
       </div>
     )

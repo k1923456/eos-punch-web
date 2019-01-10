@@ -1,18 +1,20 @@
-$FONT_SIZE: 24px;
+$FONT_SIZE: 26px;
+$FONT_SIZE_MOBILE: 13px;
 $FONT_COLOR: white;
 
 .container {
-  position: fixed;
+  position: absolute;
+  left: 0;
   bottom: 0;
   padding-top: 22%;
   width: 100%;
-  max-width: 1281px;
-  background-image: url('../../assets/images/footer.png');
+  max-width: 640px;
+  background-image: url('/assets/images/footer.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-.menu {
+.menu-wrapper {
   position: absolute;
   bottom: 0;
   display: flex;
@@ -22,15 +24,20 @@ $FONT_COLOR: white;
   padding-left: 40px;
   width: 100%;
   height: 57%;
+
+  @media screen and (max-width: 639px){
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
 
-.btn-auto-bidding {
+.auto-bidding {
   display: inline-flex;
   align-items: center;
-  padding-left: 50px;
+  padding-left: 60px;
   min-width: 50px;
   height: 50px;
-  background-image: url('../../assets/images/btn-auto-disable.svg');
+  background-image: url('/assets/images/btn-auto-disable.svg');
   background-size: contain;
   background-repeat: no-repeat;
   font-size: $FONT_SIZE;
@@ -38,21 +45,30 @@ $FONT_COLOR: white;
   opacity: 0.8;
   cursor: pointer;
   user-select: none;
-  transition: all 0.1s;
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
 
   &:active {
-    transform: scale(0.8);
+    transform: scale(0.9);
   }
 
   &.checked {
-    background-image: url('../../assets/images/btn-auto-check.svg');
+    background-image: url('/assets/images/btn-auto-check.svg');
     opacity: 1;
+  }
+
+  @media screen and (max-width: 639px){
+    padding-left: 45px;
+    min-width: 35px;
+    height: 35px;
+    font-size: $FONT_SIZE_MOBILE;
   }
 }
 
 .bidding-value-field {
   display: inline-flex;
   align-items: center;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
 
   .title {
     font-size: $FONT_SIZE;
@@ -81,38 +97,63 @@ $FONT_COLOR: white;
     margin-left: 10px;
     width: 20px;
     height: 18px;
-    background-image: url('../../assets/images/btn-dropdown.svg');
+    background-image: url('/assets/images/btn-dropdown.svg');
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
+  }
+
+
+  @media screen and (max-width: 639px){
+    .title {
+      font-size: $FONT_SIZE_MOBILE;
+    }
+
+    .drop-down {
+      width: 15px;
+      height: 10px;
+    }
   }
 }
 
 .confirm {
   position: absolute;
-  top: -29px;
-  left: calc(50% - 21%);
+  top: 3px;
+  left: calc(50% - 17%);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 42%;
-  height: 90%;
-  margin: 0 auto;
-  background-image: url('../../assets/images/btn-punch-gray.svg');
-  background-size: cover;
+  width: 221px;
+  background-image: url('/assets/images/btn-punch-gray.png');
+  background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
   user-select: none;
-  transition: all 0.05s;
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
+
+  &::after {
+    display: block;
+    padding-top: 30%;
+    content: '';
+  }
 
   .title {
-    padding-left: 42px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 45px;
+    width: 100%;
+    height: 100%;
     font-size: 42px;
     color: #707070;
   }
 
   &.checkable {
-    background-image: url('../../assets/images/btn-punch-green.svg');
+    background-image: url('/assets/images/btn-punch-green.png');
 
     & .title {
       color: white;
@@ -122,4 +163,16 @@ $FONT_COLOR: white;
   &:active {
     transform: scale(0.9);
   }
+
+  @media screen and (max-width: 639px){
+    left: calc(33% - 2px);
+    align-items: flex-start;
+    width: 35%;
+
+    .title {
+      padding-left: 30px;
+      font-size: 24px;
+    }
+  }
+  
 }

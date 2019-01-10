@@ -33,9 +33,9 @@ export default class BetField extends React.Component {
         </span>
         <div className={cx('field', { focus: isFocus, selected: user !== -1, reveal: isReveal, win: isUserWin })}>
           <span className={cx('user')}>
-            {false && <Hesitation />}
-            {user === -1 && <span>請選擇</span>}
-            {user !== -1 &&
+            { false && <Hesitation /> }
+            { user === -1 && <span>請選擇</span> }
+            { user !== -1 &&
               <span className={cx('mark', {
                 scissor: user === 1,
                 stone: user === 2,

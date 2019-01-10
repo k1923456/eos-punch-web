@@ -1,6 +1,11 @@
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 640px;
+  min-height: 85vh;
+  background-image: url('assets/images/backdround.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 10px #1f4274;
 }

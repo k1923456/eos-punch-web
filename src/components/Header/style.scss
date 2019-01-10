@@ -1,65 +1,83 @@
-$HEADER_HEIGHT: 100px;
+$FONT_SIZE: 26px;
+$FONT_SIZE_MOBILE: 13px;
 
 .container {
+  position: relative;
+  padding-top: 16%;
+  width: 100%;
+  background-image: url('../../assets/images/header-bg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-right: 40px;
   padding-left: 40px;
-  height: $HEADER_HEIGHT;
-  background-image: url('../../assets/images/header-bg.png');
-  background-size: 100% $HEADER_HEIGHT;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+
+  @media screen and (max-width: 639px){
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
 
-.items {
-  display: flex;
+.button {
+  display: inline-flex;
   align-items: center;
-  flex: 1 1;
-
-  &.center {
-    justify-content: center;
-  }
-
-  &.right {
-    flex-direction: row-reverse;
-  }
-}
-
-.leave-button {
-  width: 50px;
+  min-width: 50px;
   height: 50px;
-  background-image: url('../../assets/images/btn-leave.svg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  transition: all 0.1s;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
-}
-
-.leave-text {
-  padding-left: 10px;
-  font-size: 26px;
+  font-size: $FONT_SIZE;
   color: white;
-  user-select: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.1s;
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &.leave {
+    padding-left: 60px;
+    background-image: url('../../assets/images/btn-leave.svg');
+  }
+
+  &.info {
+    background-image: url('../../assets/images/info.svg');
+  }
+
+  @media screen and (max-width: 639px){
+    min-width: 35px;
+    height: 35px;
+    font-size: $FONT_SIZE_MOBILE;
+
+    &.leave {
+      padding-left: 45px;
+    }
+  }
 }
 
 .logo {
-  height: $HEADER_HEIGHT;
-  transform: scale(1.8);
-}
-
-.info {
-  width: 50px;
-  height: 50px;
-  background-image: url('../../assets/images/info.svg');
-  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 110px);
+  display: inline-block;
+  width: 220px;
+  padding-top: 60%;
+  background-image: url(../../assets/images/header-logo.svg);
   background-repeat: no-repeat;
-  transition: all 0.1s;
-  user-select: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
+  background-size: contain;
+
+  @media screen and (max-width: 639px){
+    width: 35%;
+    left: calc(50% - 17%);
+  }
 }
