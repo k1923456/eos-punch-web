@@ -1,0 +1,44 @@
+.functions-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.clean {
+  padding-left: 60px;
+  background-image: url('/assets/images/btn-clear-red.svg');
+}
+
+.random {
+  flex-direction: row-reverse;
+  padding-right: 60px;
+  background-image: url('/assets/images/btn-random.svg');
+  background-position: top right;
+}
+
+.clean,
+.random {
+  z-index: 10;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  height: 50px;
+  font-size: 22px;
+  color: white;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: all  0.1s;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
+
+  &.disable {
+    filter: grayscale(100%);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
