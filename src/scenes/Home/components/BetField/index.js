@@ -8,8 +8,8 @@ const cx = classnames.bind(style);
 export default class BetField extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
-    player: PropTypes.number.isRequired,
-    banker: PropTypes.number.isRequired,
+    player: PropTypes.string.isRequired,
+    banker: PropTypes.string.isRequired,
     prise: PropTypes.string.isRequired,
     result: PropTypes.string.isRequired,
     isFocus: PropTypes.bool.isRequired,
