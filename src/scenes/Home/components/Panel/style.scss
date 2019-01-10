@@ -1,0 +1,8 @@
+.container {
+  position: relative;
+  padding: 10px 10px 100px;
+
+  @media screen and (max-width: 639px) {
+    padding-bottom: 65px;
+  }
+}
