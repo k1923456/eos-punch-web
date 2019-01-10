@@ -6,33 +6,33 @@ const cx = classnames.bind(style);
 
 export default class Footer extends React.Component {
   static propTypes = {
+    betValue: PropTypes.string.isRequired,
+    isAutoBiddingChecked: PropTypes.bool.isRequired,
+    isConfirmButtonClickable: PropTypes.bool,
     onAutoBiddingClick: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onPickerClick: PropTypes.func.isRequired,
-    betValue: PropTypes.string.isRequired,
-    isAutoBiddingChecked: PropTypes.bool.isRequired,
-    isCheckable: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
     betValue: 0.1,
-    isCheckable: false,
+    isConfirmButtonClickable: false,
   }
 
   handleConfirm = e => {
     const {
-      isCheckable,
+      isConfirmButtonClickable,
       onConfirm,
     } = this.props;
 
-    isCheckable && onConfirm && onConfirm(e);
+    isConfirmButtonClickable && onConfirm && onConfirm(e);
   }
 
   render() {
     const { 
       betValue, 
       isAutoBiddingChecked,
-      isCheckable,
+      isConfirmButtonClickable,
       onAutoBiddingClick,
       onPickerClick,
     } = this.props;
@@ -63,7 +63,7 @@ export default class Footer extends React.Component {
         </div>
 
         <a 
-          className={cx('confirm', { 'checkable': isCheckable })}
+          className={cx('confirm', { 'checkable': isConfirmButtonClickable })}
           onClick={this.handleConfirm}
         >
           <span className={cx('title')}>

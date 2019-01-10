@@ -7,67 +7,75 @@ const cx = classnames.bind(style);
 
 export default class BetField extends React.Component {
   static propTypes = {
-    user: PropTypes.number.isRequired,
-    computer: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    player: PropTypes.number.isRequired,
+    banker: PropTypes.number.isRequired,
     prise: PropTypes.string.isRequired,
+    result: PropTypes.string.isRequired,
     isFocus: PropTypes.bool.isRequired,
-    isUserWin: PropTypes.bool.isRequired,
-    isReveal: PropTypes.bool.isRequired,
+    isGameOver: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func,
   }
 
   static defaultProps = {
-    user: -1,
-    computer: -1,
+    index: 1,
+    player: -1,
+    banker: -1,
     prise: '-0.1',
-    isUserWin: false,
+    result: '',
     isFocus: false,
-    isReveal: false,
+    isGameOver: false,
   }
 
   render() {
-    const { user, computer, prise, isFocus, isUserWin, isReveal, } = this.props;
+    const {
+      index,
+      player,
+      banker,
+      prise,
+      result,
+      isFocus,
+      isGameOver,
+      onSelect,
+    } = this.props;
+
+    const isHesitation = isFocus && !player;
+    const isSelected = player !== '';
+
     return (
-      <div className={cx('container')}>
+      <div className={cx('container')} onClick={onSelect(index)}>
         <span className={cx('title')}>
-          註1
+          註{index + 1}
         </span>
-        <div className={cx('field', { focus: isFocus, selected: user !== -1, reveal: isReveal, win: isUserWin })}>
-          <span className={cx('user')}>
-            { false && <Hesitation /> }
-            { user === -1 && <span>請選擇</span> }
-            { user !== -1 &&
-              <span className={cx('mark', {
-                scissor: user === 1,
-                stone: user === 2,
-                paper: user === 3,
-                win: isUserWin,
-                lose: !isUserWin,
-              })}
-              >
-              </span>
+
+        <div className={cx('field', { focus: isFocus, selected: isSelected, reveal: isGameOver, win: result === 'win' })}>
+          <span className={cx('player')}>
+            {
+              isHesitation && <Hesitation />
+            }
+            {!isHesitation && !player && <span>請選擇</span>}
+            {player &&
+              <span className={cx('mark', player, result, { reveal: isGameOver })}></span>
             }
           </span>
 
+
           <span className={cx('gap')}>
-            {isReveal &&
-              <span className={cx('point', {
-                win: isUserWin,
-                lose: !isUserWin,
-              })}>
+            {
+              isGameOver &&
+              <span className={cx('point', result)}>
                 {prise}
               </span>
             }
           </span>
 
-          <span className={cx('computer')}>
-            <span className={cx('mark', {
-              scissor: computer === 1,
-              stone: computer === 2,
-              paper: computer === 3,
-              win: !isUserWin,
-              lose: isUserWin,
-            })}
-            >
+          <span className={cx('banker')}>
+            <span className={cx('mark', banker, {
+              win: result === 'lose',
+              lose: result === 'win',
+              draw: result === 'draw',
+              reveal: isGameOver
+            })}>
             </span>
           </span>
         </div>

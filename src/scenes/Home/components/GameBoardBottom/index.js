@@ -8,8 +8,8 @@ export default class GameBoard extends React.Component {
   static propTypes = {
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
-    onCleanClick: PropTypes.func.isRequired,
-    onRandomClick: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
+    onRandom: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -20,19 +20,19 @@ export default class GameBoard extends React.Component {
   handleClean = e => {
     const {
       isDisableClean,
-      onCleanClick,
+      onReset,
     } = this.props;
 
-    isDisableClean === false && onCleanClick && onCleanClick(e);
+    isDisableClean === false && onReset && onReset(e);
   }
 
   handleRandom = e => {
     const {
       isDisableRandom,
-      onRandomClick,
+      onRandom,
     } = this.props;
 
-    isDisableRandom === false && onRandomClick && onRandomClick(e);
+    isDisableRandom === false && onRandom && onRandom(e);
   }
 
   render() {
@@ -48,7 +48,7 @@ export default class GameBoard extends React.Component {
           onClick={this.handleClean}
         >
           清空
-          </a>
+        </a>
         <a
           className={cx('random', { 'disable': isDisableRandom })}
           onClick={this.handleRandom}

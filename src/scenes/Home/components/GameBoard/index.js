@@ -8,24 +8,72 @@ import GameBoardBottom from '../GameBoardBottom';
 const cx = classnames.bind(style);
 
 export default class GameBoard extends React.Component {
+  static propTypes = {
+    games: PropTypes.array.isRequired,
+    selectedIndex: PropTypes.number,
+    isGameOver: PropTypes.bool,
+    isDisableClean: PropTypes.bool,
+    isDisableRandom: PropTypes.bool,
+    onSelect: PropTypes.func,
+    onScissorPunch: PropTypes.func,
+    onStonePunch: PropTypes.func,
+    onPaperPunch: PropTypes.func,
+    onReset: PropTypes.func,
+    onRandom: PropTypes.func,
+  }
+
+  static defaultProps = {
+    selectedIndex: 0,
+  }
+
   render() {
+    const {
+      games, 
+      selectedIndex,
+      isGameOver,
+      isDisableClean,
+      isDisableRandom,
+      onSelect,
+      onScissorPunch,
+      onStonePunch,
+      onPaperPunch,
+      onReset,
+      onRandom,
+    } = this.props;
+
+    const playerPunch = games[selectedIndex].player;
+
     return (
       <div className={cx('container')}>
         <div className={cx('wrapper')}>
-          <BetField />
-          <BetField />
-          <BetField />
-          <BetField />
-          <BetField />
+          {
+            games.map((game, idx) => (
+              <BetField 
+                key={idx} 
+                index={ idx }
+                player={game.player}
+                banker={game.banker}
+                result={game.result}
+                prise={game.prise}
+                isFocus={ selectedIndex === idx } 
+                isGameOver={ isGameOver }
+                onSelect={onSelect}
+              />
+            ))
+          }
 
-          <Punch punchType="scissor" />
-          <Punch punchType="stone" />
-          <Punch punchType="paper" />
+          <Punch punchType="scissor" isSelected={ playerPunch === 'scissor' } onClick={onScissorPunch} />
+          <Punch punchType="stone" isSelected={ playerPunch === 'stone' } onClick={onStonePunch} />
+          <Punch punchType="paper" isSelected={ playerPunch === 'paper' } onClick={onPaperPunch} />
 
           <span className={cx('player')}></span>
           <span className={cx('banker')}></span>
         </div>
-        <GameBoardBottom />
+        <GameBoardBottom 
+          onReset={onReset} 
+          onRandom={onRandom} 
+          isDisableRandom={isDisableRandom}
+          isDisableClean={isDisableClean} />
       </div>
     )
   }
