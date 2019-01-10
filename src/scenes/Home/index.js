@@ -25,9 +25,8 @@ export default class Home extends React.Component {
     isAutoBiddingChecked: false,     // 是否勾選自動下注
     isAutoBidding: false,
     isRevealing: false,
-    isLoading: false,
+    isLoading: true,
     isRevealed: false,
-    isConnected: false,
     isShowHowToPlay: false,
     isShowPicker: false,
   }
@@ -37,7 +36,6 @@ export default class Home extends React.Component {
       accountName,
       keyProvider,
       isLoading: false,
-      isConnected: true,
     }, () => {
       window.eos = EosHelper.createEosInstance(JUNGLE_TEST_NET.chainId, JUNGLE_TEST_NET.httpEndpoint, keyProvider, `${accountName}@active`);
     });
@@ -80,7 +78,6 @@ export default class Home extends React.Component {
       isAutoBidding,
       isRevealing,
       isLoading,
-      isConnected,
       isRevealed,
       isShowHowToPlay,
       isShowPicker,
@@ -90,27 +87,33 @@ export default class Home extends React.Component {
       <div className={cx('container')}>
         <Header onInfoClick={this.handleToggleHowToPlay} />
         <Panel />
-        <Footer 
+        <Footer
           betValue={betValue}
-          isAutoBiddingChecked={isAutoBiddingChecked} 
+          isAutoBiddingChecked={isAutoBiddingChecked}
           onAutoBiddingClick={this.handleToggleAutoBidding}
           onPickerClick={this.handleTogglePicker}
         />
-        { 
-          isShowHowToPlay && 
-          <HowToPlay onClose={this.handleToggleHowToPlay} /> 
+        {
+          isShowHowToPlay &&
+          <HowToPlay onClose={this.handleToggleHowToPlay} />
         }
-        { 
-          (isAutoBidding || isRevealing) && 
-          <SystemMessage isAutoBidding={isAutoBidding} isRevealing={isRevealing} />
+        {
+          (isAutoBidding || isRevealing) &&
+          <SystemMessage 
+            isAutoBidding={isAutoBidding} 
+            isRevealing={isRevealing} 
+          />
         }
-        <Picker 
-          isShow={isShowPicker} 
-          betValue={betValue} 
-          onChange={this.handleBetValueChange} 
-          onClose={this.handleTogglePicker} 
+        <Picker
+          isShow={isShowPicker}
+          betValue={betValue}
+          onChange={this.handleBetValueChange}
+          onClose={this.handleTogglePicker}
         />
-        <RevealBoard isRevealed={isRevealed} onConfirm={this.handleConfirmReveal} />
+        <RevealBoard
+          isRevealed={isRevealed}
+          onConfirm={this.handleConfirmReveal}
+        />
         {
           isLoading && <Loading />
         }
