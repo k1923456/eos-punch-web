@@ -1,0 +1,280 @@
+.container {
+  position: fixed;
+  z-index: 1500;
+  top: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  height: 100vh;
+  transition: transform 1s;
+
+  &.reveal {
+    transform: translateY(-100%);
+  }
+}
+
+.wrapper {
+  padding-right: 30px;
+  padding-left: 30px;
+  width: 100%;
+  max-width: 600px;
+  height: 73%;
+  background: linear-gradient(#38d0fa, #172d7c);
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  box-shadow: 0 0 3px #172d7c;
+
+  @media screen and (max-width: 639px) {
+    padding-right: 10px;
+    padding-left: 10px;
+    max-width: 90%;
+    height: 80%;
+  }
+}
+
+.headline {
+  font-size: 40px;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+
+  @media screen and (max-width: 639px) {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 26px;
+  }
+}
+
+.title {
+  display: flex;
+  margin-bottom: 15px;
+  color: white;
+
+  @media screen and (max-width: 639px){
+    margin-bottom: 7px;
+  }
+}
+
+.bet {
+  display: flex;
+  margin-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 70px;
+  background-color: rgba(#333, 0.3);
+  border-radius: 10px;
+  font-size: 24px;
+  color: white;
+
+  @media screen and (max-width: 639px){
+    min-height: 50px;
+    font-size: 18px;
+  }
+}
+
+.index {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 15%;
+}
+
+.result {
+  display: inline-flex;
+  flex: 1 1 35%;
+  align-items: center;
+  padding-left: 20px;
+  
+  @media screen and (max-width: 639px){
+    padding-left: 10px;
+    flex-basis: 45%;
+  }
+}
+
+.player,
+.banker {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 25%;
+
+  @media screen and (max-width: 639px){
+    flex-basis: 20%;
+  }
+}
+
+.result-icon {
+  display: inline-flex;
+  justify-content: center;  
+  align-items: center;
+  margin-right: 10px;
+  padding: 5px 15px;
+  font-size: 20px;
+  color: white;
+  background-color: gray;
+  border-radius: 25px;
+}
+
+
+.win {
+  .player.scissor {
+    background-image: url('/assets/images/icon-scissor-win.svg');
+  }
+  .player.stone {
+    background-image: url('/assets/images/icon-stone-win.svg');
+  }
+  .player.paper {
+    background-image: url('/assets/images/icon-paper-win.svg');
+  }
+  .banker.scissor {
+    background-image: url('/assets/images/icon-scissor-lose.svg');
+  }
+  .banker.stone {
+    background-image: url('/assets/images/icon-stone-lose.svg');
+  }
+  .banker.paper {
+    background-image: url('/assets/images/icon-paper-lose.svg');
+  }
+  .result-icon {
+    background-color: #29aa00;
+  }
+}
+
+.lose {
+  .player.scissor {
+    background-image: url('/assets/images/icon-scissor-lose.svg');
+  }
+  .player.stone {
+    background-image: url('/assets/images/icon-stone-lose.svg');
+  }
+  .player.paper {
+    background-image: url('/assets/images/icon-paper-lose.svg');
+  }
+  .banker.scissor {
+    background-image: url('/assets/images/icon-scissor-win.svg');
+  }
+  .banker.stone {
+    background-image: url('/assets/images/icon-stone-win.svg');
+  }
+  .banker.paper {
+    background-image: url('/assets/images/icon-paper-win.svg');
+  }
+  .result-icon {
+    background-color: #d70016;
+  }
+}
+
+.draw {
+  .scissor {
+    background-image: url('/assets/images/icon-scissor-draw.svg');
+  }
+  .stone {
+    background-image: url('/assets/images/icon-stone-draw.svg');
+  }
+  .paper {
+    background-image: url('/assets/images/icon-paper-draw.svg');
+  }
+  .result-icon {
+    background-color: #fb692e;
+  }
+}
+
+.scissor,
+.stone,
+.paper {
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.total-settlement {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px 20px 10px 15px;
+  height: 70px;
+  background-color: rgba(#eee, 0.2);
+  border-radius: 10px;
+
+  @media screen and (max-width: 639px){
+    margin-bottom: 5px;
+    padding-left: 7px;
+    height: 50px;
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 50px;
+  height: 100%;
+  font-size: 24px;
+  color: white;
+  background-image: url('/assets/images/icon-eos.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  @media screen and (max-width: 639px){
+    padding-left: 30px;
+    font-size: 18px;
+  }
+}
+
+.total-bet {
+  display: inline-flex;
+  align-items: center;
+  font-size: 36px;
+  color: white;
+
+  .unit {
+    margin-left: 10px;
+    font-size: 24px;
+    color: rgba(#fff, 0.4);
+  }
+
+  @media screen and (max-width: 639px){
+    font-size: 28px;
+
+    .unit {
+      font-size: 20px;
+    }
+  }
+}
+
+.buttons {
+  text-align: center;
+}
+
+.confirm {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 221px;
+  background-image: url('/assets/images/btn-agree.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  font-size: 36px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
+
+  &::after {
+    display: block;
+    padding-top: 30%;
+    content: '';
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  @media screen and (max-width: 639px){
+    width: 50%;
+    font-size: 20px;
+  }
+}
