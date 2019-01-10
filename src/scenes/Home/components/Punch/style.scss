@@ -1,0 +1,117 @@
+$SIZE: 136px;
+$SIZE_MOBILE: 96px;
+$BORDER_WIDTH: 3px;
+$PC_TOP_POSITION: calc(100% - #{$SIZE / 2 - $BORDER_WIDTH});
+$MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
+
+.punch {
+  position: absolute;
+  display: inline-block;
+  width: $SIZE;
+  height: $SIZE;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  transition: transform  0.1s;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
+
+  @media screen and (max-width: 639px) {
+    width: $SIZE_MOBILE;
+    height: $SIZE_MOBILE;
+  }
+}
+
+.scissor {
+  top: $PC_TOP_POSITION;
+  left: 10%;
+  background-image: url('/assets/images/btn-scissor-dark.svg');
+
+  &:active {
+    background-image: url('/assets/images/btn-scissor-blur.svg');
+    transform: scale(0.9);
+  }
+
+  &.disable {
+    background-image: url('/assets/images/btn-scissor-gray.svg');
+    transform: scale(1);
+  }
+
+  &.selected {
+    background-image: url('/assets/images/btn-scissor-light.svg');
+  }
+
+  @media screen and (max-width: 639px) {
+    top: $MOBILE_TOP_POSITION;
+    left: 5%;
+  }
+}
+
+.stone {
+  top: $PC_TOP_POSITION;
+  left: 40%;
+  background-image: url('/assets/images/btn-stone-dark.svg');
+
+  &:active {
+    background-image: url('/assets/images/btn-stone-blur.svg');
+    transform: scale(0.9);
+  }
+
+  &.disable {
+    background-image: url('/assets/images/btn-stone-gray.svg');
+  }
+
+  &.selected {
+    background-image: url('/assets/images/btn-stone-light.svg');
+  }
+
+  @media screen and (max-width: 639px) {
+    top: $MOBILE_TOP_POSITION;
+    left: 37%;
+  }
+}
+
+.paper {
+  top: $PC_TOP_POSITION;
+  left: 70%;
+  background-image: url('/assets/images/btn-paper-dark.svg');
+
+  &:active {
+    background-image: url('/assets/images/btn-paper-blur.svg');
+    transform: scale(0.9);
+  }
+
+  &.disable {
+    background-image: url('/assets/images/btn-paper-gray.svg');
+  }
+
+  &.selected {
+    background-image: url('/assets/images/btn-paper-light.svg');
+  }
+
+  @media screen and (max-width: 639px) {
+    top: $MOBILE_TOP_POSITION;
+    left: 68%;
+  }
+}
+
+.border {
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  display: inline-block;
+  width: $SIZE + 4px;
+  height: $SIZE / 2 + 4px;
+  border: $BORDER_WIDTH solid #3adaff;
+  border-top: 0;
+  border-bottom-left-radius: $SIZE;
+  border-bottom-right-radius: $SIZE;
+
+  @media screen and (max-width: 639px) {
+    width: $SIZE_MOBILE + 4px;
+    height: $SIZE_MOBILE / 2 + 4px;
+    border-bottom-left-radius: $SIZE_MOBILE;
+    border-bottom-right-radius: $SIZE_MOBILE;
+  }
+}
