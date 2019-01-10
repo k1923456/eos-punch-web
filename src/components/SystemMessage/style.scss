@@ -1,0 +1,47 @@
+.container {
+  position: fixed;
+  z-index: 1500;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 10%;
+  width: 100%;
+  height: 100vh;
+
+  @media screen and (max-width: 639px){
+    padding-bottom: 20%;
+  }
+}
+
+.message {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 640px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: black;
+  font-size: 36px;
+  color: white;
+
+  &.alert {
+    background-image: url('assets/images/alert-message.svg');
+  }
+
+  &.warning {
+    background-image: url('assets/images/warning-message.svg');
+  }
+
+  &::after {
+    display: block;
+    padding-top: 16%;
+    content: '';
+  }
+
+  @media screen and (max-width: 639px){
+    font-size: 28px;
+  }
+}
