@@ -57,13 +57,16 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: false,
               localIdentName: '[hash:8]_[local]',
             },
           },
           'postcss-loader',
         ],
-        include: path.resolve('src'),
+        include: [
+          path.resolve('src'),
+          path.resolve('node_modules/rmc-picker'),
+        ],
       },
       {
         test: /\.(js)$/,
