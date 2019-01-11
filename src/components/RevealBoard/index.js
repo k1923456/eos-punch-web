@@ -6,14 +6,14 @@ const cx = classnames.bind(style);
 
 export default class RevealBoard extends React.Component {
   static propTypes = {
-    settlement: PropTypes.object,
+    round: PropTypes.array,
     isRevealed: PropTypes.bool,
     onConfirm: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     settlement: {
-      bets: [
+      round: [
         {
           player: 'scissor',
           banker: 'stone',
@@ -51,7 +51,9 @@ export default class RevealBoard extends React.Component {
   }
 
   render() {
-    const { settlement, isRevealed, onConfirm, } = this.props;
+    const { round, isRevealed, onConfirm, } = this.props;
+    const totalPrise = round.reduce((acc, cur) => acc + cur.prise, 0);
+
     return (
       <div className={cx('container', { reveal: isRevealed })}>
         <div className={cx('wrapper')}>
@@ -64,7 +66,7 @@ export default class RevealBoard extends React.Component {
           </div>
 
           {
-            settlement.bets.map((bet, idx) => (
+            round.map((bet, idx) => (
               <div key={idx} className={cx('bet', {
                 win: bet.result === 'win', 
                 lose: bet.result === 'lose', 
@@ -77,7 +79,7 @@ export default class RevealBoard extends React.Component {
                   <span className={cx('result-icon')}>
                     莊贏
                   </span>
-                  +0.08
+                  { bet.prise }
                 </span>
               </div>
             ))
@@ -86,7 +88,7 @@ export default class RevealBoard extends React.Component {
           <div className={cx('total-settlement')}>
             <span className={cx('icon')}>總結算</span>
             <div className={cx('total-bet')}>
-              <span>+0.208</span>
+              <span>{totalPrise}</span>
               <span className={cx('unit')}>EOS</span>
             </div>
           </div>

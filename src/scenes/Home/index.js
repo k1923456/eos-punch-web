@@ -114,9 +114,7 @@ export default class Home extends React.Component {
   }
 
   handleCloseReveal = () => {
-    this.setState({
-      isRevealed: false,
-    });
+    this.handleReset();
   }
 
   handleBetValueChange = betValue => {
@@ -187,6 +185,7 @@ export default class Home extends React.Component {
       isGameOver: false,
       isAllSelected: false,
       isBankerPunchDone: false,
+      isRevealed: false,
     });
   }
 
@@ -242,7 +241,6 @@ export default class Home extends React.Component {
     // const punchTransaction = apiBetPunch(window.eos, accountName, totalBetValue, memo);
     // const gameRecords = apiFetchGameRecords(window.eos);
     const gameResult = transformGameRecords('');  //transformGameRecords(gameRecords);
-
 
     (async () => {
       for (let index = 0; index < gameResult.round.length; index++) {
@@ -344,6 +342,7 @@ export default class Home extends React.Component {
           onClose={this.handleTogglePicker}
         />
         <RevealBoard
+          round={games}
           isRevealed={isRevealed}
           onConfirm={this.handleCloseReveal}
         />
