@@ -92,9 +92,12 @@
 .mark {
   width: 35px;
   height: 35px;
-  background-image: url('../../../../assets/images/icon-q-mark.svg');
   background-size: contain;
   background-repeat: no-repeat;
+
+  &.question {
+    background-image: url('/assets/images/icon-q-mark.svg');
+  }
 
   &.scissor {
     background-image: url('../../../../assets/images/icon-scissor.svg');

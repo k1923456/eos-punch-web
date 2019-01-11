@@ -14,6 +14,7 @@ export default class Panel extends React.Component {
     isGameOver: PropTypes.bool,
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
+    isRevealing: PropTypes.bool,
     onSelect: PropTypes.func,
     onScissorPunch: PropTypes.func,
     onStonePunch: PropTypes.func,
@@ -34,6 +35,7 @@ export default class Panel extends React.Component {
       isGameOver,
       isDisableClean,
       isDisableRandom,
+      isRevealing,
       onSelect,
       onScissorPunch,
       onStonePunch,
@@ -52,6 +54,7 @@ export default class Panel extends React.Component {
           isGameOver={isGameOver}
           isDisableClean={isDisableClean}
           isDisableRandom={isDisableRandom}
+          isRevealing={isRevealing}
           onSelect={onSelect}
           onScissorPunch={onScissorPunch}
           onStonePunch={onStonePunch}

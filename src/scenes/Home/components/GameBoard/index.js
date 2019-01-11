@@ -14,6 +14,7 @@ export default class GameBoard extends React.Component {
     isGameOver: PropTypes.bool,
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
+    isRevealing: PropTypes.bool,
     onSelect: PropTypes.func,
     onScissorPunch: PropTypes.func,
     onStonePunch: PropTypes.func,
@@ -33,6 +34,7 @@ export default class GameBoard extends React.Component {
       isGameOver,
       isDisableClean,
       isDisableRandom,
+      isRevealing,
       onSelect,
       onScissorPunch,
       onStonePunch,
@@ -41,7 +43,8 @@ export default class GameBoard extends React.Component {
       onRandom,
     } = this.props;
 
-    const playerPunch = games[selectedIndex].player;
+    const game = games[selectedIndex];
+    const playerPunch = game ? game.player : '';
 
     return (
       <div className={cx('container')}>
@@ -56,6 +59,7 @@ export default class GameBoard extends React.Component {
                 result={game.result}
                 prise={game.prise}
                 isFocus={ selectedIndex === idx } 
+                isRevealing={ isRevealing }
                 isGameOver={ isGameOver }
                 onSelect={onSelect}
               />

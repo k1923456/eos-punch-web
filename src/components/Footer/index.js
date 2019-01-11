@@ -6,7 +6,7 @@ const cx = classnames.bind(style);
 
 export default class Footer extends React.Component {
   static propTypes = {
-    betValue: PropTypes.string.isRequired,
+    betValue: PropTypes.number.isRequired,
     isAutoBiddingChecked: PropTypes.bool.isRequired,
     isConfirmButtonClickable: PropTypes.bool,
     onAutoBiddingClick: PropTypes.func.isRequired,

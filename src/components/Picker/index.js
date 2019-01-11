@@ -8,14 +8,14 @@ import 'rmc-picker/assets/index.css';
 
 export default class Header extends React.Component {
   static propTypes = {
-    betValue: PropTypes.string.isRequired,
+    betValue: PropTypes.number.isRequired,
     isShow: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    betValue: '5',
+    betValue: 1,
     isShow: false,
   }
 
@@ -41,16 +41,16 @@ export default class Header extends React.Component {
             indicatorClassName={cx('indicator')}
             onValueChange={onChange}
           >
-            <Picker.Item className={cx('picker-item')} value={'1'}>1</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'2'}>2</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'3'}>3</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'4'}>4</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'5'}>5</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'6'}>6</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'7'}>7</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'8'}>8</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'9'}>9</Picker.Item>
-            <Picker.Item className={cx('picker-item')} value={'10'}>10</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.1}>0.1</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.2}>0.2</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.3}>0.3</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.4}>0.4</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.5}>0.5</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.6}>0.6</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.7}>0.7</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.8}>0.8</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={0.9}>0.9</Picker.Item>
+            <Picker.Item className={cx('picker-item')} value={1}>1</Picker.Item>
           </Picker>
         </div>
       </div>

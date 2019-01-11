@@ -2,7 +2,6 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import style from './style.scss';
 import Loading from 'components/Loading';
-import * as EosHelper from 'services/EosHelper';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import HowToPlay from 'components/HowToPlay';
@@ -10,10 +9,18 @@ import SystemMessage from 'components/SystemMessage';
 import RevealBoard from 'components/RevealBoard';
 import Panel from './components/Panel';
 import Picker from 'components/Picker';
-import { 
-  getNextBetFieldIndex, 
+import * as EosHelper from 'services/EosHelper';
+import {
+  getNextBetFieldIndex,
   getRandomPunch,
+  translatePunches,
+  transformGameRecords,
 } from './services';
+import {
+  apiBetPunch,
+  apiFetchGameRecords,
+} from 'services/ContractAPIs';
+
 
 const cx = classnames.bind(style);
 const JUNGLE_TEST_NET = {
@@ -25,50 +32,51 @@ export default class Home extends React.Component {
   state = {
     accountName: '',
     keyProvider: '',
-    betValue: '1',
+    betValue: 1,
     games: [
       {
         id: 0,
         player: '',
         banker: '',
         result: '',
-        prise: '',
+        prise: 0,
       },
       {
         id: 1,
         player: '',
         banker: '',
         result: '',
-        prise: '',
+        prise: 0,
       },
       {
         id: 2,
         player: '',
         banker: '',
         result: '',
-        prise: '',
+        prise: 0,
       },
       {
         id: 3,
         player: '',
         banker: '',
         result: '',
-        prise: '',
+        prise: 0,
       },
       {
         id: 4,
         player: '',
         banker: '',
         result: '',
-        prise: '',
+        prise: 0,
       },
     ],
     selectedIndex: 0,                 // 游標選在第幾個賭注
     gameLogs: [],
     isLoading: true,
     isAllSelected: false,             // 五個選項皆已下注
-    isAutoBiddingChecked: false,      // 勾選自動下注
-    isAutoBidding: false,             // 系統自動下注中
+    isBankerPunchDone: false,         // 莊家出完拳
+    isAutoBiddingChecked: false,      // 勾選自動下注   TODO: isAutoBiddingChecked use the wrong word, should be fixed to isAutoBettingChecked
+    isAutoBidding: false,             // 系統自動下注中 TODO: isAutoBidding use the wrong word, should be fixed to isAutoBetting
     isRevealing: false,               // 開獎中
     isGameOver: false,                // 開獎完成，遊戲結束
     isRevealed: false,                // 當局結算
@@ -141,21 +149,23 @@ export default class Home extends React.Component {
     this.handlePunch('paper');
   }
 
-  handlePunch = (punchType, specifyIndex) => {
+  handlePunch = (punchType, specifyIndex, role = 'player') => {
     const {
       games,
       selectedIndex,
     } = this.state;
 
     const newGames = games.map(game => Object.assign({}, game));
-    newGames[specifyIndex || selectedIndex].player = punchType;
+    newGames[specifyIndex || selectedIndex][role] = punchType;
 
-    const nextIndex = getNextBetFieldIndex(newGames);
-    
+    const nextIndex = getNextBetFieldIndex(newGames, role);
+
+    const stateFlag = role === 'player' ? 'isAllSelected' : 'isBankerPunchDone';
+
     this.setState({
       games: newGames,
-      selectedIndex: nextIndex !== -1 ? nextIndex : selectedIndex,
-      isAllSelected: nextIndex === -1,
+      selectedIndex: nextIndex,
+      [stateFlag]: nextIndex === -1,
     });
   }
 
@@ -165,56 +175,110 @@ export default class Home extends React.Component {
       {
         id: idx,
         player: '',
-        banker: ',',
+        banker: '',
         result: '',
-        prise: '',
+        prise: 0,
       }
     ));
 
     this.setState({
       games: newGames,
       selectedIndex: 0,
+      isGameOver: false,
       isAllSelected: false,
+      isBankerPunchDone: false,
     });
   }
 
-  handleRandom = specifyIndex => () => {
+  handleRandom = (specifyIndex) => () => {
     const punch = getRandomPunch();
     this.handlePunch(punch, specifyIndex);
   }
 
+  // 出拳按鈕
   handleConfirm = () => {
-    const {
-      isAllSelected,
-      isAutoBiddingChecked,
-    } = this.state;
-
-    if(isAllSelected) {
-      alert('準備開獎');
+    if (this.state.isAllSelected) {
+      this.handleReveal();
       return;
     }
+    this.handleAutoBetting();
+  }
 
+  // 自動投注
+  handleAutoBetting = () => {
     this.setState({
       isAutoBidding: true,
     });
 
-    const autoBidding = window.setInterval(()=> {
-      if(this.state.isAllSelected) {
-        clearInterval(autoBidding);
-        alert('自動選擇完成');
-
-        this.setState({
-          isAutoBidding: false,
-        });
-
+    const autoBetting = window.setInterval(() => {
+      if (this.state.isAllSelected) {
+        clearInterval(autoBetting);
+        this.handleReveal();
         return;
       }
 
       const nextIndex = getNextBetFieldIndex(this.state.games);
       this.handleRandom(nextIndex)();
     }, 500);
+  }
 
-    // const nextIndex = getNextBetFieldIndex(games);
+  // 開獎
+  handleReveal = () => {
+    const {
+      accountName,
+      betValue,
+      games,
+    } = this.state;
+
+    this.setState({
+      isAutoBidding: false,
+      isRevealing: true,
+      selectedIndex: 0,
+    });
+
+    const punches = games.sort((a, b) => a.id - b.id).map(game => game.player).join(','); // sort player punches in ascending by id
+    const totalBetValue = betValue * 5;
+    const memo = translatePunches('api', punches);
+    // const punchTransaction = apiBetPunch(window.eos, accountName, totalBetValue, memo);
+    // const gameRecords = apiFetchGameRecords(window.eos);
+    const gameResult = transformGameRecords('');  //transformGameRecords(gameRecords);
+
+
+    (async () => {
+      for (let index = 0; index < gameResult.round.length; index++) {
+        const t = games.slice();
+        t[index].banker = gameResult.round[index].banker;
+        t[index].result = gameResult.round[index].result;
+        t[index].prise = gameResult.round[index].prise;
+
+        const selectedIndex = index + 1;
+        this.setState({
+          games: t,
+          selectedIndex,
+        });
+
+        await new Promise(r => window.setTimeout(r, 500));
+      }
+
+      this.stepGameOver();
+    })();
+  }
+
+  stepGameOver = async () => {
+    await new Promise(r => window.setTimeout(r, 1000));
+
+    this.setState({
+      isGameOver: true,
+    }, this.stepReveal);
+  }
+
+  stepReveal = async () => {
+    await new Promise(r => window.setTimeout(r, 3000));
+
+    this.setState({
+      isRevealed: true,
+      isRevealing: false,
+    });
   }
 
   render() {
@@ -240,10 +304,11 @@ export default class Home extends React.Component {
     return (
       <div className={cx('container')}>
         <Header onInfoClick={this.handleToggleHowToPlay} />
-        <Panel 
-          games={games} 
-          selectedIndex={selectedIndex} 
+        <Panel
+          games={games}
+          selectedIndex={selectedIndex}
           isGameOver={isGameOver}
+          isRevealing={isRevealing}
           isDisableClean={isDisableClean}
           isDisableRandom={isDisableRandom}
           onSelect={this.handleBetFieldSelected}
@@ -266,11 +331,11 @@ export default class Home extends React.Component {
           <HowToPlay onClose={this.handleToggleHowToPlay} />
         }
         {
-          (isAutoBidding || isRevealing) && 
-            <SystemMessage 
-              isAutoBidding={isAutoBidding}
-              isRevealing={isRevealing}
-            />
+          (isAutoBidding || isRevealing) &&
+          <SystemMessage
+            isAutoBidding={isAutoBidding}
+            isRevealing={isRevealing}
+          />
         }
         <Picker
           isShow={isShowPicker}

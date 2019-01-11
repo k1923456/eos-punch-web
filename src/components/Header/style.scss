@@ -54,7 +54,7 @@ $FONT_SIZE_MOBILE: 13px;
     background-image: url('../../assets/images/info.svg');
   }
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     min-width: 35px;
     height: 35px;
     font-size: $FONT_SIZE_MOBILE;
@@ -76,7 +76,7 @@ $FONT_SIZE_MOBILE: 13px;
   background-repeat: no-repeat;
   background-size: contain;
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     width: 35%;
     left: calc(50% - 17%);
   }

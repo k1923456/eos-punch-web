@@ -20,7 +20,7 @@
   padding-left: 30px;
   width: 100%;
   max-width: 600px;
-  height: 73%;
+  height: 90%;
   background: linear-gradient(#38d0fa, #172d7c);
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
@@ -30,7 +30,7 @@
     padding-right: 10px;
     padding-left: 10px;
     max-width: 90%;
-    height: 80%;
+    height: 85%;
   }
 }
 
@@ -107,7 +107,7 @@
 
 .result-icon {
   display: inline-flex;
-  justify-content: center;  
+  justify-content: center;
   align-items: center;
   margin-right: 10px;
   padding: 5px 15px;
@@ -117,26 +117,38 @@
   border-radius: 25px;
 }
 
+.scissor,
+.stone,
+.paper {
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .win {
   .player.scissor {
     background-image: url('/assets/images/icon-scissor-win.svg');
   }
+
   .player.stone {
     background-image: url('/assets/images/icon-stone-win.svg');
   }
+
   .player.paper {
     background-image: url('/assets/images/icon-paper-win.svg');
   }
+
   .banker.scissor {
     background-image: url('/assets/images/icon-scissor-lose.svg');
   }
+
   .banker.stone {
     background-image: url('/assets/images/icon-stone-lose.svg');
   }
+
   .banker.paper {
     background-image: url('/assets/images/icon-paper-lose.svg');
   }
+
   .result-icon {
     background-color: #29aa00;
   }
@@ -146,21 +158,27 @@
   .player.scissor {
     background-image: url('/assets/images/icon-scissor-lose.svg');
   }
+
   .player.stone {
     background-image: url('/assets/images/icon-stone-lose.svg');
   }
+
   .player.paper {
     background-image: url('/assets/images/icon-paper-lose.svg');
   }
+
   .banker.scissor {
     background-image: url('/assets/images/icon-scissor-win.svg');
   }
+
   .banker.stone {
     background-image: url('/assets/images/icon-stone-win.svg');
   }
+
   .banker.paper {
     background-image: url('/assets/images/icon-paper-win.svg');
   }
+
   .result-icon {
     background-color: #d70016;
   }
@@ -170,22 +188,18 @@
   .scissor {
     background-image: url('/assets/images/icon-scissor-draw.svg');
   }
+
   .stone {
     background-image: url('/assets/images/icon-stone-draw.svg');
   }
+
   .paper {
     background-image: url('/assets/images/icon-paper-draw.svg');
   }
+
   .result-icon {
     background-color: #fb692e;
   }
-}
-
-.scissor,
-.stone,
-.paper {
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .total-settlement {
@@ -216,7 +230,7 @@
   background-repeat: no-repeat;
   background-size: contain;
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     padding-left: 30px;
     font-size: 18px;
   }
@@ -234,7 +248,7 @@
     color: rgba(#fff, 0.4);
   }
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     font-size: 28px;
 
     .unit {
@@ -273,7 +287,7 @@
     transform: scale(0.9);
   }
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     width: 50%;
     font-size: 20px;
   }

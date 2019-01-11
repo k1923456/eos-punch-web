@@ -10,18 +10,19 @@ export default class BetField extends React.Component {
     index: PropTypes.number.isRequired,
     player: PropTypes.string.isRequired,
     banker: PropTypes.string.isRequired,
-    prise: PropTypes.string.isRequired,
+    prise: PropTypes.number.isRequired,
     result: PropTypes.string.isRequired,
     isFocus: PropTypes.bool.isRequired,
     isGameOver: PropTypes.bool.isRequired,
+    isRevealing: PropTypes.bool.isRequired,
     onSelect: PropTypes.func,
   }
 
   static defaultProps = {
     index: 1,
-    player: -1,
-    banker: -1,
-    prise: '-0.1',
+    player: '',
+    banker: '',
+    prise: 0,
     result: '',
     isFocus: false,
     isGameOver: false,
@@ -36,10 +37,12 @@ export default class BetField extends React.Component {
       result,
       isFocus,
       isGameOver,
+      isRevealing,
       onSelect,
     } = this.props;
 
     const isHesitation = isFocus && !player;
+    const isBankerCalculating = isRevealing && isFocus && !banker;
     const isSelected = player !== '';
 
     return (
@@ -54,7 +57,8 @@ export default class BetField extends React.Component {
               isHesitation && <Hesitation />
             }
             {!isHesitation && !player && <span>請選擇</span>}
-            {player &&
+            {
+              player &&
               <span className={cx('mark', player, result, { reveal: isGameOver })}></span>
             }
           </span>
@@ -71,11 +75,15 @@ export default class BetField extends React.Component {
 
           <span className={cx('banker')}>
             <span className={cx('mark', banker, {
+              question: !isBankerCalculating,
               win: result === 'lose',
               lose: result === 'win',
               draw: result === 'draw',
               reveal: isGameOver
             })}>
+              {
+                isBankerCalculating && <Hesitation />
+              }
             </span>
           </span>
         </div>
