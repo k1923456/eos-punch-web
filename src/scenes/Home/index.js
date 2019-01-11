@@ -73,6 +73,10 @@ export default class Home extends React.Component {
     selectedIndex: 0,                 // 游標選在第幾個賭注
     gameLogs: [],
     jackpot: 999.99,
+    winCount: 0,
+    loseCount: 0,
+    drawCount: 0,
+    totalPrise: 5,
     isLoading: true,
     isAllSelected: false,             // 五個選項皆已下注
     isBankerPunchDone: false,         // 莊家出完拳
@@ -115,7 +119,26 @@ export default class Home extends React.Component {
   }
 
   handleCloseReveal = () => {
+    const {
+      games,
+      winCount: loseWinCount,
+      loseCount: lastLoseCount,
+      drawCount: lastDrawCount,
+      totalPrise: lastTotalPrise,
+    } = this.state;
+
+    const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
+    const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
+    const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
+    const totalPrise =lastTotalPrise + games.reduce((child_acc, child_cur) => child_acc + child_cur.prise, 0);
+
     this.handleReset();
+    this.setState({
+      winCount,
+      loseCount,
+      drawCount,
+      totalPrise,
+    });
   }
 
   handleBetValueChange = betValue => {
@@ -284,6 +307,10 @@ export default class Home extends React.Component {
     const {
       jackpot,
       games,
+      winCount,
+      loseCount,
+      drawCount,
+      totalPrise,
       selectedIndex,
       betValue,
       isLoading,
@@ -306,6 +333,10 @@ export default class Home extends React.Component {
         <Header onInfoClick={this.handleToggleHowToPlay} />
         <Panel
           jackpot={jackpot}
+          winCount={winCount}
+          loseCount={loseCount}
+          drawCount={drawCount}
+          totalPrise={totalPrise}
           games={games}
           selectedIndex={selectedIndex}
           isGameOver={isGameOver}

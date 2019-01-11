@@ -10,6 +10,10 @@ const cx = classnames.bind(style);
 export default class Panel extends React.Component {
   static propTypes = {
     jackpot: PropTypes.number.isRequired,
+    winCount: PropTypes.number.isRequired,
+    loseCount: PropTypes.number.isRequired,
+    drawCount: PropTypes.number.isRequired,
+    totalPrise: PropTypes.number.isRequired,
     games: PropTypes.array.isRequired,
     selectedIndex: PropTypes.number,
     isGameOver: PropTypes.bool,
@@ -24,14 +28,13 @@ export default class Panel extends React.Component {
     onRandom: PropTypes.func,
   }
 
-  static defaultProps = {
-    selectedIndex: 0,
-    isGameOver: false,
-  }
-
   render() {
     const {
       jackpot,
+      totalPrise,
+      winCount,
+      loseCount,
+      drawCount,
       games, 
       selectedIndex,
       isGameOver,
@@ -49,7 +52,12 @@ export default class Panel extends React.Component {
     return (
       <div className={cx('container')}>
         <Jackpot jackpot={jackpot} />
-        <Settlement />
+        <Settlement 
+          winCount={winCount} 
+          loseCount={loseCount} 
+          drawCount={drawCount} 
+          totalPrise={totalPrise} 
+        />
         <GameBoard 
           games={games} 
           selectedIndex={selectedIndex} 

@@ -40,7 +40,7 @@ $FONT_SIZE_MOBILE: 13px;
     color: white;
   }
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     .title {
       font-size: $FONT_SIZE_MOBILE;
     }
@@ -64,19 +64,20 @@ $FONT_SIZE_MOBILE: 13px;
     padding-left: 50px;
     min-width: 50px;
     height: 50px;
-    background-image: url('../../../../assets/images/icon-eos.svg');
+    background-image: url('/assets/images/icon-eos.svg');
     background-size: contain;
     background-repeat: no-repeat;
     font-size: $FONT_SIZE;
     color: white;
   }
 
-  .jackpot-number {
+  .prise-number {
+    position: relative;
     justify-content: center;
     flex: 1 1 30%;
     padding-left: $FONT_SIZE;
     font-size: 36px;
-    color: #ff4;
+    color: white;
   }
 
   .unit-text {
@@ -86,13 +87,13 @@ $FONT_SIZE_MOBILE: 13px;
     color: #759bb5;
   }
 
-  .jackpot-number,
+  .prise-number,
   .unit-text {
     display: inline-flex;
     align-items: center;
   }
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     .title {
       padding-left: 35px;
       min-width: 35px;
@@ -105,8 +106,62 @@ $FONT_SIZE_MOBILE: 13px;
       color: white;
     }
 
-    .jackpot-number {
+    .prise-number {
       font-size: 20px;
     }
+  }
+}
+
+.reward-animation {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  opacity: 0;
+  padding-left: 25px;
+  max-height: 20px;
+  color: yellow;
+  background-image: url('/assets/images/icon-eos-yellow.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &.show {
+    animation: show-reward 1s ease-in;
+  }
+
+  @media screen and (max-width: 639px) {
+    padding-left: 10px;
+    max-height: 15px;
+
+    &.show {
+      animation: show-reward-mobile 1s ease-in;
+    }
+  }
+}
+
+@keyframes show-reward {
+  0% {
+    opacity: 1;
+    top: -15px;
+    font-size: 18px;
+  }
+
+  100% {
+    opacity: 0;
+    top: 0;
+    font-size: 12px;
+  }
+}
+
+@keyframes show-reward-mobile {
+  0% {
+    opacity: 1;
+    top: -15px;
+    font-size: 10px;
+  }
+
+  100% {
+    opacity: 0;
+    top: 0;
+    font-size: 8px;
   }
 }
