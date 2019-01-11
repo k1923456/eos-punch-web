@@ -9,6 +9,7 @@ const cx = classnames.bind(style);
 
 export default class Panel extends React.Component {
   static propTypes = {
+    jackpot: PropTypes.number.isRequired,
     games: PropTypes.array.isRequired,
     selectedIndex: PropTypes.number,
     isGameOver: PropTypes.bool,
@@ -30,6 +31,7 @@ export default class Panel extends React.Component {
 
   render() {
     const {
+      jackpot,
       games, 
       selectedIndex,
       isGameOver,
@@ -46,7 +48,7 @@ export default class Panel extends React.Component {
 
     return (
       <div className={cx('container')}>
-        <Jackpot />
+        <Jackpot jackpot={jackpot} />
         <Settlement />
         <GameBoard 
           games={games} 

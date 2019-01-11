@@ -72,6 +72,7 @@ export default class Home extends React.Component {
     ],
     selectedIndex: 0,                 // 游標選在第幾個賭注
     gameLogs: [],
+    jackpot: 999.99,
     isLoading: true,
     isAllSelected: false,             // 五個選項皆已下注
     isBankerPunchDone: false,         // 莊家出完拳
@@ -281,6 +282,7 @@ export default class Home extends React.Component {
 
   render() {
     const {
+      jackpot,
       games,
       selectedIndex,
       betValue,
@@ -303,6 +305,7 @@ export default class Home extends React.Component {
       <div className={cx('container')}>
         <Header onInfoClick={this.handleToggleHowToPlay} />
         <Panel
+          jackpot={jackpot}
           games={games}
           selectedIndex={selectedIndex}
           isGameOver={isGameOver}
