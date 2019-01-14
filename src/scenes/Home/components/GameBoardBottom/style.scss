@@ -1,4 +1,4 @@
-.functions-wrapper {
+.game-board-bottom {
   display: flex;
   justify-content: space-between;
   margin-top: 65px;
@@ -17,7 +17,7 @@
   background-image: url('/assets/images/btn-clear-red.svg');
 
   @media screen and (max-width: 639px) {
-    padding-left: 53px;
+    padding-left: 43px;
   }
 
   @media screen and (max-width: 374px) {
@@ -32,7 +32,7 @@
   background-position: top right;
 
   @media screen and (max-width: 639px) {
-    padding-right: 53px;
+    padding-right: 43px;
   }
 
   @media screen and (max-width: 374px) {
@@ -66,6 +66,8 @@
   }
 
   @media screen and (max-width: 639px) {
+    min-width: 40px;
+    height: 40px;
     font-size: 16px;
   }
 

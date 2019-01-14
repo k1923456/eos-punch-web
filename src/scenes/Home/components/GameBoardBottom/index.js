@@ -42,7 +42,7 @@ export default class GameBoard extends React.Component {
     } = this.props;
 
     return (
-      <div className={cx('functions-wrapper')}>
+      <div className={cx('game-board-bottom')}>
         <a
           className={cx('clean', { 'disable': isDisableClean })}
           onClick={this.handleClean}

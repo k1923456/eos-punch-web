@@ -18,9 +18,9 @@ export default class RevealBoard extends React.Component {
   componentDidUpdate() {
     const { isRevealed, onConfirm, } = this.props;
 
-    if(isRevealed) {
-      setTimeout(onConfirm, 3000);
-    }
+    // if(isRevealed) {
+    //   setTimeout(onConfirm, 3000);
+    // }
   }
 
   render() {

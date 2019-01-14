@@ -6,7 +6,6 @@
 
 .wrapper {
   position: relative;
-  /* margin-bottom: 75px; */
   padding-top: 30px;
   padding-right: 20px;
   padding-bottom: 70px;
@@ -15,12 +14,10 @@
   background-color: rgba(#333, 0.3);
 
   @media screen and (max-width: 639px) {
-    /* margin-bottom: 55px; */
     padding-bottom: 50px;
   }
 
   @media screen and (max-width: 374px) {
-    /* margin-bottom: 40px; */
     padding-top: 20px;
     padding-bottom: 20px;
   }
@@ -28,21 +25,22 @@
 
 .player {
   top: 12px;
-  left: 25%;
+  left: 22%;
   background-image: url('/assets/images/player.svg');
 
   @media screen and (max-width: 639px) {
-    left: 25%;
+    top: 10px;
   }
 }
 
 .banker {
   top: 12px;
-  left: 82%;
+  left: 86%;
   background-image: url('/assets/images/banker.svg');
 
   @media screen and (max-width: 639px) {
-    left: 78%;
+    top: 10px;
+    left: 83%;
   }
 }
 
@@ -55,13 +53,18 @@
   background-repeat: no-repeat;
   background-size: contain;
 
+  @media screen and (max-width: 768px) {
+    width: 32px;
+    height: 43px;
+  }
+
   @media screen and (max-width: 639px) {
-    width: 28px;
-    height: 40px;
+    width: 22px;
+    height: 34px;
   }
 
   @media screen and (max-width: 374px) {
-    width: 22px;
-    height: 34px;
+    width: 16px;
+    height: 21px;
   }
 }

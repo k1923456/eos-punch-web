@@ -15,7 +15,7 @@ export default class HowToPlay extends React.Component {
       <div className={cx('container')}>
         <div className={cx('content')}>
           <div className={cx('logo')}></div>
-          <h1 className={cx('headline')}>怎麼玩</h1>
+          <h1 className={cx('headline')}>怎麼玩?</h1>
           <p>
             BOY tokens grant you dividend payouts based on EOSGAMEBOY profit.
             100% of profit is distributed to BOY token holders, so the more BOY you have, the more EOS you get!
