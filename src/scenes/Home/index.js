@@ -276,12 +276,8 @@ export default class Home extends React.Component {
     }, 500);
   }
 
-  functionForAutoBetting = () => {
-
-  }
-
   // 開獎
-  handleReveal = () => {
+  handleReveal = async () => {
     const {
       accountName,
       betValue,
@@ -296,10 +292,11 @@ export default class Home extends React.Component {
 
     const punches = games.sort((a, b) => a.id - b.id).map(game => game.player).join(','); // sort player punches in ascending by id
     const totalBetValue = betValue * 5;
-    const memo = translatePunches('api', punches);
-    // const punchTransaction = apiBetPunch(window.eos, accountName, totalBetValue, memo);
-    // const gameRecords = apiFetchGameRecords(window.eos);
-    const gameResult = transformGameRecords('', punches, betValue);  //transformGameRecords(gameRecords);
+    const memo = translatePunches('api', punches).join('');
+    const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue.toString(), memo);
+    const { rows, } = await apiFetchGameRecords(window.eos);
+    const userRecord = rows.find(row => row.userName === accountName);
+    const gameResult = transformGameRecords(userRecord, punches, betValue);
 
     (async () => {
       for (let index = 0; index < gameResult.round.length; index++) {
@@ -307,7 +304,6 @@ export default class Home extends React.Component {
         t[index].banker = gameResult.round[index].banker;
         t[index].result = gameResult.round[index].result;
         t[index].prise = gameResult.round[index].prise;
-
         const selectedIndex = index + 1;
         this.setState({
           games: t,
