@@ -62,14 +62,20 @@ export default class Footer extends React.Component {
           </div>
         </div>
 
-        <a 
-          className={cx('confirm', { 'checkable': isConfirmButtonClickable })}
-          onClick={this.handleConfirm}
-        >
-          <span className={cx('title')}>
-            出拳
-          </span>
-        </a>
+
+        <div className={cx('confirm-line')}>
+          <a 
+            className={cx('confirm', { 'checkable': isConfirmButtonClickable })}
+            onClick={this.handleConfirm}
+          >
+            <span className={cx('title')}>
+              出拳
+            </span>
+          </a>
+        </div>
+
+
+
       </div>
     )
   }

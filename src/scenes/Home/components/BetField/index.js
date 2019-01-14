@@ -48,7 +48,7 @@ export default class BetField extends React.Component {
     return (
       <div className={cx('container')} onClick={onSelect(index)}>
         <span className={cx('title')}>
-          註{index + 1}
+          注{index + 1}
         </span>
 
         <div className={cx('field', { focus: isFocus, selected: isSelected, reveal: isGameOver, win: result === 'win' })}>

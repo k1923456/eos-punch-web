@@ -4,14 +4,20 @@ $FONT_SIZE_MOBILE: 13px;
 .container {
   justify-content: space-between;
   margin-bottom: 10px;
-  border: 3px solid #02daff;
-  border-radius: 20px;
+  border: 2px solid #02daff;
+  border-radius: 8px;
   background-color: rgba(#333, 0.3);
 }
 
 .point-wrapper {
   display: flex;
-  padding: 10px 10px 15px;
+  padding-top: 11px;
+  padding-bottom: 9px;
+
+  @media screen and (max-width: 639px) {
+    padding-top: 6px;
+    padding-bottom: 4px;
+  }
 }
 
 .field {
@@ -30,7 +36,6 @@ $FONT_SIZE_MOBILE: 13px;
   }
 
   .title {
-    padding-bottom: 10px;
     font-size: $FONT_SIZE;
     color: white;
   }
@@ -54,7 +59,7 @@ $FONT_SIZE_MOBILE: 13px;
 .prise-wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 10px 30px 10px 10px;
+  padding: 8px 19px 8px 17px;
   border-top: 2px solid rgba(#eee, 0.5);
 
   .title {
@@ -75,7 +80,7 @@ $FONT_SIZE_MOBILE: 13px;
     position: relative;
     justify-content: center;
     flex: 1 1 30%;
-    padding-left: $FONT_SIZE;
+    padding-left: 3px;
     font-size: 36px;
     color: white;
   }
@@ -94,16 +99,17 @@ $FONT_SIZE_MOBILE: 13px;
   }
 
   @media screen and (max-width: 639px) {
+    padding: 2px 9px 2px 8px;
+
     .title {
-      padding-left: 35px;
-      min-width: 35px;
-      height: 35px;
+      padding-left: 30px;
+      min-width: 30px;
+      height: 30px;
       font-size: $FONT_SIZE_MOBILE;
     }
 
     .unit-text {
       font-size: $FONT_SIZE_MOBILE;
-      color: white;
     }
 
     .prise-number {

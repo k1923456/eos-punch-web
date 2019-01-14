@@ -27,7 +27,7 @@ export default class Jackpot extends React.Component {
 
   render() {
     return (
-      <div className={cx('container')}>
+      <div className={cx('jackpot')}>
         <span className={cx('title')}>
           彩池獎金
         </span>

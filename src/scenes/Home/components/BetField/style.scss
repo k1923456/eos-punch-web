@@ -2,6 +2,12 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  height: 70px;
+
+  @media screen and(max-width: 639px) {
+    margin-bottom: 5px;
+    height: 35px;
+  }
 }
 
 .title {
@@ -10,38 +16,49 @@
   color: white;
   text-align: center;
 
+  @media screen and (max-width: 639px) {
+    font-size: 18px;
+  }
+
   @media screen and (max-width: 374px) {
-    font-size: 20px;
+    font-size: 16px;
   }
 }
 
 .field {
   display: inline-flex;
   align-items: center;
-  padding: 10px 20px;
   flex: 1 1 80%;
-  min-height: 70px;
+  height: 100%;
   background-color: rgba(#333, 0.3);
-  border-radius: 20px;
+  border-radius: 8px;
 
   .player {
+    flex: 1 1 35%;
     justify-content: flex-end;
     font-size: 32px;
     color: white;
   }
 
   .gap {
+    flex: 1 1 30%;
     justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 100%;
+    opacity: 0.5;
 
     &::after {
-      content: '';
       display: inline-block;
-      height: 40px;
-      border-right: 2px solid rgba(#fff, 0.5);
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-right: 2px solid rgba(#eee, 0.3);
+      content: '';
     }
   }
 
   .banker {
+    flex: 1 1 35%;
     justify-content: flex-start;
   }
 
@@ -49,7 +66,6 @@
   .gap,
   .banker {
     display: inline-flex;
-    flex: 1 1;
     opacity: 0.5;
   }
 
@@ -63,7 +79,7 @@
 
   &.focus {
     border: 2px solid #02daff;
-    box-shadow: 0 0 4px #02daff, 0 0 4px #02daff inset;
+    box-shadow: 0 0 3px #02daff, 0 0 3px #02daff inset;
 
     .player,
     .gap,
@@ -74,7 +90,6 @@
 
   &.selected {
     .player,
-    .gap,
     .banker {
       opacity: 1;
     }
@@ -87,6 +102,11 @@
   }
 
   @media screen and (max-width: 639px) {
+    .gap {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+
     .player {
       font-size: 24px;
     }
@@ -166,16 +186,19 @@
   &.scissor,
   &.stone,
   &.paper, {
-    width: 48px;
-    height: 48px;
+    width: 45px;
+    height: 45px;
   }
 
-  @media screen and (max-width: 374px) {
+  @media screen and (max-width: 639px) {
+    width: 20px;
+    height: 20px;
+
     &.scissor,
     &.stone,
     &.paper, {
-      width: 40px;
-      height: 40px;
+      width: 25px;
+      height: 25px;
     }
   }
 }

@@ -1,10 +1,10 @@
 $SIZE: 136px;
-$SIZE_MOBILE: 96px;
-$SIZE_I5: 70px;
-$BORDER_WIDTH: 3px;
+$SIZE_MOBILE: 86px;
+$SIZE_I5: 56px;
+$BORDER_WIDTH: 2px;
 $PC_TOP_POSITION: calc(100% - #{$SIZE / 2 - $BORDER_WIDTH});
-$MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
-$I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
+$MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH});
+$I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH});
 
 .punch {
   position: absolute;
@@ -102,7 +102,7 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
 
   @media screen and (max-width: 374px) {
     top: $I5_TOP_POSITION;
-    left: 38%;
+    left: 40%;
   }
 }
 
@@ -140,7 +140,7 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
 
   @media screen and (max-width: 374px) {
     top: $I5_TOP_POSITION;
-    left: 66%;
+    left: 70%;
   }
 }
 

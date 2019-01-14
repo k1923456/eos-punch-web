@@ -32,15 +32,15 @@ export default class Header extends React.Component {
     return (
       <div className={cx('container')}>
         <div className={cx('wrapper')}>
-          <a className={cx('button', 'leave')}
+          <a className={cx('leave-button')}
             ref={el => this.leaveButton = el}
             onClick={this.handleLeave}
             onTouchStart={()=>{}}
           >
             離開
           </a>
-
-          <a className={cx('button', 'info')}
+          
+          <a className={cx('info-button')}
             ref={ el => this.infoButton = el }
             onClick={this.handleInfo}
             onTouchStart={()=>{}}

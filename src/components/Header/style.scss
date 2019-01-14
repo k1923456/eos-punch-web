@@ -3,11 +3,13 @@ $FONT_SIZE_MOBILE: 13px;
 
 .container {
   position: relative;
-  padding-top: 16%;
   width: 100%;
-  background-image: url('/assets/images/header-bg.png');
-  background-size: contain;
-  background-repeat: no-repeat;
+  height: 100px;
+  background: linear-gradient(#172d7c, #38d0fa);
+
+  @media screen and (max-width: 639px) {
+    max-height: 40px;
+  }
 }
 
 .wrapper {
@@ -17,67 +19,97 @@ $FONT_SIZE_MOBILE: 13px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 40px;
-  padding-left: 40px;
+  padding-right: 34px;
+  padding-left: 43px;
   width: 100%;
   height: 100%;
 
-  @media screen and (max-width: 639px) {
-    padding-right: 15px;
-    padding-left: 15px;
+  @media screen and (max-width: 374px) {
+    padding-right: 17px;
+    padding-left: 21px;
+    height: 40px;
   }
 }
 
-.button {
-  display: inline-flex;
-  align-items: center;
-  min-width: 50px;
-  height: 50px;
-  font-size: $FONT_SIZE;
-  color: white;
+.info-button {
+  width: 100%;
+  max-width: 55px;
+  background-image: url('/assets/images/info.svg');
   background-size: contain;
   background-repeat: no-repeat;
   transition: transform 0.1s;
-  cursor: pointer;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &::after {
+    display: block;
+    padding-top: 100%;
+    content: '';
+  }
+
+  @media screen and (max-width: 639px) {
+    max-width: 28px;
+  }
+
+  @media screen and (max-width: 374px) {
+    max-width: 28px;
+  }
+}
+
+.leave-button {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  min-width: 37px;
+  height: 37px;
+  padding-left: 40px;
+  font-size: 20px;
+  color: white;
+  background-image: url('/assets/images/btn-leave.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
 
   &:active {
     transform: scale(0.9);
   }
 
-  &.leave {
-    padding-left: 60px;
-    background-image: url('/assets/images/btn-leave.svg');
-  }
-
-  &.info {
-    background-image: url('/assets/images/info.svg');
-  }
-
   @media screen and (max-width: 639px) {
-    min-width: 35px;
-    height: 35px;
-    font-size: $FONT_SIZE_MOBILE;
+    height: 18px;
+    padding-left: 20px;
+    font-size: 12px;
+  }
 
-    &.leave {
-      padding-left: 45px;
-    }
+  @media screen and (max-width: 374px) {
+    height: 18px;
+    padding-left: 20px;
+    font-size: 12px;
   }
 }
 
 .logo {
   position: absolute;
-  top: 0;
+  top: -10px;
   left: calc(50% - 110px);
+  z-index: 10;
   display: inline-block;
-  width: 220px;
-  padding-top: 60%;
+  width: 100%;
+  max-width: 220px;
   background-image: url('/assets/images/header-logo.svg');
   background-repeat: no-repeat;
   background-size: contain;
+  transform: scale(1.2);
+
+  &::after {
+    display: block;
+    padding-top: 60%;
+    content: '';
+  }
 
   @media screen and (max-width: 639px) {
-    width: 35%;
-    left: calc(50% - 17%);
+    left: calc(50% - 45px);
+    max-width: 110px;
   }
 }
