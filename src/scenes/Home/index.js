@@ -19,6 +19,7 @@ import {
 import {
   apiBetPunch,
   apiFetchGameRecords,
+  apiJackpot,
 } from 'services/ContractAPIs';
 
 
@@ -73,7 +74,7 @@ export default class Home extends React.Component {
     ],
     selectedIndex: 0,                 // 游標選在第幾個賭注
     gameLogs: [],
-    jackpot: 999.99,
+    jackpot: 0,
     winCount: 0,
     loseCount: 0,
     drawCount: 0,
@@ -96,17 +97,29 @@ export default class Home extends React.Component {
     window.setTimeout(() => {
       this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
     }, 500);
+
+
   }
 
-  connect = (accountName, keyProvider, balance = 10) => {
+  fetchJackpot = () => {
+    apiJackpot(window.eos).then(result => {
+      const { jackpot, } = result.rows[0];
+      this.setState({
+        jackpot: jackpot / 10000,
+      });
+    });
+  }
+
+  connect = async (accountName, keyProvider, balance = 10) => {
     this.setState({
       accountName,
       keyProvider,
       balance,
       isLoading: false,
-    }, () => {
-      window.eos = EosHelper.createEosInstance(JUNGLE_TEST_NET.chainId, JUNGLE_TEST_NET.httpEndpoint, keyProvider, `${accountName}@active`);
     });
+
+    window.eos = EosHelper.createEosInstance(JUNGLE_TEST_NET.chainId, JUNGLE_TEST_NET.httpEndpoint, keyProvider, `${accountName}@active`);
+    this.fetchJackpot();
   }
 
   handleToggleHowToPlay = () => {
@@ -141,8 +154,9 @@ export default class Home extends React.Component {
     const totalPrise = lastTotalPrise + animationWinPrise;
     const balance = lastBalance + totalPrise;
     const totalBetValue = betValue * 5;
-    console.log('balance', balance);
+
     this.handleReset();
+    this.fetchJackpot();
     this.setState({
       winCount,
       loseCount,

@@ -29,3 +29,12 @@ export function apiFetchGameRecords(eosInstance) {
   });
 }
 
+export function apiJackpot(eosInstance) {
+  return eosInstance.getTableRows({
+    json: true, 
+    code: CONTRACT, 
+    table: JACKPOT_TABLE, 
+    scope: CONTRACT
+  });
+}
+

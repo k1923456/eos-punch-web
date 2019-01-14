@@ -4,7 +4,7 @@ import classnames from 'classnames/bind';
 import style from './style.scss';
 const cx = classnames.bind(style);
 
-export default class Jackpot extends React.Component {
+export default class Jackpot extends React.PureComponent {
   numberScroll = React.createRef();
 
   static propTypes = {
@@ -23,6 +23,10 @@ export default class Jackpot extends React.Component {
       format: '(,ddd).dd',
       theme: 'default'
     });
+  }
+
+  componentDidUpdate() {
+    this.numberScroll.innerHTML = this.props.jackpot;
   }
 
   render() {
