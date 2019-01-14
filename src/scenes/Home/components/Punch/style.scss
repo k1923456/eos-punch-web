@@ -35,9 +35,17 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
   left: 10%;
   background-image: url('/assets/images/btn-scissor-dark.svg');
 
+  &::after {
+    visibility: hidden;
+    content: url('/assets/images/btn-scissor-blur.svg');
+  }
+
   &:active {
-    background-image: url('/assets/images/btn-scissor-blur.svg');
     transform: scale(0.9);
+
+    &::after {
+      visibility: visible;
+    }
   }
 
   &.disable {
@@ -65,9 +73,18 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
   left: 40%;
   background-image: url('/assets/images/btn-stone-dark.svg');
 
+  &::after {
+    visibility: hidden;
+    content: url('/assets/images/btn-stone-blur.svg');
+  }
+
   &:active {
     background-image: url('/assets/images/btn-stone-blur.svg');
     transform: scale(0.9);
+
+    &::after {
+      visibility: visible;
+    }
   }
 
   &.disable {
@@ -94,9 +111,18 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
   left: 70%;
   background-image: url('/assets/images/btn-paper-dark.svg');
 
+  &::after {
+    visibility: hidden;
+    content: url('/assets/images/btn-paper-blur.svg');
+  }
+
   &:active {
     background-image: url('/assets/images/btn-paper-blur.svg');
     transform: scale(0.9);
+
+    &::after {
+      visibility: visible;
+    }
   }
 
   &.disable {
