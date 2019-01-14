@@ -12,42 +12,15 @@ export default class RevealBoard extends React.Component {
   }
 
   static defaultProps = {
-    settlement: {
-      round: [
-        {
-          player: 'scissor',
-          banker: 'stone',
-          result: 'lose',
-          value: '-0.1'
-        },
-        {
-          player: 'scissor',
-          banker: 'stone',
-          result: 'lose',
-          value: '-0.1'
-        },
-        {
-          player: 'scissor',
-          banker: 'stone',
-          result: 'lose',
-          value: '-0.1'
-        },
-        {
-          player: 'scissor',
-          banker: 'stone',
-          result: 'lose',
-          value: '-0.1'
-        },
-        {
-          player: 'scissor',
-          banker: 'stone',
-          result: 'lose',
-          value: '-0.1'
-        },
-      ],
-      total: '+0.08',
-    },
     isRevealed: false,
+  }
+
+  componentDidUpdate() {
+    const { isRevealed, onConfirm, } = this.props;
+
+    if(isRevealed) {
+      setTimeout(onConfirm, 3000);
+    }
   }
 
   render() {

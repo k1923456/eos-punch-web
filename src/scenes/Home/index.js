@@ -32,6 +32,7 @@ export default class Home extends React.Component {
   state = {
     accountName: '',
     keyProvider: '',
+    balance: 10,
     betValue: 1,
     games: [
       {
@@ -93,14 +94,15 @@ export default class Home extends React.Component {
   componentDidMount() {
     // FIXME: for development, should be removed.
     window.setTimeout(() => {
-      this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q');
+      this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
     }, 500);
   }
 
-  connect = (accountName, keyProvider) => {
+  connect = (accountName, keyProvider, balance = 10) => {
     this.setState({
       accountName,
       keyProvider,
+      balance,
       isLoading: false,
     }, () => {
       window.eos = EosHelper.createEosInstance(JUNGLE_TEST_NET.chainId, JUNGLE_TEST_NET.httpEndpoint, keyProvider, `${accountName}@active`);
@@ -119,6 +121,7 @@ export default class Home extends React.Component {
     });
   }
 
+  // 關閉結算揭示板
   handleCloseReveal = () => {
     const {
       games,
@@ -126,14 +129,19 @@ export default class Home extends React.Component {
       loseCount: lastLoseCount,
       drawCount: lastDrawCount,
       totalPrise: lastTotalPrise,
+      balance: lastBalance,
+      isAutoBiddingChecked,
+      betValue,
     } = this.state;
 
     const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
     const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
     const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 10) / 10, 0);
-    const totalPrise =lastTotalPrise + animationWinPrise;
-
+    const totalPrise = lastTotalPrise + animationWinPrise;
+    const balance = lastBalance + totalPrise;
+    const totalBetValue = betValue * 5;
+    console.log('balance', balance);
     this.handleReset();
     this.setState({
       winCount,
@@ -142,6 +150,10 @@ export default class Home extends React.Component {
       totalPrise,
       animationWinPrise,
     });
+
+    if(isAutoBiddingChecked && balance >= totalBetValue) {
+      this.handleAutoBetting();
+    }
   }
 
   handleBetValueChange = betValue => {
@@ -220,12 +232,24 @@ export default class Home extends React.Component {
     });
   }
 
-  handleRandom = (specifyIndex) => () => {
+  functionRandom = (specifyIndex) => () => {
     const punch = getRandomPunch();
     this.handlePunch(punch, specifyIndex);
   }
 
-  // 出拳按鈕
+  handleRandom = () => {
+    const autoPlayerBet = window.setInterval(() => {
+      if (this.state.isAllSelected) {
+        clearInterval(autoPlayerBet);
+        return;
+      }
+
+      const nextIndex = getNextBetFieldIndex(this.state.games);
+      this.functionRandom(nextIndex)();
+    }, 500);
+  }
+
+  // 出拳
   handleConfirm = () => {
     if (this.state.isAllSelected) {
       this.handleReveal();
@@ -240,16 +264,20 @@ export default class Home extends React.Component {
       isAutoBidding: true,
     });
 
-    const autoBetting = window.setInterval(() => {
+    const autoPlayerBet = window.setInterval(() => {
       if (this.state.isAllSelected) {
-        clearInterval(autoBetting);
+        clearInterval(autoPlayerBet);
         this.handleReveal();
         return;
       }
 
       const nextIndex = getNextBetFieldIndex(this.state.games);
-      this.handleRandom(nextIndex)();
+      this.functionRandom(nextIndex)();
     }, 500);
+  }
+
+  functionForAutoBetting = () => {
+
   }
 
   // 開獎
@@ -357,7 +385,7 @@ export default class Home extends React.Component {
           onStonePunch={this.handleStonePunch}
           onPaperPunch={this.handlePaperPunch}
           onReset={this.handleReset}
-          onRandom={this.handleRandom()}
+          onRandom={this.handleRandom}
         />
         <Footer
           betValue={betValue}
