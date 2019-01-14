@@ -8,11 +8,33 @@ const CONTRACT_PUNCH_DICTIONARY = {
   ['scissor']: '2',
   ['stone']: '3'
 };
-const BET_RESULT_DICTIONARY = {
+const CONTRACT_BET_RESULT_DICTIONARY = {
   ['0']: 'draw',
   ['1']: 'win',
   ['-1']: 'lose',
 };
+const HUMAN_BET_RESULT_DICTIONARY = {
+  ['draw']: '0',
+  ['win']: '1',
+  ['lose']: '-1',
+};
+const PUNCH_BATTLE_DICTIONARY = {
+  ['scissor']: {
+    ['scissor']: 'draw',
+    ['paper']: 'win',
+    ['stone']: 'lose',
+  },
+  ['paper']: {
+    ['scissor']: 'lose',
+    ['paper']: 'draw',
+    ['stone']: 'win',
+  },
+  ['stone']: {
+    ['scissor']: 'win',
+    ['paper']: 'lose',
+    ['stone']: 'draw',
+  },
+}
 
 /**
  * to find the next field's index, if all fields have been selected, than return -1
@@ -77,11 +99,21 @@ function translateToAPI(punches) {
  * @param {number} state bet result, win, lose or draw.
  */
 function translateContractBetStateToWeb (state) {
-  return BET_RESULT_DICTIONARY[state];
+  return CONTRACT_BET_RESULT_DICTIONARY[state];
 }
 
-// TODO: workaround version
-export function transformGameRecords(rawData) {
+export function calculatePriseValue(result, betValue) {
+  switch(result) {
+    case 'win':
+      return betValue;
+    case 'lose':
+      return betValue * -1;
+    case 'draw':
+      return Math.floor((betValue * 0.9) * 10) / 10;
+  }
+}
+
+export function transformGameRecords(rawData, playerPunches, betValue) {
   const MOCK = {
     round: [
       {
@@ -116,12 +148,30 @@ export function transformGameRecords(rawData) {
       },
     ],
   };
+  //FIXME: fro local development
+  rawData = MOCK;
+  rawData.round = playerPunches.split(',').map(punch => {
+    const banker = getRandomPunch();
+    const playerPunch = CONTRACT_PUNCH_DICTIONARY[punch];
+    const bankerPunch = CONTRACT_PUNCH_DICTIONARY[banker];
+    const result = PUNCH_BATTLE_DICTIONARY[punch][banker];
+    const state = HUMAN_BET_RESULT_DICTIONARY[result];
+    const value = calculatePriseValue(result, betValue);
 
-  const data = MOCK.round.reduce((acc, cur) => {
+    return ({
+      playerPunch,
+      bankerPunch,
+      state,
+      value,
+    });
+  });
+
+  const { round, } = rawData;
+  const data = round.reduce((acc, cur) => {
     acc.round.push({
       player: HUMAN_PUNCH_DICTIONARY[cur.playerPunch],
       banker: HUMAN_PUNCH_DICTIONARY[cur.bankerPunch],
-      result: BET_RESULT_DICTIONARY[cur.state],
+      result: CONTRACT_BET_RESULT_DICTIONARY[cur.state],
       prise: cur.value,
     });
     acc.totalPrise += cur.value;

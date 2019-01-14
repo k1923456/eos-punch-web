@@ -68,7 +68,7 @@ export default class BetField extends React.Component {
             {
               isGameOver &&
               <span className={cx('point', result)}>
-                {prise}
+                { prise > 0 ? `+${prise}`: prise }
               </span>
             }
           </span>

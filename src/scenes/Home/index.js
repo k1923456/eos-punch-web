@@ -76,7 +76,8 @@ export default class Home extends React.Component {
     winCount: 0,
     loseCount: 0,
     drawCount: 0,
-    totalPrise: 5,
+    totalPrise: 0,
+    animationWinPrise: 0,
     isLoading: true,
     isAllSelected: false,             // 五個選項皆已下注
     isBankerPunchDone: false,         // 莊家出完拳
@@ -130,7 +131,8 @@ export default class Home extends React.Component {
     const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
     const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
-    const totalPrise =lastTotalPrise + games.reduce((child_acc, child_cur) => child_acc + child_cur.prise, 0);
+    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 10) / 10, 0);
+    const totalPrise =lastTotalPrise + animationWinPrise;
 
     this.handleReset();
     this.setState({
@@ -138,6 +140,7 @@ export default class Home extends React.Component {
       loseCount,
       drawCount,
       totalPrise,
+      animationWinPrise,
     });
   }
 
@@ -176,6 +179,10 @@ export default class Home extends React.Component {
       games,
       selectedIndex,
     } = this.state;
+
+    if(!specifyIndex && selectedIndex === -1) {
+      return;
+    }
 
     const newGames = games.map(game => Object.assign({}, game));
     newGames[specifyIndex || selectedIndex][role] = punchType;
@@ -264,7 +271,7 @@ export default class Home extends React.Component {
     const memo = translatePunches('api', punches);
     // const punchTransaction = apiBetPunch(window.eos, accountName, totalBetValue, memo);
     // const gameRecords = apiFetchGameRecords(window.eos);
-    const gameResult = transformGameRecords('');  //transformGameRecords(gameRecords);
+    const gameResult = transformGameRecords('', punches, betValue);  //transformGameRecords(gameRecords);
 
     (async () => {
       for (let index = 0; index < gameResult.round.length; index++) {
@@ -311,6 +318,7 @@ export default class Home extends React.Component {
       loseCount,
       drawCount,
       totalPrise,
+      animationWinPrise,
       selectedIndex,
       betValue,
       isLoading,
@@ -338,6 +346,7 @@ export default class Home extends React.Component {
           drawCount={drawCount}
           totalPrise={totalPrise}
           games={games}
+          winPrise={animationWinPrise}
           selectedIndex={selectedIndex}
           isGameOver={isGameOver}
           isRevealing={isRevealing}

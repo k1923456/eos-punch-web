@@ -1,8 +1,10 @@
 $SIZE: 136px;
 $SIZE_MOBILE: 96px;
+$SIZE_I5: 70px;
 $BORDER_WIDTH: 3px;
 $PC_TOP_POSITION: calc(100% - #{$SIZE / 2 - $BORDER_WIDTH});
 $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
+$I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH} - 1px);
 
 .punch {
   position: absolute;
@@ -20,6 +22,11 @@ $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
   @media screen and (max-width: 639px) {
     width: $SIZE_MOBILE;
     height: $SIZE_MOBILE;
+  }
+
+  @media screen and (max-width: 374px) {
+    width: $SIZE_I5;
+    height: $SIZE_I5;
   }
 }
 
@@ -46,6 +53,11 @@ $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
     top: $MOBILE_TOP_POSITION;
     left: 5%;
   }
+
+  @media screen and (max-width: 374px) {
+    top: $I5_TOP_POSITION;
+    left: 10%;
+  }
 }
 
 .stone {
@@ -69,6 +81,11 @@ $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
   @media screen and (max-width: 639px) {
     top: $MOBILE_TOP_POSITION;
     left: 37%;
+  }
+
+  @media screen and (max-width: 374px) {
+    top: $I5_TOP_POSITION;
+    left: 38%;
   }
 }
 
@@ -94,6 +111,11 @@ $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
     top: $MOBILE_TOP_POSITION;
     left: 68%;
   }
+
+  @media screen and (max-width: 374px) {
+    top: $I5_TOP_POSITION;
+    left: 66%;
+  }
 }
 
 .border {
@@ -113,5 +135,12 @@ $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH} - 1px);
     height: $SIZE_MOBILE / 2 + 4px;
     border-bottom-left-radius: $SIZE_MOBILE;
     border-bottom-right-radius: $SIZE_MOBILE;
+  }
+
+  @media screen and (max-width: 374px) {
+    width: $SIZE_I5 + 4px;
+    height: $SIZE_I5 / 2 + 4px;
+    border-bottom-left-radius: $SIZE_I5;
+    border-bottom-right-radius: $SIZE_I5;
   }
 }

@@ -8,6 +8,14 @@
 .clean {
   padding-left: 60px;
   background-image: url('/assets/images/btn-clear-red.svg');
+
+  @media screen and (max-width: 639px) {
+    padding-left: 53px;
+  }
+
+  @media screen and (max-width: 374px) {
+    padding-left: 35px;
+  }
 }
 
 .random {
@@ -15,6 +23,14 @@
   padding-right: 60px;
   background-image: url('/assets/images/btn-random.svg');
   background-position: top right;
+
+  @media screen and (max-width: 639px) {
+    padding-right: 53px;
+  }
+
+  @media screen and (max-width: 374px) {
+    padding-right: 35px;
+  }
 }
 
 .clean,
@@ -40,5 +56,15 @@
 
   &:active {
     transform: scale(0.9);
+  }
+
+  @media screen and (max-width: 639px) {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 374px) {
+    min-width: 30px;
+    height: 30px;
+    font-size: 12px;
   }
 }

@@ -35,6 +35,7 @@ export default class Panel extends React.Component {
       winCount,
       loseCount,
       drawCount,
+      winPrise,
       games, 
       selectedIndex,
       isGameOver,
@@ -53,6 +54,7 @@ export default class Panel extends React.Component {
       <div className={cx('container')}>
         <Jackpot jackpot={jackpot} />
         <Settlement 
+          winPrise={winPrise}
           winCount={winCount} 
           loseCount={loseCount} 
           drawCount={drawCount} 

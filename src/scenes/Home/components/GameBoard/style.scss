@@ -18,11 +18,16 @@
     margin-bottom: 55px;
     padding-bottom: 50px;
   }
+
+  @media screen and (max-width: 374px) {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+  }
 }
 
 .player {
   top: 12px;
-  left: 18%;
+  left: 25%;
   background-image: url('/assets/images/player.svg');
 
   @media screen and (max-width: 639px) {
@@ -34,6 +39,10 @@
   top: 12px;
   left: 82%;
   background-image: url('/assets/images/banker.svg');
+
+  @media screen and (max-width: 639px) {
+    left: 78%;
+  }
 }
 
 .banker,
@@ -48,5 +57,10 @@
   @media screen and (max-width: 639px) {
     width: 28px;
     height: 40px;
+  }
+
+  @media screen and (max-width: 374px) {
+    width: 22px;
+    height: 34px;
   }
 }

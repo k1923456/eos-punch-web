@@ -16,6 +16,7 @@ export default class Settlement extends React.PureComponent {
     loseCount: PropTypes.number.isRequired,
     drawCount: PropTypes.number.isRequired,
     totalPrise: PropTypes.number.isRequired,
+    winPrise: PropTypes.number.isRequired,
   }
 
   componentDidMount() {
@@ -64,6 +65,7 @@ export default class Settlement extends React.PureComponent {
   }
 
   render() {
+    const { winPrise, } = this.props;
     return (
       <div className={cx('container')}>
         <div className={cx('point-wrapper')}>
@@ -92,7 +94,7 @@ export default class Settlement extends React.PureComponent {
           </span>
           <span className={cx('prise-number')}>
             <span ref={ el => this.refPrise = el }></span>
-            <span className={cx('reward-animation')} ref={ el => this.reward = el }>+ 0.208</span>
+            <span className={cx('reward-animation')} ref={ el => this.reward = el }>{ winPrise > 0 ? `+${winPrise}` : winPrise }</span>
           </span>
           <span className={cx('unit-text')}>
             EOS

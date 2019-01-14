@@ -52,7 +52,10 @@ export default class RevealBoard extends React.Component {
 
   render() {
     const { round, isRevealed, onConfirm, } = this.props;
-    const totalPrise = round.reduce((acc, cur) => acc + cur.prise, 0);
+    const totalPrise = round.reduce((acc, cur) => {
+      const prise = Math.floor((acc + cur.prise) * 10) / 10;
+      return Number(prise);
+    }, 0);
 
     return (
       <div className={cx('container', { reveal: isRevealed })}>
@@ -77,9 +80,12 @@ export default class RevealBoard extends React.Component {
                 <span className={cx('banker', bet.banker)}></span>
                 <span className={cx('result')}>
                   <span className={cx('result-icon')}>
-                    莊贏
+                    {
+                      bet.result === 'win' ? '閒贏' :
+                      bet.result === 'lose' ? '莊贏' : '平局'
+                    }
                   </span>
-                  { bet.prise }
+                  { bet.prise > 0 ? `+${bet.prise}` : `${bet.prise}` }
                 </span>
               </div>
             ))
@@ -88,7 +94,9 @@ export default class RevealBoard extends React.Component {
           <div className={cx('total-settlement')}>
             <span className={cx('icon')}>總結算</span>
             <div className={cx('total-bet')}>
-              <span>{totalPrise}</span>
+              <span>
+                { totalPrise > 0 ? `+${totalPrise}` : `${totalPrise}` }
+              </span>
               <span className={cx('unit')}>EOS</span>
             </div>
           </div>

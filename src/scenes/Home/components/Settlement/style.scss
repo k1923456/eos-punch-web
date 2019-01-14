@@ -125,7 +125,7 @@ $FONT_SIZE_MOBILE: 13px;
   background-size: contain;
 
   &.show {
-    animation: show-reward 1s ease-in;
+    animation: show-reward 0.5s ease-in;
   }
 
   @media screen and (max-width: 639px) {
@@ -133,7 +133,7 @@ $FONT_SIZE_MOBILE: 13px;
     max-height: 15px;
 
     &.show {
-      animation: show-reward-mobile 1s ease-in;
+      animation: show-reward-mobile 0.5s ease-in;
     }
   }
 }

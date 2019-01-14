@@ -45,8 +45,12 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
   }
 
-  @media screen and (max-width: 639px) {
+  @media screen and (max-width: 374px) {
     span {
+      font-size: 12px;
+    }
+
+    a{
       font-size: 16px;
     }
   }
@@ -80,11 +84,16 @@
     font-size: 40px;
     color: #02daff;
   }
+
+  :global(.rmc-picker-indicator) {
+    border-top: 1px solid #02daff;
+    border-bottom: 1px solid #02daff;
+  }
 }
 
 .picker-item {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 70px;
+  min-height: 72px;
 }
