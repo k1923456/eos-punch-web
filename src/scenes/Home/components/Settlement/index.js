@@ -93,7 +93,7 @@ export default class Settlement extends React.PureComponent {
             淨利獎金
           </span>
           <span className={cx('prise-number')}>
-            <span ref={ el => this.refPrise = el }></span>
+            <span ref={ el => this.refPrise = el }>0.0</span>
             <span className={cx('reward-animation')} ref={ el => this.reward = el }>{ winPrise > 0 ? `+${winPrise}` : winPrise }</span>
           </span>
           <span className={cx('unit-text')}>

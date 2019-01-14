@@ -5,7 +5,7 @@ $FONT_SIZE_MOBILE: 13px;
   position: relative;
   padding-top: 16%;
   width: 100%;
-  background-image: url('../../assets/images/header-bg.png');
+  background-image: url('/assets/images/header-bg.png');
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -22,7 +22,7 @@ $FONT_SIZE_MOBILE: 13px;
   width: 100%;
   height: 100%;
 
-  @media screen and (max-width: 639px){
+  @media screen and (max-width: 639px) {
     padding-right: 15px;
     padding-left: 15px;
   }
@@ -47,11 +47,11 @@ $FONT_SIZE_MOBILE: 13px;
 
   &.leave {
     padding-left: 60px;
-    background-image: url('../../assets/images/btn-leave.svg');
+    background-image: url('/assets/images/btn-leave.svg');
   }
 
   &.info {
-    background-image: url('../../assets/images/info.svg');
+    background-image: url('/assets/images/info.svg');
   }
 
   @media screen and (max-width: 639px) {
@@ -72,7 +72,7 @@ $FONT_SIZE_MOBILE: 13px;
   display: inline-block;
   width: 220px;
   padding-top: 60%;
-  background-image: url(../../assets/images/header-logo.svg);
+  background-image: url('/assets/images/header-logo.svg');
   background-repeat: no-repeat;
   background-size: contain;
 
