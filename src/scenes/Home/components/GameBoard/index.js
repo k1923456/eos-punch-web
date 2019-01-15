@@ -11,10 +11,8 @@ export default class GameBoard extends React.Component {
   static propTypes = {
     games: PropTypes.array.isRequired,
     selectedIndex: PropTypes.number,
-    isGameOver: PropTypes.bool,
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
-    isRevealing: PropTypes.bool,
     onSelect: PropTypes.func,
     onScissorPunch: PropTypes.func,
     onStonePunch: PropTypes.func,
@@ -31,10 +29,9 @@ export default class GameBoard extends React.Component {
     const {
       games, 
       selectedIndex,
-      isGameOver,
       isDisableClean,
       isDisableRandom,
-      isRevealing,
+      isAllSelected,
       onSelect,
       onScissorPunch,
       onStonePunch,
@@ -59,25 +56,23 @@ export default class GameBoard extends React.Component {
                 result={game.result}
                 prise={game.prise}
                 isFocus={ selectedIndex === idx } 
-                isRevealing={ isRevealing }
-                isGameOver={ isGameOver }
                 onSelect={onSelect}
               />
             ))
           }
 
-          <Punch punchType="scissor" isSelected={ playerPunch === 'scissor' } onClick={onScissorPunch} />
-          <Punch punchType="stone" isSelected={ playerPunch === 'stone' } onClick={onStonePunch} />
-          <Punch punchType="paper" isSelected={ playerPunch === 'paper' } onClick={onPaperPunch} />
+          <Punch punchType="scissor" isSelected={ playerPunch === 'scissor' } hasValue={ playerPunch !== '' || isAllSelected }  onClick={onScissorPunch} />
+          <Punch punchType="stone" isSelected={ playerPunch === 'stone' } hasValue={ playerPunch !== '' || isAllSelected } onClick={onStonePunch} />
+          <Punch punchType="paper" isSelected={ playerPunch === 'paper' } hasValue={ playerPunch !== '' || isAllSelected } onClick={onPaperPunch} />
 
           <span className={cx('player')}></span>
           <span className={cx('banker')}></span>
         </div>
-        <GameBoardBottom 
+        { false && <GameBoardBottom 
           onReset={onReset} 
           onRandom={onRandom} 
           isDisableRandom={isDisableRandom}
-          isDisableClean={isDisableClean} />
+          isDisableClean={isDisableClean} />}
       </div>
     )
   }

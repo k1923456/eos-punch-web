@@ -16,6 +16,17 @@ export default class Header extends React.Component {
     e.preventDefault();
     const leaveEvent = new Event('leaveEOSPunch', {});
     document.dispatchEvent(leaveEvent);
+    
+    window.EosJavascriptInterface && this.androidLeave();
+    window.webkit && this.iosLeave();
+  }
+
+  androidLeave = () => {
+    window.EosJavascriptInterface.postMessage('leaveEOSPunch');
+  }
+
+  iosLeave = () => {
+    window.webkit.messageHandlers.EosJavascriptInterface.postMessage('leaveEOSPunch');
   }
 
   handleInfo = () => {

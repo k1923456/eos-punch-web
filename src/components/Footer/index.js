@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
+import GameBoardBottom from 'scenes/Home/components/GameBoardBottom';
 const cx = classnames.bind(style);
 
 export default class Footer extends React.Component {
@@ -9,9 +10,13 @@ export default class Footer extends React.Component {
     betValue: PropTypes.number.isRequired,
     isAutoBiddingChecked: PropTypes.bool.isRequired,
     isConfirmButtonClickable: PropTypes.bool,
+    isDisableClean: PropTypes.bool,
+    isDisableRandom: PropTypes.bool,
     onAutoBiddingClick: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onPickerClick: PropTypes.func.isRequired,
+    onReset: PropTypes.func,
+    onRandom: PropTypes.func,
   }
 
   static defaultProps = {
@@ -33,8 +38,12 @@ export default class Footer extends React.Component {
       betValue, 
       isAutoBiddingChecked,
       isConfirmButtonClickable,
+      isDisableClean,
+      isDisableRandom,
       onAutoBiddingClick,
       onPickerClick,
+      onReset,
+      onRandom,
     } = this.props;
 
     return (
@@ -74,7 +83,12 @@ export default class Footer extends React.Component {
           </a>
         </div>
 
-
+        <GameBoardBottom
+          onReset={onReset} 
+          onRandom={onRandom} 
+          isDisableRandom={isDisableRandom}
+          isDisableClean={isDisableClean}
+        />
 
       </div>
     )

@@ -19,6 +19,11 @@
   font-size: 26px;
   color: white;
   text-align: center;
+  opacity: 0.2;
+
+  &.focus {
+    opacity: 1;
+  }
 
   @media screen and (max-width: 639px) {
     font-size: 18px;
@@ -30,6 +35,7 @@
 }
 
 .field {
+  position: relative;
   display: inline-flex;
   align-items: center;
   flex: 1 1 80%;
@@ -38,14 +44,14 @@
   border-radius: 8px;
 
   .player {
-    flex: 1 1 35%;
-    justify-content: flex-end;
+    flex: 1 1 45%;
+    justify-content: center;
     font-size: 30px;
     color: white;
   }
 
   .gap {
-    flex: 1 1 30%;
+    flex: 1 1 10%;
     justify-content: center;
     align-items: center;
     padding-top: 15px;
@@ -59,11 +65,19 @@
       border-right: 2px solid rgba(#eee, 0.3);
       content: '';
     }
+
+    &.game-over {
+      opacity: 1;
+
+      &::after {
+        display: none;
+      }
+    }
   }
 
   .banker {
-    flex: 1 1 35%;
-    justify-content: flex-start;
+    flex: 1 1 45%;
+    justify-content: center;
   }
 
   .player,
@@ -71,14 +85,6 @@
   .banker {
     display: inline-flex;
     opacity: 0.5;
-  }
-
-  &.reveal {
-    .gap {
-      &::after {
-        display: none;
-      }
-    }
   }
 
   &.focus {
@@ -194,6 +200,10 @@
     height: 45px;
   }
 
+  &.revealing {
+    border: 1px solid #eee;
+  }
+
   @media screen and (max-width: 639px) {
     width: 20px;
     height: 20px;
@@ -207,12 +217,21 @@
   }
 }
 
+.point-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .point {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin-right: 40px;
-  margin-left: 40px;
   width: 100px;
   height: 32px;
   font-size: 26px;
@@ -229,18 +248,14 @@
   }
 
   @media screen and (max-width: 639px) {
-    margin-right: 20px;
-    margin-left: 20px;
     width: 60px;
     height: 20px;
     font-size: 14px;
   }
 
   @media screen and (max-width: 374px) {
-    margin-right: 20px;
-    margin-left: 20px;
-    width: 60px;
+    width: 44px;
     height: 20px;
-    font-size: 14px;
+    font-size: 10px;
   }
 }

@@ -109,7 +109,7 @@ export function calculatePriseValue(result, betValue) {
     case 'lose':
       return betValue * -1;
     case 'draw':
-      return Math.floor((betValue * 0.9) * 10) / 10;
+      return Math.floor((betValue * 0.9) * 100) / 100;
   }
 }
 
@@ -149,7 +149,8 @@ export function transformGameRecords(rawData, playerPunches, betValue) {
     ],
   };
   //FIXME: fro local development
-  rawData = MOCK;
+  // rawData = MOCK;
+  console.log('rawData', rawData)
   rawData.round = playerPunches.split(',').map(punch => {
     const banker = getRandomPunch();
     const playerPunch = CONTRACT_PUNCH_DICTIONARY[punch];

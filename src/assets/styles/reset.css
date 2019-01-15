@@ -353,5 +353,5 @@ template {
 *::before,
 *::after {
   box-sizing: inherit;
-  font-family: 'PingFang TC', 'regular', sans-serif;
+  font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }

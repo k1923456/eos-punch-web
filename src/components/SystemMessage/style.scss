@@ -6,16 +6,14 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 10%;
   width: 100%;
   height: 100vh;
-
-  @media screen and (max-width: 639px) {
-    padding-bottom: 20%;
-  }
 }
 
 .message {
+  position: absolute;
+  top: 50%;
+  left: 0;
   display: inline-flex;
   justify-content: center;
   align-items: center;

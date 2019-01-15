@@ -18,9 +18,9 @@ export default class RevealBoard extends React.Component {
   componentDidUpdate() {
     const { isRevealed, onConfirm, } = this.props;
 
-    // if(isRevealed) {
-    //   setTimeout(onConfirm, 3000);
-    // }
+    if(isRevealed) {
+      window.confirmRevealCountdown = setTimeout(onConfirm, 3000);
+    }
   }
 
   render() {
@@ -31,7 +31,7 @@ export default class RevealBoard extends React.Component {
     }, 0);
 
     return (
-      <div className={cx('container', { reveal: isRevealed })}>
+      <div className={cx('reveal-board', { reveal: isRevealed })}>
         <div className={cx('wrapper')}>
           <h1 className={cx('headline')}>本局結算</h1>
           <div className={cx('title')}>

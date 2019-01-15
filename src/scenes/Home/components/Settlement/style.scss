@@ -14,7 +14,11 @@ $FONT_SIZE_MOBILE: 13px;
   }
 
   @media screen and (max-width: 649px) {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+  }
+
+  @media screen and (max-width: 374px) {
+    margin-bottom: 5px;
   }
 }
 

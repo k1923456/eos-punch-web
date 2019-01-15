@@ -16,10 +16,8 @@ export default class Panel extends React.Component {
     totalPrise: PropTypes.number.isRequired,
     games: PropTypes.array.isRequired,
     selectedIndex: PropTypes.number,
-    isGameOver: PropTypes.bool,
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
-    isRevealing: PropTypes.bool,
     onSelect: PropTypes.func,
     onScissorPunch: PropTypes.func,
     onStonePunch: PropTypes.func,
@@ -38,10 +36,9 @@ export default class Panel extends React.Component {
       winPrise,
       games, 
       selectedIndex,
-      isGameOver,
       isDisableClean,
       isDisableRandom,
-      isRevealing,
+      isAllSelected,
       onSelect,
       onScissorPunch,
       onStonePunch,
@@ -63,10 +60,9 @@ export default class Panel extends React.Component {
         <GameBoard 
           games={games} 
           selectedIndex={selectedIndex} 
-          isGameOver={isGameOver}
           isDisableClean={isDisableClean}
           isDisableRandom={isDisableRandom}
-          isRevealing={isRevealing}
+          isAllSelected={isAllSelected}
           onSelect={onSelect}
           onScissorPunch={onScissorPunch}
           onStonePunch={onStonePunch}

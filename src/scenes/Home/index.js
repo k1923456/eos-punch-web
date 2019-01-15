@@ -34,7 +34,7 @@ export default class Home extends React.Component {
     accountName: '',
     keyProvider: '',
     balance: 10,
-    betValue: 1,
+    betValue: 0.5,
     games: [
       {
         id: 0,
@@ -97,8 +97,6 @@ export default class Home extends React.Component {
     window.setTimeout(() => {
       this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
     }, 500);
-
-
   }
 
   fetchJackpot = () => {
@@ -131,11 +129,18 @@ export default class Home extends React.Component {
   handleToggleAutoBidding = () => {
     this.setState({
       isAutoBiddingChecked: !this.state.isAutoBiddingChecked,
+    }, () => {
+      // window.setTimeout(this.handleConfirm(), 0);
     });
   }
 
   // 關閉結算揭示板
   handleCloseReveal = () => {
+    if(window.confirmRevealCountdown) {
+      console.log('AA');
+      clearTimeout(window.confirmRevealCountdown);
+    }
+
     const {
       games,
       winCount: loseWinCount,
@@ -260,7 +265,7 @@ export default class Home extends React.Component {
 
       const nextIndex = getNextBetFieldIndex(this.state.games);
       this.functionRandom(nextIndex)();
-    }, 500);
+    }, 200);
   }
 
   // 出拳
@@ -287,7 +292,7 @@ export default class Home extends React.Component {
 
       const nextIndex = getNextBetFieldIndex(this.state.games);
       this.functionRandom(nextIndex)();
-    }, 500);
+    }, 100);
   }
 
   // 開獎
@@ -301,30 +306,75 @@ export default class Home extends React.Component {
     this.setState({
       isAutoBidding: false,
       isRevealing: true,
-      selectedIndex: 0,
     });
 
     const punches = games.sort((a, b) => a.id - b.id).map(game => game.player).join(','); // sort player punches in ascending by id
+    console.log('punches', punches)
     const totalBetValue = betValue * 5;
     const memo = translatePunches('api', punches).join('');
-    const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue.toString(), memo);
+    console.log('memo', memo)
+
+    // const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
     const { rows, } = await apiFetchGameRecords(window.eos);
     const userRecord = rows.find(row => row.userName === accountName);
     const gameResult = transformGameRecords(userRecord, punches, betValue);
 
+    const newGames = [
+      {
+        id: 0,
+        player: 'revealing',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 1,
+        player: 'revealing',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 2,
+        player: 'revealing',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 3,
+        player: 'revealing',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 4,
+        player: 'revealing',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+    ];
+
+    this.setState({
+      games: newGames,
+    });
+
     (async () => {
       for (let index = 0; index < gameResult.round.length; index++) {
-        const t = games.slice();
-        t[index].banker = gameResult.round[index].banker;
-        t[index].result = gameResult.round[index].result;
-        t[index].prise = gameResult.round[index].prise;
+        newGames[index].player = gameResult.round[index].banker;
+        newGames[index].banker = gameResult.round[index].banker;
+        newGames[index].result = gameResult.round[index].result;
+        newGames[index].prise = gameResult.round[index].prise;
         const selectedIndex = index + 1;
         this.setState({
-          games: t,
+          isGameOver: true,
+          games: newGames,
           selectedIndex,
         });
 
-        await new Promise(r => window.setTimeout(r, 500));
+        await new Promise(r => window.setTimeout(r, 200));
       }
 
       this.stepGameOver();
@@ -333,14 +383,11 @@ export default class Home extends React.Component {
 
   stepGameOver = async () => {
     await new Promise(r => window.setTimeout(r, 1000));
-
-    this.setState({
-      isGameOver: true,
-    }, this.stepReveal);
+    this.stepReveal();
   }
 
   stepReveal = async () => {
-    await new Promise(r => window.setTimeout(r, 3000));
+    await new Promise(r => window.setTimeout(r, 2000));
 
     this.setState({
       isRevealed: true,
@@ -387,23 +434,24 @@ export default class Home extends React.Component {
           winPrise={animationWinPrise}
           selectedIndex={selectedIndex}
           isGameOver={isGameOver}
-          isRevealing={isRevealing}
-          isDisableClean={isDisableClean}
-          isDisableRandom={isDisableRandom}
+          isAllSelected={isAllSelected}
           onSelect={this.handleBetFieldSelected}
           onScissorPunch={this.handleScissorPunch}
           onStonePunch={this.handleStonePunch}
           onPaperPunch={this.handlePaperPunch}
-          onReset={this.handleReset}
-          onRandom={this.handleRandom}
         />
         <Footer
           betValue={betValue}
           isAutoBiddingChecked={isAutoBiddingChecked}
           isConfirmButtonClickable={isConfirmButtonClickable}
+          isDisableClean={isDisableClean}
+          isDisableRandom={isDisableRandom}
           onAutoBiddingClick={this.handleToggleAutoBidding}
           onPickerClick={this.handleTogglePicker}
           onConfirm={this.handleConfirm}
+          onReset={this.handleReset}
+          onRandom={this.handleRandom}
+
         />
         {
           isShowHowToPlay &&

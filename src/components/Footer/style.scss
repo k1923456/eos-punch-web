@@ -3,7 +3,7 @@ $FONT_SIZE_MOBILE: 13px;
 $FONT_COLOR: white;
 
 .container {
-  position: absolute;
+  position: relative;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -11,6 +11,7 @@ $FONT_COLOR: white;
   background-image: url('/assets/images/footer.png');
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: bottom;
 
   &::after {
     display: block;
@@ -208,6 +209,8 @@ $FONT_COLOR: white;
 }
 
 .confirm {
+  position: relative;
+  z-index: 10;
   display: inline-flex;
   width: 100%;
   max-width: 221px;

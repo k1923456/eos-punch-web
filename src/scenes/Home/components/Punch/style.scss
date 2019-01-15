@@ -79,7 +79,6 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH});
   }
 
   &:active {
-    background-image: url('/assets/images/btn-stone-blur.svg');
     transform: scale(0.9);
 
     &::after {
@@ -117,7 +116,6 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH});
   }
 
   &:active {
-    background-image: url('/assets/images/btn-paper-blur.svg');
     transform: scale(0.9);
 
     &::after {
@@ -168,5 +166,69 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH});
     height: $SIZE_I5 / 2 + 4px;
     border-bottom-left-radius: $SIZE_I5;
     border-bottom-right-radius: $SIZE_I5;
+  }
+}
+
+:global(.shine) {
+  &.scissor {
+    background-image: url('/assets/images/btn-scissor-blur.svg');
+  }
+
+  &.paper {
+    background-image: url('/assets/images/btn-paper-blur.svg');
+  }
+
+  &.stone {
+    background-image: url('/assets/images/btn-stone-blur.svg');
+  }
+}
+
+.hesitation {
+  &.scissor {
+    animation: scissor-shine 0.5s 0s infinite linear;
+  }
+
+  &.stone {
+    animation: stone-shine 0.5s 0s infinite linear;
+  }
+
+  &.paper {
+    animation: paper-shine 0.5s 0s infinite linear;
+  }
+}
+
+@keyframes scissor-shine {
+  0%,
+  20% {
+    background-image: url('/assets/images/btn-scissor-blur.svg');
+  }
+
+  30%,
+  100% {
+    background-image: url('/assets/images/btn-scissor-dark.svg');
+  }
+}
+
+@keyframes stone-shine {
+  40%,
+  50% {
+    background-image: url('/assets/images/btn-stone-blur.svg');
+  }
+
+  60%,
+  100% {
+    background-image: url('/assets/images/btn-stone-dark.svg');
+  }
+}
+
+@keyframes paper-shine {
+  0%,
+  70% {
+    background-image: url('/assets/images/btn-paper-dark.svg');
+  }
+
+  80%,
+  100% {
+    background-image: url('/assets/images/btn-paper-blur.svg');
   }
 }

@@ -14,7 +14,6 @@ export default class BetField extends React.Component {
     result: PropTypes.string.isRequired,
     isFocus: PropTypes.bool.isRequired,
     isGameOver: PropTypes.bool.isRequired,
-    isRevealing: PropTypes.bool.isRequired,
     onSelect: PropTypes.func,
   }
 
@@ -28,6 +27,31 @@ export default class BetField extends React.Component {
     isGameOver: false,
   }
 
+  renderPlayerPunch = (player, result, isHesitation) => {
+    if(isHesitation) {
+      return <Hesitation />;
+    }
+
+    if(!isHesitation && !player) {
+      return (<span>請選擇</span>);
+    }
+
+    switch (player) {
+      case 'revealing':
+        return (
+          <span className={cx('mark', 'revealing')}></span>
+        );
+      case 'scissor':
+      case 'paper':
+      case 'stone':
+        return (
+          <span className={cx('mark', player, result, { reveal: !!result })}></span>
+        );
+      default:
+          return null;
+    }
+  }
+
   render() {
     const {
       index,
@@ -36,37 +60,30 @@ export default class BetField extends React.Component {
       prise,
       result,
       isFocus,
-      isGameOver,
-      isRevealing,
       onSelect,
     } = this.props;
 
     const isHesitation = isFocus && !player;
-    const isBankerCalculating = isRevealing && isFocus && !banker;
-    const isSelected = player !== '';
+    const isSelected = player !== '' && player !== 'revealing';
+    const reveal = !!result;
+    const winMoney = result === 'win' || result === 'draw';
 
     return (
       <div className={cx('container')} onClick={onSelect(index)}>
-        <span className={cx('title')}>
+        <span className={cx('title', { focus: isFocus })}>
           注{index + 1}
         </span>
 
-        <div className={cx('field', { focus: isFocus, selected: isSelected, reveal: isGameOver, win: result === 'win' })}>
+        <div className={cx('field', { focus: isFocus, selected: isSelected, reveal, win: winMoney })}>
           <span className={cx('player')}>
             {
-              isHesitation && <Hesitation />
-            }
-            {!isHesitation && !player && <span>請選擇</span>}
-            {
-              player &&
-              <span className={cx('mark', player, result, { reveal: isGameOver })}></span>
+              this.renderPlayerPunch(player, result, isHesitation)
             }
           </span>
 
-
-          <span className={cx('gap')}>
+          <span className={cx('gap', { 'game-over': !!prise })}>
             {
-              isGameOver &&
+              !!prise && false &&
               <span className={cx('point', result)}>
                 { prise > 0 ? `+${prise}`: prise }
               </span>
@@ -75,17 +92,28 @@ export default class BetField extends React.Component {
 
           <span className={cx('banker')}>
             <span className={cx('mark', banker, {
-              question: !isBankerCalculating,
+              question: !banker,
               win: result === 'lose',
               lose: result === 'win',
               draw: result === 'draw',
-              reveal: isGameOver
+              reveal,
             })}>
               {
-                isBankerCalculating && <Hesitation />
+                false && <Hesitation />
               }
             </span>
           </span>
+
+          {
+            !!prise && 
+            <div className={cx('point-wrapper')}>
+              <span className={cx('point', result)}>
+                { prise > 0 ? `+${prise}`: prise }
+              </span>
+            </div>
+          }
+
+
         </div>
       </div>
     )
