@@ -9,6 +9,7 @@ import SystemMessage from 'components/SystemMessage';
 import RevealBoard from 'components/RevealBoard';
 import Panel from './components/Panel';
 import Picker from 'components/Picker';
+import ErrorMessage from 'components/ErrorMessage';
 import * as EosHelper from 'services/EosHelper';
 import {
   getNextBetFieldIndex,
@@ -80,6 +81,7 @@ export default class Home extends React.Component {
     drawCount: 0,
     totalPrise: 0,
     animationWinPrise: 0,
+    errorMessage: '',
     isLoading: true,
     isAllSelected: false,             // 五個選項皆已下注
     isBankerPunchDone: false,         // 莊家出完拳
@@ -90,6 +92,7 @@ export default class Home extends React.Component {
     isRevealed: false,                // 當局結算
     isShowHowToPlay: false,
     isShowPicker: false,
+    isShowErrorMessage: false,
   }
 
   componentDidMount() {
@@ -129,14 +132,12 @@ export default class Home extends React.Component {
   handleToggleAutoBidding = () => {
     this.setState({
       isAutoBiddingChecked: !this.state.isAutoBiddingChecked,
-    }, () => {
-      // window.setTimeout(this.handleConfirm(), 0);
-    });
+    }, this.handleConfirm);
   }
 
   // 關閉結算揭示板
   handleCloseReveal = () => {
-    if(window.confirmRevealCountdown) {
+    if (window.confirmRevealCountdown) {
       console.log('AA');
       clearTimeout(window.confirmRevealCountdown);
     }
@@ -170,7 +171,7 @@ export default class Home extends React.Component {
       animationWinPrise,
     });
 
-    if(isAutoBiddingChecked && balance >= totalBetValue) {
+    if (isAutoBiddingChecked && balance >= totalBetValue) {
       this.handleAutoBetting();
     }
   }
@@ -211,7 +212,7 @@ export default class Home extends React.Component {
       selectedIndex,
     } = this.state;
 
-    if(!specifyIndex && selectedIndex === -1) {
+    if (!specifyIndex && selectedIndex === -1) {
       return;
     }
 
@@ -244,10 +245,14 @@ export default class Home extends React.Component {
     this.setState({
       games: newGames,
       selectedIndex: 0,
+      errorMessage: '',
       isGameOver: false,
       isAllSelected: false,
       isBankerPunchDone: false,
       isRevealed: false,
+      isAutoBidding: false,
+      isRevealing: false,
+      isShowErrorMessage: false,
     });
   }
 
@@ -309,12 +314,30 @@ export default class Home extends React.Component {
     });
 
     const punches = games.sort((a, b) => a.id - b.id).map(game => game.player).join(','); // sort player punches in ascending by id
-    console.log('punches', punches)
     const totalBetValue = betValue * 5;
     const memo = translatePunches('api', punches).join('');
+    console.log('punches', punches)
     console.log('memo', memo)
 
-    // const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
+    try {
+      const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
+      this.revealResult(accountName, punches, betValue);
+    } catch (errorString) {
+      const { error, } = JSON.parse(errorString);
+      console.log('error', error)
+      switch(error.code) {
+        case 3080004:
+        default:
+          this.setState({
+            errorMessage: '帳戶 CPU 不足，下注失敗',
+            isShowErrorMessage: true,
+          });
+          break;
+      }
+    }
+  }
+
+  revealResult = async (accountName, punches, betValue) => {
     const { rows, } = await apiFetchGameRecords(window.eos);
     const userRecord = rows.find(row => row.userName === accountName);
     const gameResult = transformGameRecords(userRecord, punches, betValue);
@@ -406,6 +429,7 @@ export default class Home extends React.Component {
       animationWinPrise,
       selectedIndex,
       betValue,
+      errorMessage,
       isLoading,
       isAllSelected,
       isAutoBiddingChecked,
@@ -415,6 +439,7 @@ export default class Home extends React.Component {
       isRevealed,
       isShowHowToPlay,
       isShowPicker,
+      isShowErrorMessage,
     } = this.state;
 
     const isDisableClean = isAutoBidding || isRevealing || games.filter(game => game.player !== '').length === 0;
@@ -475,6 +500,13 @@ export default class Home extends React.Component {
           isRevealed={isRevealed}
           onConfirm={this.handleCloseReveal}
         />
+        {
+          isShowErrorMessage && 
+          <ErrorMessage 
+            errorMessage={errorMessage} 
+            onClose={this.handleReset}
+          />
+        }
         {
           isLoading && <Loading />
         }
