@@ -114,43 +114,6 @@ export function calculatePriseValue(result, betValue) {
 }
 
 export function transformGameRecords(rawData, playerPunches, betValue) {
-  const MOCK = {
-    round: [
-      {
-        playerPunch: 1,
-        bankerPunch: 2,
-        state: -1,
-        value: -0.1,
-      },
-      {
-        playerPunch: 1,
-        bankerPunch: 2,
-        state: -1,
-        value: -0.1,
-      },
-      {
-        playerPunch: 1,
-        bankerPunch: 2,
-        state: -1,
-        value: -0.1,
-      },
-      {
-        playerPunch: 1,
-        bankerPunch: 2,
-        state: -1,
-        value: -0.1,
-      },
-      {
-        playerPunch: 1,
-        bankerPunch: 2,
-        state: -1,
-        value: -0.1,
-      },
-    ],
-  };
-  //FIXME: fro local development
-  // rawData = MOCK;
-  console.log('rawData', rawData)
   rawData.round = playerPunches.split(',').map(punch => {
     const banker = getRandomPunch();
     const playerPunch = CONTRACT_PUNCH_DICTIONARY[punch];

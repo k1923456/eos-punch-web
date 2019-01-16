@@ -23,7 +23,6 @@ import {
   apiJackpot,
 } from 'services/ContractAPIs';
 
-
 const cx = classnames.bind(style);
 const JUNGLE_TEST_NET = {
   chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
@@ -97,9 +96,9 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     // FIXME: for development, should be removed.
-    window.setTimeout(() => {
-      this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
-    }, 500);
+    // window.setTimeout(() => {
+    //   this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
+    // }, 500);
   }
 
   fetchJackpot = () => {
@@ -354,16 +353,21 @@ export default class Home extends React.Component {
     const punches = games.sort((a, b) => a.id - b.id).map(game => game.player).join(','); // sort player punches in ascending by id
     const totalBetValue = betValue * 5;
     const memo = translatePunches('api', punches).join('');
-    console.log('punches', punches)
-    console.log('memo', memo)
 
     try {
-      // const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
+      await new Promise(r => window.setTimeout(r, 1000));
+      const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
       this.revealResult(accountName, punches, betValue);
     } catch (errorString) {
       const { error, } = JSON.parse(errorString);
       console.log('error', error)
       switch(error.code) {
+        case 3050003:
+          this.setState({
+            errorMessage: '帳戶餘額不足，下注失敗',
+            isShowErrorMessage: true,
+          });
+          break;
         case 3080004:
         default:
           this.setState({
@@ -379,7 +383,6 @@ export default class Home extends React.Component {
     const { rows, } = await apiFetchGameRecords(window.eos);
     const userRecord = rows.find(row => row.userName === accountName);
     const gameResult = transformGameRecords(userRecord, punches, betValue);
-
     const newGames = [
       {
         id: 0,
@@ -424,7 +427,7 @@ export default class Home extends React.Component {
 
     (async () => {
       for (let index = 0; index < gameResult.round.length; index++) {
-        newGames[index].player = gameResult.round[index].banker;
+        newGames[index].player = gameResult.round[index].player;
         newGames[index].banker = gameResult.round[index].banker;
         newGames[index].result = gameResult.round[index].result;
         newGames[index].prise = gameResult.round[index].prise;
@@ -443,7 +446,6 @@ export default class Home extends React.Component {
   }
 
   stepGameOver = async () => {
-    await new Promise(r => window.setTimeout(r, 1000));
     this.stepReveal();
   }
 

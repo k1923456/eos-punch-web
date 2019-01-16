@@ -24,9 +24,6 @@ export default class RevealBoard extends React.Component {
   }
 
   componentDidUpdate() {
-    /**
-     * FIXME: this component's state control is suck, should refactor
-     */
     const { isRevealed, } = this.props;
 
     if(isRevealed) {
@@ -39,11 +36,17 @@ export default class RevealBoard extends React.Component {
         this.setState({
           seconds,
         }, () => {
+
+          /**
+           * FIXME: this component's state control is suck, should refactor
+           */
           if(seconds <= 0) {
             this.handleConfirm();
-            this.setState({
-              seconds: 3,
-            });
+            setTimeout(()=>{
+              this.setState({
+                seconds: 3,
+              })
+            }, 1000);
           }
         });
       }, 1000);

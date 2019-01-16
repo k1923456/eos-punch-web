@@ -21,7 +21,7 @@ export default class Jackpot extends React.PureComponent {
       el: this.numberScroll,
       value: jackpot,
       format: '(,ddd).dd',
-      theme: 'default'
+      theme: 'default',
     });
   }
 

@@ -1,4 +1,4 @@
-const CONTRACT = 'santai123123';
+const CONTRACT = 'santai333333';
 const GAME_RECORDS_TABLE = 'users';
 const JACKPOT_TABLE = 'states';
 
@@ -13,10 +13,6 @@ const JACKPOT_TABLE = 'states';
 export function apiBetPunch(eosInstance, accountName, quantity, playerPunches) {
   const strQty = quantity.toString();
   const assets = strQty.indexOf('.') !== -1 ? `${strQty.padEnd(6, '0')} EOS` : `${strQty}.0000 EOS`;
-  console.log('accountName', accountName);
-  console.log('CONTRACT', CONTRACT);
-  console.log('assets', assets);
-  console.log('playerPunches', playerPunches);
   return eosInstance.transfer(accountName, CONTRACT, assets, playerPunches);
 }
 
@@ -40,6 +36,30 @@ export function apiJackpot(eosInstance) {
     code: CONTRACT, 
     table: JACKPOT_TABLE, 
     scope: CONTRACT
+  });
+}
+
+export function apiPostTransactionToGameContract(eosInstance, from, quantity, memo) {
+  const strQty = quantity.toString();
+  const assets = strQty.indexOf('.') !== -1 ? `${strQty.padEnd(6, '0')} EOS` : `${strQty}.0000 EOS`;
+
+  return eosInstance.transaction({
+    actions: [
+      {
+        account: 'eosio.token',
+        name: 'transfer',
+        authorization: [{
+          actor: from,
+          permission: 'active',
+        }],
+        data: {
+          from,
+          to: CONTRACT,
+          quantity: assets,
+          memo,
+        }
+      }
+    ]
   });
 }
 

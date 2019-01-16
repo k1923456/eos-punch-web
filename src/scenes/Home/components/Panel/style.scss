@@ -18,21 +18,27 @@
     min-height: calc(100vh - 40px - 77px);
   }
 
-  /* Galaxy S5 */
-  @media screen and (max-width: 360px) and (min-height: 640px) {
-    padding: 15px 20px 52px;
-    min-height: calc(100vh - 40px - 86px);
-  }
-
   /* Pixel 2 */
   @media screen and (max-width: 414px) and (min-height: 731px) {
     padding: 15px 20px 80px;
     min-height: calc(100vh - 40px - 99px);
   }
 
+  /* iPhone X App */
+  @media screen and (max-width: 375px) and (min-height: 635px) {
+    padding: 15px 20px 80px;
+    min-height: calc(100vh - 40px - 90px);
+  }
+
   /* iPhone X */
   @media screen and (max-width: 375px) and (min-height: 812px) {
     padding: 20px 20px 90px;
     min-height: calc(100vh - 40px - 90px);
+  }
+
+  /* Galaxy S5 */
+  @media screen and (max-width: 360px) and (min-height: 640px) {
+    padding: 15px 20px 52px;
+    min-height: calc(100vh - 40px - 86px);
   }
 }
