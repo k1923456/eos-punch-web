@@ -63,3 +63,6 @@ export function apiPostTransactionToGameContract(eosInstance, from, quantity, me
   });
 }
 
+export function apiFetchAccountInfo(eosInstance, accountName) {
+  return eosInstance.getAccount(accountName);
+}

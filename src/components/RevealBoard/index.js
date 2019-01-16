@@ -60,6 +60,8 @@ export default class RevealBoard extends React.Component {
   }
 
   handleCancel = () => {
+    clearInterval(this.countdown);
+    this.countdown = null;
     this.props.onCancel();
   }
 
@@ -67,7 +69,7 @@ export default class RevealBoard extends React.Component {
     const { seconds, } = this.state;
     const { round, isRevealed, isAutoBiddingChecked, } = this.props;
     const totalPrise = round.reduce((acc, cur) => {
-      const prise = Math.floor((acc + cur.prise) * 10) / 10;
+      const prise = Math.floor((acc + cur.prise) * 100) / 100;
       return Number(prise);
     }, 0);
 

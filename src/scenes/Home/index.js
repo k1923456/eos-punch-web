@@ -21,6 +21,7 @@ import {
   apiBetPunch,
   apiFetchGameRecords,
   apiJackpot,
+  apiFetchAccountInfo,
 } from 'services/ContractAPIs';
 
 const cx = classnames.bind(style);
@@ -101,13 +102,25 @@ export default class Home extends React.Component {
     // }, 500);
   }
 
-  fetchJackpot = () => {
+  updateJackpot = () => {
     apiJackpot(window.eos).then(result => {
       const { jackpot, } = result.rows[0];
       this.setState({
         jackpot: jackpot / 10000,
       });
     });
+  }
+
+  fetchAccountInfo = async () => {
+    const { accountName, } = this.state;
+    const { core_liquid_balance, } = await apiFetchAccountInfo(window.eos, accountName);
+    if(!core_liquid_balance) {
+      return 0;
+    }
+
+    const str = core_liquid_balance.split(' ').shift();
+    const balance = Math.floor(Number(str) * 100) / 100;
+    return balance;
   }
 
   connect = async (accountName, keyProvider, balance = 10) => {
@@ -119,7 +132,7 @@ export default class Home extends React.Component {
     });
 
     window.eos = EosHelper.createEosInstance(JUNGLE_TEST_NET.chainId, JUNGLE_TEST_NET.httpEndpoint, keyProvider, `${accountName}@active`);
-    this.fetchJackpot();
+    this.updateJackpot();
   }
 
   handleToggleHowToPlay = () => {
@@ -134,10 +147,36 @@ export default class Home extends React.Component {
     }, this.handleConfirm);
   }
 
+  handleCloseErrorMessage = () => {
+    const { games, } = this.state;
+    const newGames = games.map((game, idx) => (
+      {
+        id: idx,
+        player: '',
+        banker: '',
+        result: '',
+        prise: 0,
+      }
+    ));
+
+    this.setState({
+      games: newGames,
+      selectedIndex: 0,
+      errorMessage: '',
+      isGameOver: false,
+      isAllSelected: false,
+      isBankerPunchDone: false,
+      isRevealed: false,
+      isAutoBidding: false,
+      isRevealing: false,
+      isShowErrorMessage: false,
+      isAutoBiddingChecked: false,
+    });
+  }
+
   // 關閉結算揭示板
   handleCloseReveal = () => {
     if (window.confirmRevealCountdown) {
-      console.log('AA');
       clearTimeout(window.confirmRevealCountdown);
     }
 
@@ -147,21 +186,20 @@ export default class Home extends React.Component {
       loseCount: lastLoseCount,
       drawCount: lastDrawCount,
       totalPrise: lastTotalPrise,
-      balance: lastBalance,
       isAutoBiddingChecked,
       betValue,
+      balance,
     } = this.state;
 
     const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
     const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
-    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 10) / 10, 0);
+    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 100) / 100, 0);
     const totalPrise = lastTotalPrise + animationWinPrise;
-    const balance = lastBalance + totalPrise;
     const totalBetValue = betValue * 5;
 
     this.handleReset();
-    this.fetchJackpot();
+    this.updateJackpot();
     this.setState({
       winCount,
       loseCount,
@@ -187,21 +225,16 @@ export default class Home extends React.Component {
       loseCount: lastLoseCount,
       drawCount: lastDrawCount,
       totalPrise: lastTotalPrise,
-      balance: lastBalance,
-      isAutoBiddingChecked,
-      betValue,
     } = this.state;
 
     const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
     const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
-    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 10) / 10, 0);
+    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 100) / 100, 0);
     const totalPrise = lastTotalPrise + animationWinPrise;
-    const balance = lastBalance + totalPrise;
-    const totalBetValue = betValue * 5;
 
     this.handleReset();
-    this.fetchJackpot();
+    this.updateJackpot();
     this.setState({
       winCount,
       loseCount,
@@ -451,10 +484,11 @@ export default class Home extends React.Component {
 
   stepReveal = async () => {
     await new Promise(r => window.setTimeout(r, 2000));
-
+    const balance = await this.fetchAccountInfo();
     this.setState({
       isRevealed: true,
       isRevealing: false,
+      balance,
     });
   }
 
@@ -546,7 +580,7 @@ export default class Home extends React.Component {
           isShowErrorMessage && 
           <ErrorMessage 
             errorMessage={errorMessage} 
-            onClose={this.handleReset}
+            onClose={this.handleCloseErrorMessage}
           />
         }
         {
