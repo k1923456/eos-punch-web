@@ -12,7 +12,7 @@
 
 .message {
   position: absolute;
-  top: 70%;
+  top: 75%;
   left: 0;
   display: inline-flex;
   justify-content: center;
@@ -41,5 +41,10 @@
 
   @media screen and (max-width: 639px) {
     font-size: 28px;
+  }
+
+  /* iPhone X height */
+  @media screen and (max-height: 1366px) {
+    top: 80%;
   }
 }
