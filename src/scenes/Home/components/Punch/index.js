@@ -56,9 +56,9 @@ export default class Punch extends React.Component {
     this[animation] = window.setInterval(async () => {
       await this.wait(this.getTime(punchType));
       this.punchRef.classList.add('shine');
-      await this.wait(200);
+      await this.wait(100);
       this.punchRef.classList.remove('shine');
-    }, 1000);
+    }, 500);
   }
 
   wait = (ms) => {
@@ -73,7 +73,7 @@ export default class Punch extends React.Component {
         return 200;
       case 'paper':
       default:
-        return 400;
+        return 300;
     }
   }
 

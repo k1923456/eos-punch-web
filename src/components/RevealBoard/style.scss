@@ -325,10 +325,13 @@
 }
 
 .buttons {
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.confirm {
+.confirm,
+.cancel-auto {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -337,7 +340,7 @@
   background-image: url('/assets/images/btn-agree.png');
   background-size: contain;
   background-repeat: no-repeat;
-  font-size: 36px;
+  font-size: 31px;
   color: white;
   cursor: pointer;
   user-select: none;

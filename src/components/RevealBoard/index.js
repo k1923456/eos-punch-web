@@ -5,33 +5,71 @@ import style from './style.scss';
 const cx = classnames.bind(style);
 
 export default class RevealBoard extends React.Component {
+  test = React.createRef();
+
   static propTypes = {
     round: PropTypes.array,
     isRevealed: PropTypes.bool,
+    isAutoBiddingChecked: PropTypes.bool,
     onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isRevealed: false,
   }
 
+  state = {
+    seconds: 3,
+  }
+
   componentDidUpdate() {
-    const { isRevealed, onConfirm, } = this.props;
+    /**
+     * FIXME: this component's state control is suck, should refactor
+     */
+    const { isRevealed, } = this.props;
 
     if(isRevealed) {
-      window.confirmRevealCountdown = setTimeout(onConfirm, 3000);
+      if(this.countdown) {
+        return;
+      }
+      this.countdown = setInterval(() => {
+        const { seconds: lastSeconds, } = this.state;
+        const seconds = lastSeconds - 1;
+        this.setState({
+          seconds,
+        }, () => {
+          if(seconds <= 0) {
+            this.handleConfirm();
+            this.setState({
+              seconds: 3,
+            });
+          }
+        });
+      }, 1000);
     }
   }
 
+  handleConfirm = () => {
+    clearInterval(this.countdown);
+    this.countdown = null;
+    this.props.onConfirm();
+  }
+
+  handleCancel = () => {
+    this.props.onCancel();
+  }
+
   render() {
-    const { round, isRevealed, onConfirm, } = this.props;
+    const { seconds, } = this.state;
+    const { round, isRevealed, isAutoBiddingChecked, } = this.props;
     const totalPrise = round.reduce((acc, cur) => {
       const prise = Math.floor((acc + cur.prise) * 10) / 10;
       return Number(prise);
     }, 0);
 
     return (
-      <div className={cx('reveal-board', { reveal: isRevealed })}>
+      <div ref={ el => this.test = el } className={cx('reveal-board', { reveal: isRevealed })}>
         <div className={cx('wrapper')}>
           <h1 className={cx('headline')}>本局結算</h1>
           <div className={cx('title')}>
@@ -74,7 +112,8 @@ export default class RevealBoard extends React.Component {
             </div>
           </div>
           <div className={cx('buttons')}>
-            <a className={cx('confirm')} onClick={onConfirm}>確定</a>
+            <a className={cx('confirm')} onClick={this.handleConfirm}>{`確定 ${seconds}s`}</a>
+            { isAutoBiddingChecked && <a className={cx('cancel-auto')} onClick={this.handleCancel}>取消自動下注</a> }
           </div>
         </div>
       </div>

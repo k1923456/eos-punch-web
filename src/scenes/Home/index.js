@@ -176,6 +176,44 @@ export default class Home extends React.Component {
     }
   }
 
+  // 關閉結算揭示板與自動下注
+  handleCloseRevealAndCancelAuto = () => {
+    if (window.confirmRevealCountdown) {
+      clearTimeout(window.confirmRevealCountdown);
+    }
+
+    const {
+      games,
+      winCount: loseWinCount,
+      loseCount: lastLoseCount,
+      drawCount: lastDrawCount,
+      totalPrise: lastTotalPrise,
+      balance: lastBalance,
+      isAutoBiddingChecked,
+      betValue,
+    } = this.state;
+
+    const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
+    const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
+    const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
+    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 10) / 10, 0);
+    const totalPrise = lastTotalPrise + animationWinPrise;
+    const balance = lastBalance + totalPrise;
+    const totalBetValue = betValue * 5;
+
+    this.handleReset();
+    this.fetchJackpot();
+    this.setState({
+      winCount,
+      loseCount,
+      drawCount,
+      totalPrise,
+      animationWinPrise,
+      isAutoBidding: false,
+      isAutoBiddingChecked: false,
+    });
+  }
+
   handleBetValueChange = betValue => {
     this.setState({
       betValue,
@@ -320,7 +358,7 @@ export default class Home extends React.Component {
     console.log('memo', memo)
 
     try {
-      const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
+      // const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
       this.revealResult(accountName, punches, betValue);
     } catch (errorString) {
       const { error, } = JSON.parse(errorString);
@@ -498,7 +536,9 @@ export default class Home extends React.Component {
         <RevealBoard
           round={games}
           isRevealed={isRevealed}
+          isAutoBiddingChecked={isAutoBiddingChecked}
           onConfirm={this.handleCloseReveal}
+          onCancel={this.handleCloseRevealAndCancelAuto}
         />
         {
           isShowErrorMessage && 
