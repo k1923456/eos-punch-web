@@ -42,11 +42,6 @@ export default class RevealBoard extends React.Component {
            */
           if(seconds <= 0) {
             this.handleConfirm();
-            setTimeout(()=>{
-              this.setState({
-                seconds: 3,
-              })
-            }, 1000);
           }
         });
       }, 1000);
@@ -57,12 +52,22 @@ export default class RevealBoard extends React.Component {
     clearInterval(this.countdown);
     this.countdown = null;
     this.props.onConfirm();
+    setTimeout(()=>{
+      this.setState({
+        seconds: 3,
+      });
+    }, 1000);
   }
 
   handleCancel = () => {
     clearInterval(this.countdown);
     this.countdown = null;
     this.props.onCancel();
+    setTimeout(()=>{
+      this.setState({
+        seconds: 3,
+      });
+    }, 1000);
   }
 
   render() {
