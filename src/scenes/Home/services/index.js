@@ -109,11 +109,26 @@ export function calculatePriseValue(result, betValue) {
     case 'lose':
       return betValue * -1;
     case 'draw':
-      return Math.floor((betValue * 0.9) * 100) / 100;
+      return (Math.floor((betValue * 0.1) * 100) / 100) * -1;
   }
 }
 
 export function transformGameRecords(rawData, playerPunches, betValue) {
+  const { round, } = rawData;
+  const data = round.reduce((acc, cur) => {
+    acc.round.push({
+      player: HUMAN_PUNCH_DICTIONARY[cur.playerPunch],
+      banker: HUMAN_PUNCH_DICTIONARY[cur.bankerPunch],
+      result: CONTRACT_BET_RESULT_DICTIONARY[cur.state],
+      prise: cur.value,
+    });
+    acc.totalPrise += cur.value;
+    return acc;
+  }, { round: [], totalPrise: 0 });
+  return data;
+}
+
+export function localDevelop(rawData, playerPunches, betValue) {
   rawData.round = playerPunches.split(',').map(punch => {
     const banker = getRandomPunch();
     const playerPunch = CONTRACT_PUNCH_DICTIONARY[punch];
@@ -129,18 +144,4 @@ export function transformGameRecords(rawData, playerPunches, betValue) {
       value,
     });
   });
-
-  const { round, } = rawData;
-  const data = round.reduce((acc, cur) => {
-    acc.round.push({
-      player: HUMAN_PUNCH_DICTIONARY[cur.playerPunch],
-      banker: HUMAN_PUNCH_DICTIONARY[cur.bankerPunch],
-      result: CONTRACT_BET_RESULT_DICTIONARY[cur.state],
-      prise: cur.value,
-    });
-    acc.totalPrise += cur.value;
-    return acc;
-  }, { round: [], totalPrise: 0 });
-  
-  return data;
 }

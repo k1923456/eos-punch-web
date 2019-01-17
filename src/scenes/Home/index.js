@@ -23,6 +23,7 @@ import {
   apiJackpot,
   apiFetchAccountInfo,
 } from 'services/ContractAPIs';
+import * as MathHelper from 'services/MathHelper';
 
 const cx = classnames.bind(style);
 const JUNGLE_TEST_NET = {
@@ -194,7 +195,7 @@ export default class Home extends React.Component {
     const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
     const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
-    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 100) / 100, 0);
+    const animationWinPrise = games.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
     const totalPrise = lastTotalPrise + animationWinPrise;
     const totalBetValue = betValue * 5;
 
@@ -230,7 +231,7 @@ export default class Home extends React.Component {
     const winCount = loseWinCount + games.filter(x => x.result === 'win').length;
     const loseCount = lastLoseCount + games.filter(x => x.result === 'lose').length;
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
-    const animationWinPrise = games.reduce((acc, cur) => Math.floor((acc + cur.prise) * 100) / 100, 0);
+    const animationWinPrise = games.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
     const totalPrise = lastTotalPrise + animationWinPrise;
 
     this.handleReset();
@@ -240,7 +241,6 @@ export default class Home extends React.Component {
       loseCount,
       drawCount,
       totalPrise,
-      animationWinPrise,
       isAutoBidding: false,
       isAutoBiddingChecked: false,
     });

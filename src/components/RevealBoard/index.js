@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
+import * as MathHelper from 'services/MathHelper';
 const cx = classnames.bind(style);
 
 export default class RevealBoard extends React.Component {
@@ -70,13 +71,14 @@ export default class RevealBoard extends React.Component {
     }, 1000);
   }
 
+  renderPrise(prise) {
+    return prise / 10000;
+  }
+
   render() {
     const { seconds, } = this.state;
     const { round, isRevealed, isAutoBiddingChecked, } = this.props;
-    const totalPrise = round.reduce((acc, cur) => {
-      const prise = Math.floor((acc + cur.prise) * 100) / 100;
-      return Number(prise);
-    }, 0);
+    const totalPrise = round.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
 
     return (
       <div ref={ el => this.test = el } className={cx('reveal-board', { reveal: isRevealed })}>
@@ -106,7 +108,7 @@ export default class RevealBoard extends React.Component {
                       bet.result === 'lose' ? '莊贏' : '平局'
                     }
                   </span>
-                  { bet.prise > 0 ? `+${bet.prise}` : `${bet.prise}` }
+                  { bet.prise > 0 ? `+${this.renderPrise(bet.prise)}` : `${this.renderPrise(bet.prise)}` }
                 </span>
               </div>
             ))

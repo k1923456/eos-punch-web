@@ -88,8 +88,7 @@
   font-size: 24px;
   color: white;
 
-  &.win,
-  &.draw {
+  &.win {
     border: 2px solid #02daff;
     box-shadow: 0 0 4px #02daff, 0 0 4px #02daff inset;
     background-color: rgba(#02daff, 0.3);

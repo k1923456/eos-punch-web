@@ -238,12 +238,12 @@
   border-radius: 20px;
   background-color: white;
 
-  &.win,
-  &.draw {
+  &.win {
     color: #29aa00;
   }
 
-  &.lose {
+  &.lose,
+  &.draw {
     color: #d70016;
   }
 

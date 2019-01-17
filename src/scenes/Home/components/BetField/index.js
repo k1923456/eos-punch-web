@@ -52,6 +52,10 @@ export default class BetField extends React.Component {
     }
   }
 
+  renderPrise(prise) {
+    return prise / 10000;
+  }
+
   render() {
     const {
       index,
@@ -66,7 +70,7 @@ export default class BetField extends React.Component {
     const isHesitation = isFocus && !player;
     const isSelected = player !== '' && player !== 'revealing';
     const reveal = !!result;
-    const winMoney = result === 'win' || result === 'draw';
+    const winMoney = result === 'win';
 
     return (
       <div className={cx('container')} onClick={onSelect(index)}>
@@ -85,7 +89,7 @@ export default class BetField extends React.Component {
             {
               !!prise && false &&
               <span className={cx('point', result)}>
-                { prise > 0 ? `+${prise}`: prise }
+                { prise > 0 ? `+${this.renderPrise(prise)}`: this.renderPrise(prise) }
               </span>
             }
           </span>
@@ -108,7 +112,7 @@ export default class BetField extends React.Component {
             !!prise && 
             <div className={cx('point-wrapper')}>
               <span className={cx('point', result)}>
-                { prise > 0 ? `+${prise}`: prise }
+                { prise > 0 ? `+${this.renderPrise(prise)}`: this.renderPrise(prise) }
               </span>
             </div>
           }
