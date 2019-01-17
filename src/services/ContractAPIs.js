@@ -1,6 +1,6 @@
 const CONTRACT = 'santai333333';
-const GAME_RECORDS_TABLE = 'users';
-const JACKPOT_TABLE = 'states';
+const GAME_RECORDS_TABLE = 'users1';
+const JACKPOT_TABLE = 'states1';
 
 /**
  * to call EOS Punch smart contract and get betting results
