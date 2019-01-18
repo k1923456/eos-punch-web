@@ -34,7 +34,7 @@ export default class Home extends React.Component {
   state = {
     accountName: '',
     keyProvider: '',
-    balance: 10,
+    balance: 0,
     betValue: 0.5,
     games: [
       {
@@ -95,7 +95,9 @@ export default class Home extends React.Component {
     isShowErrorMessage: false,
   }
 
-  connect = async (accountName, keyProvider, balance = 10) => {
+  connect = async (accountName, keyProvider, balance = 0) => {
+    window.eos = createEosInstance(keyProvider, `${accountName}@active`);
+
     this.setState({
       accountName,
       keyProvider,
@@ -103,8 +105,8 @@ export default class Home extends React.Component {
       isLoading: false,
     });
 
-    window.eos = createEosInstance(keyProvider, `${accountName}@active`);
     this.updateJackpot();
+    this.updateBalance();
   }
 
   componentDidMount() {
@@ -124,6 +126,20 @@ export default class Home extends React.Component {
         jackpot,
       });
     });
+  }
+
+  // 更新帳戶餘額，防止錢包帶進來的是錯誤餘額
+  updateBalance = async () => {
+    const balance = await this.fetchAccountInfo();
+    this.setState({
+      balance,
+    });
+  }
+
+  fetchJackpot = async () => {
+    const result = await apiJackpot(window.eos);
+    const { jackpot: oldJackpot, } = result.rows[0];
+    return contractNumberTranslate(oldJackpot);
   }
 
   // 取得帳號資料，更新餘額
@@ -154,9 +170,11 @@ export default class Home extends React.Component {
   handleToggleAutoBetting = () => {
     const { isAutoBettingChecked: oldValue } = this.state;
     const isAutoBettingChecked = !oldValue;
+    const isAutoBetting = isAutoBettingChecked;
 
     this.setState({
       isAutoBettingChecked,
+      isAutoBetting,
     });
 
     if(isAutoBettingChecked) {
@@ -193,7 +211,7 @@ export default class Home extends React.Component {
   }
 
   // 關閉結算揭示板
-  handleCloseReveal = () => {
+  handleCloseReveal = async () => {
     if (window.confirmRevealCountdown) {
       clearTimeout(window.confirmRevealCountdown);
     }
@@ -217,13 +235,14 @@ export default class Home extends React.Component {
     const totalBetValue = betValue * 5;
     const resetData = generateResetDataObject();
 
-    this.updateJackpot(); //FIXME: refactor
+    this.updateJackpot();
     this.setState({
       winCount,
       loseCount,
       drawCount,
       totalPrise,
       animationWinPrise,
+      isAutoBetting: isAutoBettingChecked,
       ...resetData,
     });
 
@@ -365,7 +384,21 @@ export default class Home extends React.Component {
 
   // 確認
   handleConfirm = () => {
-    if (this.state.isAllSelected) {
+    const {
+      balance,
+      betValue,
+      isAllSelected,
+    } = this.state;
+
+    if(balance < betValue * 5) {
+      this.setState({
+        errorMessage: '帳戶餘額不足，下注失敗',
+        isShowErrorMessage: true,
+      });
+      return;
+    }
+
+    if (isAllSelected) {
       this.handleReveal();
       return;
     }
@@ -476,16 +509,11 @@ export default class Home extends React.Component {
         await new Promise(r => window.setTimeout(r, 200));
       }
 
-      this.stepGameOver();
+      this.stepReveal();
     })();
   }
 
-  stepGameOver = async () => {
-    this.stepReveal();
-  }
-
   stepReveal = async () => {
-    await new Promise(r => window.setTimeout(r, 2000));
     const balance = await this.fetchAccountInfo();
     this.setState({
       isRevealed: true,
@@ -493,8 +521,6 @@ export default class Home extends React.Component {
       balance,
     });
   }
-
-
 
   render() {
     const {
@@ -522,7 +548,7 @@ export default class Home extends React.Component {
 
     const isDisableClean = isAutoBetting || isRevealing || games.filter(game => game.player !== '').length === 0;
     const isDisableRandom = isAutoBetting || isRevealing;
-    const isConfirmButtonClickable = (isAllSelected || isAutoBettingChecked) && !isRevealing && !isAutoBetting;
+    const isConfirmButtonClickable = isAllSelected && !isRevealing && !isAutoBetting && !isAutoBettingChecked;
 
     return (
       <div className={cx('container')}>

@@ -25,7 +25,7 @@ export default class RevealBoard extends React.Component {
   }
 
   componentDidUpdate() {
-    const { isRevealed, } = this.props;
+    const { isRevealed, isAutoBettingChecked, } = this.props;
 
     if(isRevealed) {
       if(this.countdown) {
@@ -36,15 +36,14 @@ export default class RevealBoard extends React.Component {
         const seconds = lastSeconds - 1;
         this.setState({
           seconds,
-        }, () => {
-
-          /**
-           * FIXME: this component's state control is suck, should refactor
-           */
-          if(seconds <= 0) {
-            this.handleConfirm();
-          }
         });
+
+      /**
+       * FIXME: this component's state control is suck, should refactor
+       */
+        if(seconds <= 0) {
+          this.handleConfirm();
+        }
       }, 1000);
     }
   }
