@@ -1,6 +1,7 @@
 $FONT_SIZE: 26px;
 $FONT_SIZE_IPAD: 22px;
 $FONT_SIZE_MOBILE: 13px;
+$FONT_SIZE_I5_APP: 10px;
 
 .container {
   justify-content: space-between;
@@ -79,6 +80,17 @@ $FONT_SIZE_MOBILE: 13px;
       font-size: 20px;
     }
   }
+
+  /* iPhone 5 in app */
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    .title {
+      font-size: $FONT_SIZE_I5_APP;
+    }
+
+    .count {
+      font-size: 15px;
+    }
+  }
 }
 
 .prise-wrapper {
@@ -149,6 +161,23 @@ $FONT_SIZE_MOBILE: 13px;
 
     .prise-number {
       font-size: 20px;
+    }
+  }
+
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    .title {
+      padding-left: 20px;
+      min-width: 20px;
+      height: 20px;
+      font-size: $FONT_SIZE_I5_APP;
+    }
+
+    .unit-text {
+      font-size: $FONT_SIZE_I5_APP;
+    }
+
+    .prise-number {
+      font-size: 15px;
     }
   }
 }

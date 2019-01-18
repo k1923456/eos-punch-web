@@ -21,6 +21,11 @@
     padding-top: 20px;
     padding-bottom: 30px;
   }
+
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    padding-top: 20px;
+    padding-bottom: 25px;
+  }
 }
 
 .player {

@@ -1,6 +1,7 @@
 $FONT_SIZE: 26px;
 $FONT_SIZE_IPAD: 22px;
 $FONT_SIZE_MOBILE: 13px;
+$FONT_SIZE_I5_APP: 10px;
 
 .jackpot {
   display: flex;
@@ -45,6 +46,14 @@ $FONT_SIZE_MOBILE: 13px;
     height: 30px;
     font-size: $FONT_SIZE_MOBILE;
   }
+
+  /* iPhone 5 in app */
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    padding-left: 20px;
+    min-width: 20px;
+    height: 20px;
+    font-size: $FONT_SIZE_I5_APP;
+  }
 }
 
 .jackpot-number {
@@ -59,6 +68,11 @@ $FONT_SIZE_MOBILE: 13px;
   @media screen and (max-width: 639px) {
     font-size: 20px;
   }
+
+  /* iPhone 5 in app */
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    font-size: 15px;
+  }
 }
 
 .unit-text {
@@ -72,6 +86,11 @@ $FONT_SIZE_MOBILE: 13px;
 
   @media screen and (max-width: 639px) {
     font-size: $FONT_SIZE_MOBILE;
+  }
+
+  /* iPhone 5 in app */
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    font-size: $FONT_SIZE_I5_APP;
   }
 }
 

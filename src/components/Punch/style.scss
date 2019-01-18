@@ -1,6 +1,7 @@
 $SIZE: 136px;
 $SIZE_MOBILE: 86px;
 $SIZE_I5: 56px;
+$SIZE_I5_APP: 50px;
 $BORDER_WIDTH: 2px;
 $PC_TOP_POSITION: calc(100% - #{$SIZE / 2 - $BORDER_WIDTH});
 $MOBILE_TOP_POSITION: calc(100% - #{$SIZE_MOBILE / 2 - $BORDER_WIDTH});
@@ -27,6 +28,12 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH});
   @media screen and (max-width: 374px) {
     width: $SIZE_I5;
     height: $SIZE_I5;
+  }
+
+  /* iPhone 5 in app */
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    width: $SIZE_I5_APP;
+    height: $SIZE_I5_APP;
   }
 }
 
@@ -166,6 +173,14 @@ $I5_TOP_POSITION: calc(100% - #{$SIZE_I5 / 2 - $BORDER_WIDTH});
     height: $SIZE_I5 / 2 + 4px;
     border-bottom-left-radius: $SIZE_I5;
     border-bottom-right-radius: $SIZE_I5;
+  }
+
+  /* iPhone 5 in app */
+  @media screen and (max-width: 320px) and (max-height: 504px) {
+    width: 54px;
+    height: 26px;
+    border-bottom-left-radius: $SIZE_I5_APP;
+    border-bottom-right-radius: $SIZE_I5_APP;
   }
 }
 
