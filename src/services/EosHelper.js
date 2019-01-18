@@ -1,4 +1,8 @@
 const EOS = require("eosjs");
+const JUNGLE_TEST_NET = {
+  chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
+  httpEndpoint: 'https://jungle2.cryptolions.io:443',
+};
 
 /**
  * to create eosjs instance
@@ -8,10 +12,10 @@ const EOS = require("eosjs");
  * @param {string} authorization e.g. <account name>@active
  * @returns {object} a eosjs instance
  */
-function createEosInstance(chainId, httpEndpoint, keyProvider, authorization) {
+function createEosInstance(keyProvider, authorization) {
   return EOS({
-    chainId,
-    httpEndpoint,
+    chainId: JUNGLE_TEST_NET.chainId,
+    httpEndpoint: JUNGLE_TEST_NET.httpEndpoint,
     keyProvider,
     authorization,
   });

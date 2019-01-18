@@ -1,35 +1,32 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import style from './style.scss';
-import Loading from 'components/Loading';
-import Header from 'components/Header';
-import Footer from 'components/Footer';
-import HowToPlay from 'components/HowToPlay';
-import SystemMessage from 'components/SystemMessage';
-import RevealBoard from 'components/RevealBoard';
-import Panel from './components/Panel';
-import Picker from 'components/Picker';
-import ErrorMessage from 'components/ErrorMessage';
-import * as EosHelper from 'services/EosHelper';
+
 import {
-  getNextBetFieldIndex,
-  getRandomPunch,
-  translatePunches,
-  transformGameRecords,
-} from './services';
+  Loading,
+  Header,
+  Footer,
+  HowToPlay,
+  SystemMessage,
+  RevealBoard,
+  Panel,
+  Picker,
+  ErrorMessage,
+} from 'components';
+
 import {
   apiBetPunch,
   apiFetchGameRecords,
   apiJackpot,
   apiFetchAccountInfo,
-} from 'services/ContractAPIs';
-import * as MathHelper from 'services/MathHelper';
+  createEosInstance,
+  getNextBetFieldIndex,
+  getRandomPunch,
+  translatePunches,
+  transformGameRecords,
+} from 'services';
 
 const cx = classnames.bind(style);
-const JUNGLE_TEST_NET = {
-  chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473',
-  httpEndpoint: 'https://jungle2.cryptolions.io:443',
-};
 
 export default class Home extends React.Component {
   state = {
@@ -132,7 +129,7 @@ export default class Home extends React.Component {
       isLoading: false,
     });
 
-    window.eos = EosHelper.createEosInstance(JUNGLE_TEST_NET.chainId, JUNGLE_TEST_NET.httpEndpoint, keyProvider, `${accountName}@active`);
+    window.eos = createEosInstance(keyProvider, `${accountName}@active`);
     this.updateJackpot();
   }
 

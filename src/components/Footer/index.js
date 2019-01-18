@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
-import GameBoardBottom from 'scenes/Home/components/GameBoardBottom';
+import GameBoardBottom from '../GameBoardBottom';
 const cx = classnames.bind(style);
 
 export default class Footer extends React.Component {
