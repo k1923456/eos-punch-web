@@ -33,6 +33,14 @@
     height: 66%;
   }
 
+  /* iPhone 6 App */
+  @media screen and (min-width: 375px) and (max-height: 603px) {
+    padding-right: 10px;
+    padding-left: 10px;
+    max-width: 90%;
+    height: 72%;
+  }
+
   /* iPhone 5 in app */
   @media screen and (max-width: 320px) and (max-height: 504px) {
     padding-right: 10px;

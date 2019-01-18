@@ -22,6 +22,11 @@
     padding-bottom: 30px;
   }
 
+  /* iPhone 6 App */
+  @media screen and (min-width: 375px) and (max-height: 603px) {
+    padding-bottom: 35px;
+  }
+
   @media screen and (max-width: 320px) and (max-height: 504px) {
     padding-top: 20px;
     padding-bottom: 25px;

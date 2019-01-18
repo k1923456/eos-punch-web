@@ -18,6 +18,12 @@
     min-height: calc(100vh - 40px - 77px);
   }
 
+  /* iPhone 6 App */
+  @media screen and (min-width: 375px) and (max-height: 603px) {
+    padding: 15px 20px 42px;
+    min-height: calc(100vh - 40px - 90px);
+  }
+
   /* Pixel 2 */
   @media screen and (max-width: 414px) and (min-height: 731px) {
     padding: 15px 20px 80px;
