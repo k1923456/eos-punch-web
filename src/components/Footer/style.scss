@@ -42,7 +42,7 @@ $FONT_COLOR: white;
   }
 }
 
-.auto-bidding {
+.auto-betting {
   display: inline-flex;
   align-items: center;
   padding-left: 60px;
@@ -93,7 +93,7 @@ $FONT_COLOR: white;
   }
 }
 
-.bidding-value-field {
+.betting-value-field {
   display: inline-flex;
   align-items: center;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);    // remove tap highlight from ios
@@ -113,7 +113,7 @@ $FONT_COLOR: white;
     border-radius: 20px;
   }
 
-  .bidding-value {
+  .betting-value {
     font-size: 26px;
     color: #02daff;
   }
@@ -136,7 +136,7 @@ $FONT_COLOR: white;
   }
 
   @media screen and (max-width: 639px) {
-    .bidding-value {
+    .betting-value {
       font-size: 13px;
     }
 
@@ -164,7 +164,7 @@ $FONT_COLOR: white;
   }
 
   @media screen and (max-width: 374px) {
-    .bidding-value {
+    .betting-value {
       font-size: 13px;
     }
 

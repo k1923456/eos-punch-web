@@ -6,25 +6,25 @@ const cx = classnames.bind(style);
 
 export default class HowToPlay extends React.Component {
   static propTypes = {
-    isAutoBidding: PropTypes.bool,
+    isAutoBetting: PropTypes.bool,
     isRevealing: PropTypes.bool,
   }
 
   static defaultProps = {
-    isAutoBidding: false,
+    isAutoBetting: false,
     isRevealing: false,
   }
 
   render() {
     const {
-      isAutoBidding,
+      isAutoBetting,
       isRevealing,
     } = this.props;
 
     return (
       <div className={cx('container')}>
-        <div className={cx('message', { alert: isAutoBidding, warning: isRevealing })}>
-          { isAutoBidding && <span>自動下注中</span>}
+        <div className={cx('message', { alert: isAutoBetting, warning: isRevealing })}>
+          { isAutoBetting && <span>自動下注中</span>}
           { isRevealing && <span>開獎中</span>}
         </div>
       </div>

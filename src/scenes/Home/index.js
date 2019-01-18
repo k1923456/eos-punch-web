@@ -83,8 +83,8 @@ export default class Home extends React.Component {
     isLoading: true,
     isAllSelected: false,             // 五個選項皆已下注
     isBankerPunchDone: false,         // 莊家出完拳
-    isAutoBiddingChecked: false,      // 勾選自動下注   TODO: isAutoBiddingChecked use the wrong word, should be fixed to isAutoBettingChecked
-    isAutoBidding: false,             // 系統自動下注中 TODO: isAutoBidding use the wrong word, should be fixed to isAutoBetting
+    isAutoBettingChecked: false,      // 勾選自動下注
+    isAutoBetting: false,             // 系統自動下注中
     isRevealing: false,               // 開獎中
     isGameOver: false,                // 開獎完成，遊戲結束
     isRevealed: false,                // 當局結算
@@ -139,9 +139,9 @@ export default class Home extends React.Component {
     });
   }
 
-  handleToggleAutoBidding = () => {
+  handleToggleAutoBetting = () => {
     this.setState({
-      isAutoBiddingChecked: !this.state.isAutoBiddingChecked,
+      isAutoBettingChecked: !this.state.isAutoBettingChecked,
     }, this.handleConfirm);
   }
 
@@ -165,10 +165,10 @@ export default class Home extends React.Component {
       isAllSelected: false,
       isBankerPunchDone: false,
       isRevealed: false,
-      isAutoBidding: false,
+      isAutoBetting: false,
       isRevealing: false,
       isShowErrorMessage: false,
-      isAutoBiddingChecked: false,
+      isAutoBettingChecked: false,
     });
   }
 
@@ -184,7 +184,7 @@ export default class Home extends React.Component {
       loseCount: lastLoseCount,
       drawCount: lastDrawCount,
       totalPrise: lastTotalPrise,
-      isAutoBiddingChecked,
+      isAutoBettingChecked,
       betValue,
       balance,
     } = this.state;
@@ -206,7 +206,7 @@ export default class Home extends React.Component {
       animationWinPrise,
     });
 
-    if (isAutoBiddingChecked && balance >= totalBetValue) {
+    if (isAutoBettingChecked && balance >= totalBetValue) {
       this.handleAutoBetting();
     }
   }
@@ -238,8 +238,8 @@ export default class Home extends React.Component {
       loseCount,
       drawCount,
       totalPrise,
-      isAutoBidding: false,
-      isAutoBiddingChecked: false,
+      isAutoBetting: false,
+      isAutoBettingChecked: false,
     });
   }
 
@@ -317,7 +317,7 @@ export default class Home extends React.Component {
       isAllSelected: false,
       isBankerPunchDone: false,
       isRevealed: false,
-      isAutoBidding: false,
+      isAutoBetting: false,
       isRevealing: false,
       isShowErrorMessage: false,
     });
@@ -352,7 +352,7 @@ export default class Home extends React.Component {
   // 自動投注
   handleAutoBetting = () => {
     this.setState({
-      isAutoBidding: true,
+      isAutoBetting: true,
     });
 
     const autoPlayerBet = window.setInterval(() => {
@@ -376,7 +376,7 @@ export default class Home extends React.Component {
     } = this.state;
 
     this.setState({
-      isAutoBidding: false,
+      isAutoBetting: false,
       isRevealing: true,
     });
 
@@ -503,8 +503,8 @@ export default class Home extends React.Component {
       errorMessage,
       isLoading,
       isAllSelected,
-      isAutoBiddingChecked,
-      isAutoBidding,
+      isAutoBettingChecked,
+      isAutoBetting,
       isRevealing,
       isGameOver,
       isRevealed,
@@ -513,9 +513,9 @@ export default class Home extends React.Component {
       isShowErrorMessage,
     } = this.state;
 
-    const isDisableClean = isAutoBidding || isRevealing || games.filter(game => game.player !== '').length === 0;
-    const isDisableRandom = isAutoBidding || isRevealing;
-    const isConfirmButtonClickable = (isAllSelected || isAutoBiddingChecked) && !isRevealing && !isAutoBidding;
+    const isDisableClean = isAutoBetting || isRevealing || games.filter(game => game.player !== '').length === 0;
+    const isDisableRandom = isAutoBetting || isRevealing;
+    const isConfirmButtonClickable = (isAllSelected || isAutoBettingChecked) && !isRevealing && !isAutoBetting;
 
     return (
       <div className={cx('container')}>
@@ -538,11 +538,11 @@ export default class Home extends React.Component {
         />
         <Footer
           betValue={betValue}
-          isAutoBiddingChecked={isAutoBiddingChecked}
+          isAutoBettingChecked={isAutoBettingChecked}
           isConfirmButtonClickable={isConfirmButtonClickable}
           isDisableClean={isDisableClean}
           isDisableRandom={isDisableRandom}
-          onAutoBiddingClick={this.handleToggleAutoBidding}
+          onAutoBettingClick={this.handleToggleAutoBetting}
           onPickerClick={this.handleTogglePicker}
           onConfirm={this.handleConfirm}
           onReset={this.handleReset}
@@ -554,9 +554,9 @@ export default class Home extends React.Component {
           <HowToPlay onClose={this.handleToggleHowToPlay} />
         }
         {
-          (isAutoBidding || isRevealing) &&
+          (isAutoBetting || isRevealing) &&
           <SystemMessage
-            isAutoBidding={isAutoBidding}
+            isAutoBetting={isAutoBetting}
             isRevealing={isRevealing}
           />
         }
@@ -569,7 +569,7 @@ export default class Home extends React.Component {
         <RevealBoard
           round={games}
           isRevealed={isRevealed}
-          isAutoBiddingChecked={isAutoBiddingChecked}
+          isAutoBettingChecked={isAutoBettingChecked}
           onConfirm={this.handleCloseReveal}
           onCancel={this.handleCloseRevealAndCancelAuto}
         />

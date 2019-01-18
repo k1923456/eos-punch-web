@@ -11,7 +11,7 @@ export default class RevealBoard extends React.Component {
   static propTypes = {
     round: PropTypes.array,
     isRevealed: PropTypes.bool,
-    isAutoBiddingChecked: PropTypes.bool,
+    isAutoBettingChecked: PropTypes.bool,
     onConfirm: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
   }
@@ -77,7 +77,7 @@ export default class RevealBoard extends React.Component {
 
   render() {
     const { seconds, } = this.state;
-    const { round, isRevealed, isAutoBiddingChecked, } = this.props;
+    const { round, isRevealed, isAutoBettingChecked, } = this.props;
     const totalPrise = round.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
 
     return (
@@ -125,7 +125,7 @@ export default class RevealBoard extends React.Component {
           </div>
           <div className={cx('buttons')}>
             <a className={cx('confirm')} onClick={this.handleConfirm}>{`確定 ${seconds}s`}</a>
-            { isAutoBiddingChecked && <a className={cx('cancel-auto')} onClick={this.handleCancel}>取消自動下注</a> }
+            { isAutoBettingChecked && <a className={cx('cancel-auto')} onClick={this.handleCancel}>取消自動下注</a> }
           </div>
         </div>
       </div>

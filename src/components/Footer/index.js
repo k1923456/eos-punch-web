@@ -8,11 +8,11 @@ const cx = classnames.bind(style);
 export default class Footer extends React.Component {
   static propTypes = {
     betValue: PropTypes.number.isRequired,
-    isAutoBiddingChecked: PropTypes.bool.isRequired,
+    isAutoBettingChecked: PropTypes.bool.isRequired,
     isConfirmButtonClickable: PropTypes.bool,
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
-    onAutoBiddingClick: PropTypes.func.isRequired,
+    onAutoBettingClick: PropTypes.func.isRequired,
     onConfirm: PropTypes.func.isRequired,
     onPickerClick: PropTypes.func.isRequired,
     onReset: PropTypes.func,
@@ -36,11 +36,11 @@ export default class Footer extends React.Component {
   render() {
     const { 
       betValue, 
-      isAutoBiddingChecked,
+      isAutoBettingChecked,
       isConfirmButtonClickable,
       isDisableClean,
       isDisableRandom,
-      onAutoBiddingClick,
+      onAutoBettingClick,
       onPickerClick,
       onReset,
       onRandom,
@@ -50,17 +50,17 @@ export default class Footer extends React.Component {
       <div className={cx('container')}>
         <div className={cx('menu-wrapper')}>
           <a 
-            className={cx('auto-bidding', { 'checked': isAutoBiddingChecked })}
-            onClick={onAutoBiddingClick}
+            className={cx('auto-betting', { 'checked': isAutoBettingChecked })}
+            onClick={onAutoBettingClick}
             onTouchStart={()=>{}}
           >
             自動下注
           </a>
 
-          <div className={cx('bidding-value-field')} onClick={onPickerClick}>
+          <div className={cx('betting-value-field')} onClick={onPickerClick}>
             <span className={cx('title')}>單注金額：</span>
             <span className={cx('field-block')}>
-              <span className={cx('bidding-value')}>
+              <span className={cx('betting-value')}>
                 { betValue }
               </span>
               <span className={cx('unit-text')}>
