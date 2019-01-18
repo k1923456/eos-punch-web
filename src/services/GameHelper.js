@@ -145,3 +145,63 @@ export function localDevelop(rawData, playerPunches, betValue) {
     });
   });
 }
+
+/**
+ * 1 eos is equal 10,000 in eos smart contract
+ * @param {number} value number from contract
+ */
+export function contractNumberTranslate(value) {
+  return value / 10000;
+}
+
+export function generateResetDataObject() {
+  return ({
+    games: [
+      {
+        id: 0,
+        player: '',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 1,
+        player: '',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 2,
+        player: '',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 3,
+        player: '',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+      {
+        id: 4,
+        player: '',
+        banker: '',
+        result: '',
+        prise: 0,
+      },
+    ],
+    selectedIndex: 0,
+    errorMessage: '',
+    isGameOver: false,
+    isAllSelected: false,
+    isBankerPunchDone: false,
+    isRevealed: false,
+    isAutoBetting: false,
+    isRevealing: false,
+    isShowErrorMessage: false,
+  });
+}
+

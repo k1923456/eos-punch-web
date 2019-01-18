@@ -5,7 +5,7 @@ import style from './style.scss';
 import Hesitation from '../Hesitation';
 const cx = classnames.bind(style);
 
-export default class BetField extends React.Component {
+export default class BetField extends React.PureComponent {
   static propTypes = {
     index: PropTypes.number.isRequired,
     player: PropTypes.string.isRequired,

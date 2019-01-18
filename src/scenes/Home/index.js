@@ -24,6 +24,8 @@ import {
   getRandomPunch,
   translatePunches,
   transformGameRecords,
+  contractNumberTranslate,
+  generateResetDataObject,
 } from 'services';
 
 const cx = classnames.bind(style);
@@ -93,34 +95,6 @@ export default class Home extends React.Component {
     isShowErrorMessage: false,
   }
 
-  componentDidMount() {
-    // FIXME: for development, should be removed.
-    // window.setTimeout(() => {
-    //   this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
-    // }, 500);
-  }
-
-  updateJackpot = () => {
-    apiJackpot(window.eos).then(result => {
-      const { jackpot, } = result.rows[0];
-      this.setState({
-        jackpot: jackpot / 10000,
-      });
-    });
-  }
-
-  fetchAccountInfo = async () => {
-    const { accountName, } = this.state;
-    const { core_liquid_balance, } = await apiFetchAccountInfo(window.eos, accountName);
-    if(!core_liquid_balance) {
-      return 0;
-    }
-
-    const str = core_liquid_balance.split(' ').shift();
-    const balance = Math.floor(Number(str) * 100) / 100;
-    return balance;
-  }
-
   connect = async (accountName, keyProvider, balance = 10) => {
     this.setState({
       accountName,
@@ -133,18 +107,64 @@ export default class Home extends React.Component {
     this.updateJackpot();
   }
 
+  componentDidMount() {
+    // FIXME: for development, should be removed.
+    // window.setTimeout(() => {
+    //   this.connect('jacky1234512', '5KUVCSKrLihT4LQPZwmENjYNeXo8ouhusB8D6LX7eifq6JFcM6Q', 10);
+    // }, 500);
+  }
+
+  // 更新彩池獎金
+  updateJackpot = () => {
+    apiJackpot(window.eos).then(result => {
+      const { jackpot: oldJackpot, } = result.rows[0];
+      const jackpot = contractNumberTranslate(oldJackpot);
+
+      this.setState({
+        jackpot,
+      });
+    });
+  }
+
+  // 取得帳號資料，更新餘額
+  fetchAccountInfo = async () => {
+    const { accountName, } = this.state;
+    const { core_liquid_balance, } = await apiFetchAccountInfo(window.eos, accountName);
+    if(!core_liquid_balance) {
+      return 0;
+    }
+
+    const str = core_liquid_balance.split(' ').shift();
+    const balance = Math.floor(Number(str) * 100) / 100;
+
+    console.log('core_liquid_balance', core_liquid_balance);
+    console.log('balance', balance);
+
+    return balance;
+  }
+
+  // 開啟/關閉導覽
   handleToggleHowToPlay = () => {
     this.setState({
       isShowHowToPlay: !this.state.isShowHowToPlay,
     });
   }
 
+  // 開啟/關閉自動下注
   handleToggleAutoBetting = () => {
+    const { isAutoBettingChecked: oldValue } = this.state;
+    const isAutoBettingChecked = !oldValue;
+
     this.setState({
-      isAutoBettingChecked: !this.state.isAutoBettingChecked,
-    }, this.handleConfirm);
+      isAutoBettingChecked,
+    });
+
+    if(isAutoBettingChecked) {
+      this.handleConfirm();
+    }
   }
 
+  // 關閉系統錯誤訊息
   handleCloseErrorMessage = () => {
     const { games, } = this.state;
     const newGames = games.map((game, idx) => (
@@ -195,19 +215,20 @@ export default class Home extends React.Component {
     const animationWinPrise = games.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
     const totalPrise = lastTotalPrise + animationWinPrise;
     const totalBetValue = betValue * 5;
+    const resetData = generateResetDataObject();
 
-    this.handleReset();
-    this.updateJackpot();
+    this.updateJackpot(); //FIXME: refactor
     this.setState({
       winCount,
       loseCount,
       drawCount,
       totalPrise,
       animationWinPrise,
+      ...resetData,
     });
 
     if (isAutoBettingChecked && balance >= totalBetValue) {
-      this.handleAutoBetting();
+      this.functionAutoBetting();
     }
   }
 
@@ -230,8 +251,8 @@ export default class Home extends React.Component {
     const drawCount = lastDrawCount + games.filter(x => x.result === 'draw').length;
     const animationWinPrise = games.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
     const totalPrise = lastTotalPrise + animationWinPrise;
-
-    this.handleReset();
+    const resetData = generateResetDataObject();
+    
     this.updateJackpot();
     this.setState({
       winCount,
@@ -240,21 +261,25 @@ export default class Home extends React.Component {
       totalPrise,
       isAutoBetting: false,
       isAutoBettingChecked: false,
+      ...resetData,
     });
   }
 
+  // 調整單柱金額
   handleBetValueChange = betValue => {
     this.setState({
       betValue,
     });
   }
 
+  // 開啟/關閉下注金額 Picker
   handleTogglePicker = () => {
     this.setState({
       isShowPicker: !this.state.isShowPicker,
     });
   }
 
+  // 注幾被點選
   handleBetFieldSelected = index => () => {
     this.setState({
       selectedIndex: index,
@@ -273,6 +298,7 @@ export default class Home extends React.Component {
     this.handlePunch('paper');
   }
 
+  // 剪刀石頭布
   handlePunch = (punchType, specifyIndex, role = 'player') => {
     const {
       games,
@@ -297,29 +323,11 @@ export default class Home extends React.Component {
     });
   }
 
+  // 清空
   handleReset = () => {
-    const { games, } = this.state;
-    const newGames = games.map((game, idx) => (
-      {
-        id: idx,
-        player: '',
-        banker: '',
-        result: '',
-        prise: 0,
-      }
-    ));
-
+    const data = generateResetDataObject();
     this.setState({
-      games: newGames,
-      selectedIndex: 0,
-      errorMessage: '',
-      isGameOver: false,
-      isAllSelected: false,
-      isBankerPunchDone: false,
-      isRevealed: false,
-      isAutoBetting: false,
-      isRevealing: false,
-      isShowErrorMessage: false,
+      ...data,
     });
   }
 
@@ -328,6 +336,7 @@ export default class Home extends React.Component {
     this.handlePunch(punch, specifyIndex);
   }
 
+  // 隨機
   handleRandom = () => {
     const autoPlayerBet = window.setInterval(() => {
       if (this.state.isAllSelected) {
@@ -340,21 +349,8 @@ export default class Home extends React.Component {
     }, 200);
   }
 
-  // 出拳
-  handleConfirm = () => {
-    if (this.state.isAllSelected) {
-      this.handleReveal();
-      return;
-    }
-    this.handleAutoBetting();
-  }
-
   // 自動投注
-  handleAutoBetting = () => {
-    this.setState({
-      isAutoBetting: true,
-    });
-
+  functionAutoBetting = () => {
     const autoPlayerBet = window.setInterval(() => {
       if (this.state.isAllSelected) {
         clearInterval(autoPlayerBet);
@@ -365,6 +361,15 @@ export default class Home extends React.Component {
       const nextIndex = getNextBetFieldIndex(this.state.games);
       this.functionRandom(nextIndex)();
     }, 100);
+  }
+
+  // 確認
+  handleConfirm = () => {
+    if (this.state.isAllSelected) {
+      this.handleReveal();
+      return;
+    }
+    this.functionAutoBetting();
   }
 
   // 開獎
@@ -488,6 +493,8 @@ export default class Home extends React.Component {
       balance,
     });
   }
+
+
 
   render() {
     const {
