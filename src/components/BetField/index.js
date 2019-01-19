@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
 import Hesitation from '../Hesitation';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 
-export default class BetField extends React.PureComponent {
+export class BetField extends React.PureComponent {
   static propTypes = {
     index: PropTypes.number.isRequired,
     player: PropTypes.string.isRequired,
@@ -15,6 +19,7 @@ export default class BetField extends React.PureComponent {
     isFocus: PropTypes.bool.isRequired,
     isGameOver: PropTypes.bool.isRequired,
     onSelect: PropTypes.func,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -27,13 +32,13 @@ export default class BetField extends React.PureComponent {
     isGameOver: false,
   }
 
-  renderPlayerPunch = (player, result, isHesitation) => {
+  renderPlayerPunch = (intl, player, result, isHesitation) => {
     if(isHesitation) {
       return <Hesitation />;
     }
 
     if(!isHesitation && !player) {
-      return (<span>請選擇</span>);
+      return (<span>{intl.formatMessage({ id: 'panel.bet-field.player'})}</span>);
     }
 
     switch (player) {
@@ -65,6 +70,7 @@ export default class BetField extends React.PureComponent {
       result,
       isFocus,
       onSelect,
+      intl,
     } = this.props;
 
     const isHesitation = isFocus && !player;
@@ -75,13 +81,13 @@ export default class BetField extends React.PureComponent {
     return (
       <div className={cx('container')} onClick={onSelect(index)}>
         <span className={cx('title', { focus: isFocus })}>
-          注{index + 1}
+          { `${intl.formatMessage({ id: 'panel.bet-field.title'})}${index + 1}` }
         </span>
 
         <div className={cx('field', { focus: isFocus, selected: isSelected, reveal, win: winMoney })}>
           <span className={cx('player')}>
             {
-              this.renderPlayerPunch(player, result, isHesitation)
+              this.renderPlayerPunch(intl, player, result, isHesitation)
             }
           </span>
 
@@ -123,3 +129,5 @@ export default class BetField extends React.PureComponent {
     )
   }
 }
+
+export default injectIntl(BetField);

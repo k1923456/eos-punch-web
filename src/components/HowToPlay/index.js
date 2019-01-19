@@ -2,20 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 
-export default class HowToPlay extends React.Component {
+export class HowToPlay extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
   }
 
   render() {
-    const { onClose, } = this.props;
+    const { 
+      onClose,
+      intl,
+    } = this.props;
+
     return (
       <div className={cx('container')}>
         <div className={cx('content')}>
           <div className={cx('logo')}></div>
-          <h1 className={cx('headline')}>怎麼玩?</h1>
+          <h1 className={cx('headline')}>
+            { intl.formatMessage({ id: 'how-to-play.headline'}) }
+          </h1>
           <p>
             BOY tokens grant you dividend payouts based on EOSGAMEBOY profit.
             100% of profit is distributed to BOY token holders, so the more BOY you have, the more EOS you get!
@@ -34,3 +45,5 @@ export default class HowToPlay extends React.Component {
     )
   }
 }
+
+export default injectIntl(HowToPlay);

@@ -103,6 +103,10 @@ const INTL_DATA = {
     tw: '確定',
     cn: '确定',
   },
+  ['reveal.result.cancel']: {
+    tw: '取消自動下注',
+    cn: '取消自动下注',
+  },
   ['system.auto-betting']: {
     tw: '自動下注中',
     cn: '自动下注中',

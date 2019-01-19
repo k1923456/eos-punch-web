@@ -2,13 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 
-export default class Jackpot extends React.PureComponent {
+export class Jackpot extends React.PureComponent {
   numberScroll = React.createRef();
 
   static propTypes = {
     jackpot: PropTypes.number.isRequired,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -30,10 +35,11 @@ export default class Jackpot extends React.PureComponent {
   }
 
   render() {
+    const { intl, } = this.props;
     return (
       <div className={cx('jackpot')}>
         <span className={cx('title')}>
-          彩池獎金
+          { intl.formatMessage({ id: 'panel.jackpot'}) }
         </span>
         <span className={cx('jackpot-number')}><span ref={ el => this.numberScroll = el }></span></span>
         <span className={cx('unit-text')}>
@@ -43,3 +49,5 @@ export default class Jackpot extends React.PureComponent {
     )
   }
 }
+
+export default injectIntl(Jackpot);

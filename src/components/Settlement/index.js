@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 
-export default class Settlement extends React.PureComponent {
+export class Settlement extends React.PureComponent {
   refWin = React.createRef();
   refLose = React.createRef();
   refDraw = React.createRef();
@@ -17,6 +21,7 @@ export default class Settlement extends React.PureComponent {
     drawCount: PropTypes.number.isRequired,
     totalPrise: PropTypes.number.isRequired,
     winPrise: PropTypes.number.isRequired,
+    intl: intlShape.isRequired,
   }
 
   componentDidMount() {
@@ -65,24 +70,28 @@ export default class Settlement extends React.PureComponent {
   }
 
   render() {
-    const { winPrise, } = this.props;
+    const { 
+      winPrise,
+      intl, 
+    } = this.props;
+
     return (
       <div className={cx('container')}>
         <div className={cx('point-wrapper')}>
           <div className={cx('field', 'win')}>
-            <span className={cx('title')}>勝</span>
+            <span className={cx('title')}>{ intl.formatMessage({ id: 'panel.settlement.win'}) }</span>
             <span className={cx('count')}>
               <span ref={ el => this.refWin = el }></span>
             </span>
           </div>
           <div className={cx('field', 'draw')}>
-            <span className={cx('title')}>平</span>
+            <span className={cx('title')}>{ intl.formatMessage({ id: 'panel.settlement.draw'}) }</span>
             <span className={cx('count')}>
               <span ref={ el => this.refDraw = el }></span>
             </span>
           </div>
           <div className={cx('field', 'lost')}>
-            <span className={cx('title')}>輸</span>
+            <span className={cx('title')}>{ intl.formatMessage({ id: 'panel.settlement.lose'}) }</span>
             <span className={cx('count')}>
               <span ref={ el => this.refLose = el }></span>
             </span>
@@ -104,3 +113,5 @@ export default class Settlement extends React.PureComponent {
     )
   }
 }
+
+export default injectIntl(Settlement);

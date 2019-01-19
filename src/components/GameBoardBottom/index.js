@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 
-export default class GameBoard extends React.Component {
+export class GameBoard extends React.Component {
   static propTypes = {
     isDisableClean: PropTypes.bool,
     isDisableRandom: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
     onRandom: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -39,6 +44,7 @@ export default class GameBoard extends React.Component {
     const {
       isDisableClean,
       isDisableRandom,
+      intl,
     } = this.props;
 
     return (
@@ -47,15 +53,17 @@ export default class GameBoard extends React.Component {
           className={cx('clean', { 'disable': isDisableClean })}
           onClick={this.handleClean}
         >
-          清空
+          { intl.formatMessage({ id: 'panel.reset'}) }
         </a>
         <a
           className={cx('random', { 'disable': isDisableRandom })}
           onClick={this.handleRandom}
         >
-          隨機
+          { intl.formatMessage({ id: 'panel.random'}) }
         </a>
       </div>
     )
   }
 }
+
+export default injectIntl(GameBoard);

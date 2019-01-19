@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
 import GameBoardBottom from '../GameBoardBottom';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 
-export default class Footer extends React.Component {
+export class Footer extends React.Component {
   static propTypes = {
     betValue: PropTypes.number.isRequired,
     isAutoBettingChecked: PropTypes.bool.isRequired,
@@ -17,6 +21,7 @@ export default class Footer extends React.Component {
     onPickerClick: PropTypes.func.isRequired,
     onReset: PropTypes.func,
     onRandom: PropTypes.func,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -44,6 +49,7 @@ export default class Footer extends React.Component {
       onPickerClick,
       onReset,
       onRandom,
+      intl,
     } = this.props;
 
     return (
@@ -54,11 +60,13 @@ export default class Footer extends React.Component {
             onClick={onAutoBettingClick}
             onTouchStart={()=>{}}
           >
-            自動下注
+             { intl.formatMessage({ id: 'footer.auto-bet'}) }
           </a>
 
           <div className={cx('betting-value-field')} onClick={onPickerClick}>
-            <span className={cx('title')}>單注金額：</span>
+            <span className={cx('title')}>
+              { intl.formatMessage({ id: 'footer.bet-value'}) }：
+            </span>
             <span className={cx('field-block')}>
               <span className={cx('betting-value')}>
                 { betValue }
@@ -78,7 +86,7 @@ export default class Footer extends React.Component {
             onClick={this.handleConfirm}
           >
             <span className={cx('title')}>
-              出拳
+              { intl.formatMessage({ id: 'footer.confirm'}) }
             </span>
           </a>
         </div>
@@ -94,3 +102,5 @@ export default class Footer extends React.Component {
     )
   }
 }
+
+export default injectIntl(Footer);

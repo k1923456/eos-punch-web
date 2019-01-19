@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import style from './style.scss';
 import Picker from 'rmc-picker';
+import {
+  injectIntl,
+  intlShape,
+} from 'react-intl';
 const cx = classnames.bind(style);
 import 'rmc-picker/assets/index.css';
 
-export default class Header extends React.Component {
+export class PickerComponent extends React.Component {
   static propTypes = {
     betValue: PropTypes.number.isRequired,
     isShow: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
   }
 
   static defaultProps = {
@@ -25,14 +30,19 @@ export default class Header extends React.Component {
       isShow,
       onChange,
       onClose,
+      intl,
     } = this.props;
 
     return (
       <div className={cx('container', { show: isShow })}>
         <div className={cx('wrapper')}>
           <div className={cx('bet-value')}>
-            <span>當前單注金額 {betValue} EOS</span>
-            <a onClick={onClose}>完成</a>
+            <span>
+              { intl.formatMessage({ id: 'picker.bet-value'}) } {betValue} EOS
+            </span>
+            <a onClick={onClose}>
+              { intl.formatMessage({ id: 'picker.complete'}) }
+            </a>
           </div>
 
           <Picker 
@@ -57,3 +67,5 @@ export default class Header extends React.Component {
     );
   }
 }
+
+export default injectIntl(PickerComponent);
