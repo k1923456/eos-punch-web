@@ -117,7 +117,7 @@ export default class Home extends React.Component {
 
   // 更新彩池獎金
   updateJackpot = () => {
-    apiJackpot(window.eos).then(result => {
+    apiJackpot(window.eos).then( result => {
       const { jackpot: oldJackpot, } = result.rows[0];
       const jackpot = contractNumberTranslate(oldJackpot);
 
@@ -211,10 +211,6 @@ export default class Home extends React.Component {
 
   // 關閉結算揭示板
   handleCloseReveal = async () => {
-    if (window.confirmRevealCountdown) {
-      clearTimeout(window.confirmRevealCountdown);
-    }
-
     const {
       games,
       winCount: loseWinCount,
@@ -233,16 +229,17 @@ export default class Home extends React.Component {
     const totalPrise = lastTotalPrise + animationWinPrise;
     const totalBetValue = betValue * 5;
     const resetData = generateResetDataObject();
+    const isAutoBetting = isAutoBettingChecked;
 
     this.updateJackpot();
     this.setState({
+      ...resetData,
       winCount,
       loseCount,
       drawCount,
       totalPrise,
       animationWinPrise,
-      isAutoBetting: isAutoBettingChecked,
-      ...resetData,
+      isAutoBetting,
     });
 
     if (isAutoBettingChecked && balance >= totalBetValue) {
@@ -378,7 +375,7 @@ export default class Home extends React.Component {
 
       const nextIndex = getNextBetFieldIndex(this.state.games);
       this.functionRandom(nextIndex)();
-    }, 100);
+    }, 500);
   }
 
   // 確認
@@ -427,14 +424,10 @@ export default class Home extends React.Component {
       this.revealResult(accountName, punches, betValue);
     } catch (errorString) {
       const { error, } = JSON.parse(errorString);
-      console.log('error', error)
+      console.log('error', error);
+      
       switch(error.code) {
         case 3050003:
-          this.setState({
-            errorMessage: '帳戶餘額不足，下注失敗',
-            isShowErrorMessage: true,
-          });
-          break;
         case 3080004:
         default:
           this.setState({
@@ -505,7 +498,7 @@ export default class Home extends React.Component {
           selectedIndex,
         });
 
-        await new Promise(r => window.setTimeout(r, 200));
+        await new Promise(r => window.setTimeout(r, 500));
       }
 
       this.stepReveal();
@@ -545,10 +538,10 @@ export default class Home extends React.Component {
       isShowErrorMessage,
     } = this.state;
 
-    const isDisableClean = isAutoBetting || isRevealing || games.filter(game => game.player !== '').length === 0;
-    const isDisableRandom = isAutoBetting || isRevealing;
-    const isConfirmButtonClickable = isAllSelected && !isRevealing && !isAutoBetting && !isAutoBettingChecked;
-
+    const isDisableClean = isAutoBetting || isRevealing || isRevealed || games.filter(game => game.player !== '').length === 0;
+    const isDisableRandom = isAutoBetting || isRevealing || isRevealed;
+    const isConfirmButtonClickable = isAllSelected && !isRevealing && !isAutoBetting && !isAutoBettingChecked && !isRevealed;
+    
     return (
       <div className={cx('container')}>
         <Header onInfoClick={this.handleToggleHowToPlay} />
@@ -598,13 +591,18 @@ export default class Home extends React.Component {
           onChange={this.handleBetValueChange}
           onClose={this.handleTogglePicker}
         />
-        <RevealBoard
-          round={games}
-          isRevealed={isRevealed}
-          isAutoBettingChecked={isAutoBettingChecked}
-          onConfirm={this.handleCloseReveal}
-          onCancel={this.handleCloseRevealAndCancelAuto}
-        />
+
+        { 
+          isRevealed && 
+          <RevealBoard
+            round={games}
+            isRevealed={isRevealed && false}
+            isAutoBettingChecked={isAutoBettingChecked}
+            onConfirm={this.handleCloseReveal}
+            onCancel={this.handleCloseRevealAndCancelAuto}
+          />
+        }
+
         {
           isShowErrorMessage && 
           <ErrorMessage 

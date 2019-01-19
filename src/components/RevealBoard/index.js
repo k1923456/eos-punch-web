@@ -5,7 +5,7 @@ import style from './style.scss';
 import * as MathHelper from 'services/MathHelper';
 const cx = classnames.bind(style);
 
-export default class RevealBoard extends React.Component {
+export default class RevealBoard extends React.PureComponent {
   test = React.createRef();
 
   static propTypes = {
@@ -24,50 +24,34 @@ export default class RevealBoard extends React.Component {
     seconds: 3,
   }
 
-  componentDidUpdate() {
-    const { isRevealed, isAutoBettingChecked, } = this.props;
+  componentDidMount() {
+    this.countdown = setInterval(() => {
+      const { seconds: lastSeconds, } = this.state;
+      const seconds = lastSeconds - 1;
+      this.setState({
+        seconds,
+      });
+    }, 1000);
 
-    if(isRevealed) {
-      if(this.countdown) {
-        return;
-      }
-      this.countdown = setInterval(() => {
-        const { seconds: lastSeconds, } = this.state;
-        const seconds = lastSeconds - 1;
-        this.setState({
-          seconds,
-        });
+    this.confirmCountDown = setTimeout(() => {
+      this.handleConfirm();
+    }, 4600);
+  }
 
-      /**
-       * FIXME: this component's state control is suck, should refactor
-       */
-        if(seconds <= 0) {
-          this.handleConfirm();
-        }
-      }, 1000);
-    }
+  componentWillUnmount() {
+    clearInterval(this.countdown);
+    clearTimeout(this.confirmCountDown);
+    clearTimeout(this.confirmDelay);
   }
 
   handleConfirm = () => {
-    clearInterval(this.countdown);
-    this.countdown = null;
-    this.props.onConfirm();
-    setTimeout(()=>{
-      this.setState({
-        seconds: 3,
-      });
-    }, 1000);
+    this.revealBoard.classList.add(cx('move-out'));
+    this.confirmDelay = setTimeout(this.props.onConfirm, 700);
   }
 
   handleCancel = () => {
-    clearInterval(this.countdown);
-    this.countdown = null;
-    this.props.onCancel();
-    setTimeout(()=>{
-      this.setState({
-        seconds: 3,
-      });
-    }, 1000);
+    this.revealBoard.classList.add(cx('move-out'));
+    this.confirmDelay = setTimeout(this.props.onCancel, 700);
   }
 
   renderPrise(prise) {
@@ -80,7 +64,7 @@ export default class RevealBoard extends React.Component {
     const totalPrise = round.reduce((acc, cur) => acc + cur.prise, 0) / 10000;
 
     return (
-      <div ref={ el => this.test = el } className={cx('reveal-board', { reveal: isRevealed })}>
+      <div ref={ el => this.revealBoard = el } className={cx('reveal-board', { reveal: isRevealed })}>
         <div className={cx('wrapper')}>
           <h1 className={cx('headline')}>本局結算</h1>
           <div className={cx('title')}>
@@ -123,7 +107,7 @@ export default class RevealBoard extends React.Component {
             </div>
           </div>
           <div className={cx('buttons')}>
-            <a className={cx('confirm')} onClick={this.handleConfirm}>{`確定 ${seconds}s`}</a>
+            <a className={cx('confirm')} onClick={this.handleConfirm}>{`確定 ${seconds < 0 ? '0' : seconds}s`}</a>
             { isAutoBettingChecked && <a className={cx('cancel-auto')} onClick={this.handleCancel}>取消自動下注</a> }
           </div>
         </div>
