@@ -13,7 +13,7 @@ $FONT_SIZE_I5_APP: 10px;
   box-shadow: 0 0 6px #ff4, 0 0 6px #ff4 inset;
   background-color: rgba(#333, 0.3);
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) {
     margin-bottom: 10px;
     padding: 3px 13px 3px 8px;
   }
@@ -36,7 +36,7 @@ $FONT_SIZE_I5_APP: 10px;
   font-size: $FONT_SIZE;
   color: white;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) {
     font-size: $FONT_SIZE_IPAD;
   }
 
@@ -61,7 +61,7 @@ $FONT_SIZE_I5_APP: 10px;
   font-size: 36px;
   color: #ff4;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) {
     font-size: 28px;
   }
 
@@ -80,7 +80,7 @@ $FONT_SIZE_I5_APP: 10px;
   font-size: $FONT_SIZE;
   color: #759bb5;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) {
     font-size: $FONT_SIZE_IPAD;
   }
 

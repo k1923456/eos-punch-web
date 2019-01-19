@@ -7,7 +7,11 @@ $FONT_SIZE_MOBILE: 13px;
   height: 100px;
   background: linear-gradient(#172d7c, #38d0fa);
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) and (max-height: 1023px) {
+    max-height: 50px;
+  }
+
+  @media screen and (min-width: 768px) and (min-height: 1024px) {
     max-height: 70px;
   }
 
@@ -56,6 +60,10 @@ $FONT_SIZE_MOBILE: 13px;
     content: '';
   }
 
+  @media screen and (min-width: 768px) and (max-height: 1023px) {
+    max-width: 34px;
+  }
+
   @media screen and (max-width: 639px) {
     max-width: 28px;
   }
@@ -81,6 +89,12 @@ $FONT_SIZE_MOBILE: 13px;
 
   &:active {
     transform: scale(0.9);
+  }
+
+  @media screen and (min-width: 768px) and (max-height: 1023px) {
+    height: 24px;
+    padding-left: 28px;
+    font-size: 14px;
   }
 
   @media screen and (max-width: 639px) {
@@ -115,7 +129,12 @@ $FONT_SIZE_MOBILE: 13px;
     content: '';
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 768px) and (max-height: 1023px) {
+    left: calc(50% - 62px);
+    max-width: 124px;
+  }
+
+  @media screen and (min-width: 768px) and (min-height: 1024px) {
     left: calc(50% - 90px);
     max-width: 180px;
   }
