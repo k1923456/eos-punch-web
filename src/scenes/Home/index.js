@@ -83,6 +83,7 @@ export default class Home extends React.Component {
     animationWinPrise: 0,
     errorMessage: '',
     isLoading: true,
+    isRandomPunching: false,
     isAllSelected: false,             // 五個選項皆已下注
     isBankerPunchDone: false,         // 莊家出完拳
     isAutoBettingChecked: false,      // 勾選自動下注
@@ -353,15 +354,22 @@ export default class Home extends React.Component {
 
   // 隨機
   handleRandom = () => {
+    this.setState({
+      isRandomPunching: true,
+    });
+
     const autoPlayerBet = window.setInterval(() => {
       if (this.state.isAllSelected) {
         clearInterval(autoPlayerBet);
+        this.setState({
+          isRandomPunching: false,
+        });
         return;
       }
 
       const nextIndex = getNextBetFieldIndex(this.state.games);
       this.functionRandom(nextIndex)();
-    }, 200);
+    }, 500);
   }
 
   // 自動投注
@@ -419,7 +427,6 @@ export default class Home extends React.Component {
     const memo = translatePunches('api', punches).join('');
 
     try {
-      await new Promise(r => window.setTimeout(r, 1000));
       const punchTransaction = await apiBetPunch(window.eos, accountName, totalBetValue, memo);
       this.revealResult(accountName, punches, betValue);
     } catch (errorString) {
@@ -536,11 +543,12 @@ export default class Home extends React.Component {
       isShowHowToPlay,
       isShowPicker,
       isShowErrorMessage,
+      isRandomPunching,
     } = this.state;
 
-    const isDisableClean = isAutoBetting || isRevealing || isRevealed || games.filter(game => game.player !== '').length === 0;
+    const isDisableClean = isAutoBetting || isRevealing || isRandomPunching || isRevealed || games.filter(game => game.player !== '').length === 0;
     const isDisableRandom = isAutoBetting || isRevealing || isRevealed;
-    const isConfirmButtonClickable = isAllSelected && !isRevealing && !isAutoBetting && !isAutoBettingChecked && !isRevealed;
+    const isConfirmButtonClickable = isAllSelected && !isRevealing && !isAutoBetting && !isAutoBettingChecked && !isRevealed && !isRandomPunching;
     
     return (
       <div className={cx('container')}>
