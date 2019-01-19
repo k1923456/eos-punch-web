@@ -26,6 +26,7 @@
     "eosjs": "^16.0.9",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-intl": "^2.8.0",
     "rmc-picker": "^5.0.5"
   },
   "devDependencies": {
