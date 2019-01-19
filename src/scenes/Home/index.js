@@ -106,7 +106,6 @@ export default class Home extends React.Component {
     });
 
     this.updateJackpot();
-    this.updateBalance();
   }
 
   componentDidMount() {
